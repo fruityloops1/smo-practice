@@ -1,0 +1,3 @@
+﻿Address         Publics by Value
+00000000:00000071004CC348       _ZN10StageScene7controlEv
+00000000:000000710051EB88       _ZN12GameDataFile11setGotShineEPK9ShineInfo

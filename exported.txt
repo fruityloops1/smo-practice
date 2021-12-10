@@ -1,0 +1,13 @@
+{
+    global:
+        _Z21stageSceneControlHookv;
+        _Z14setupDebugMenuP10GameSystem;
+        _Z14setGotShineVar20GameDataHolderWriterPK9ShineInfo;
+        _Z13isGotShineVar22GameDataHolderAccessorPK9ShineInfo;
+        _Z25isEnableCheckpointWarpVarP9MapLayout;
+        _Z15isEnableSaveVarP10StageScene;
+        _Z22isTriggerAmiiboModeVarPKN2al18IUseSceneObjHolderE;
+        _Z24isTriggerSnapShotModeVarPKN2al18IUseSceneObjHolderE;
+        _Z12drawMainHookP16HakoniwaSequencePN4sead8ViewportEPNS1_11DrawContextE;
+    local: *;
+};
