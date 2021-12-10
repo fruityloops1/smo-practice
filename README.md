@@ -29,7 +29,7 @@ devkitPro will be installed to `/opt/devkitpro` on most Unix-based systems
 
 After a successful build, transfer:
 
-- `smo-practice100.elf` to `/atmosphere/contents/0100000000010000/exefs/subsdk1` (note: no extension)
+- `smo-practice100.nso` to `/atmosphere/contents/0100000000010000/exefs/subsdk1` (note: no extension)
 - `starlight_patch_100/3CA12DFAAF9C82DA064D1698DF79CDA1.ips` to `/atmosphere/exefs_patches/starlight_patch_100/3CA12DFAAF9C82DA064D1698DF79CDA1.ips`
 - `romfs` to `/atmosphere/contents/0100000000010000/romfs`
 
