@@ -277,6 +277,7 @@ void fl::PracticeUI::print(sead::TextWriter& p)
                 CHANGE_PAGE();
 
                 p.printf("Current Stage: %s\n", stageScene->mHolder->getCurrentStageName());
+                p.printf("Current Scenario: %d\n", GameDataFunction::getWorldScenarioNo(*stageScene->mHolder, GameDataFunction::getCurrentWorldId(*stageScene->mHolder)));
                 p.printf("Language: %s\n", stageScene->mHolder->getLanguage());
                 break;
             }
