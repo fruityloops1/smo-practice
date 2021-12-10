@@ -256,12 +256,12 @@ void fl::PracticeUI::print(sead::TextWriter& p)
                 p.printf("Player Vel: (X: %.3f Y: %.3f Z: %.3f)\n", playerVel->x, playerVel->y, playerVel->z);
                 p.printf("Player Speed: (H: %.3f V: %.3f S: %.3f)\n", hSpeed, vSpeed, speed);
                 if (quatRot)
-                    p.printf("Player Rot: (X: %.3f Y: %.3f Z: %.3f W: %.3f)\n", playerQuat->x, playerQuat->y, playerQuat->z, playerQuat->w);
+                    p.printf("Player Rot: (W: %.3f X: %.3f Y: %.3f Z: %.3f)\n", playerQuat->w, playerQuat->x, playerQuat->y, playerQuat->z);
                 else
                     p.printf("Player Rot: (X: %.3f Y: %.3f Z: %.3f)\n", playerRot.x, playerRot.y, playerRot.z);
                 p.printf("Cappy Pos: (X: %.3f Y: %.3f Z: %.3f)\n", cappyPosition->x, cappyPosition->y, cappyPosition->z);
                 if (quatRot)
-                    p.printf("Cappy Rot: (X: %.3f Y: %.3f Z: %.3f W: %.3f)\n", cappyQuat->x, cappyQuat->y, cappyQuat->z, cappyQuat->w);
+                    p.printf("Cappy Rot: (W: %.3f X: %.3f Y: %.3f Z: %.3f)\n", cappyQuat->w, cappyQuat->x, cappyQuat->y, cappyQuat->z);
                 else
                     p.printf("Cappy Rot: (X: %.3f Y: %.3f Z: %.3f)\n", cappyRot.x, cappyRot.y, cappyRot.z);
                 p.printf("Bubble Pos: (X: %.3f Y: %.3f Z: %.3f)\n", playerRecoveryPoint->x, playerRecoveryPoint->y, playerRecoveryPoint->z);
