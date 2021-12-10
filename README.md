@@ -17,7 +17,7 @@ This is a mod for Super Mario Odyssey that adds different features that intend t
 
 ## Building
 
-Build has only been tested on WSL2 running Ubuntu 20.04.1.
+Build has only been tested on Arch Linux
 
 Just run:
 ```
