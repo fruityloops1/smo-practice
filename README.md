@@ -23,12 +23,7 @@ Just run:
 ```
 DEVKITPRO={path_to_devkitpro} make
 ```
-
-On Ubuntu (and other Debian-based systems), devkitPro will be installed to `/opt/devkitpro` by default:
-
-```
-DEVKITPRO=/opt/devkitpro/ make
-```
+devkitPro will be installed to `/opt/devkitpro` on most Unix-based systems
 
 ## Installing (Atmosphère)
 
