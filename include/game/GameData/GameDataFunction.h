@@ -15,6 +15,8 @@
 class GameDataFunction
 {
 public:
+    // Gets the required number of moons required to leave a kingdom
+    static s32 findUnlockShineNumByWorldId(bool*, GameDataHolderAccessor, int);
     // gets prev save file's current world id
     static s32 getPrevWorldId(GameDataHolderAccessor);
     // gets current save file's current world id
