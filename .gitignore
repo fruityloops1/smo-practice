@@ -28,3 +28,5 @@ compile_commands.json
 build100.sh
 keys.dat
 .exefs100/
+.exefs130/
+build130.sh

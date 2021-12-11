@@ -40,6 +40,8 @@ namespace sead {
 
 #include "types.h"
 
+#include <fl/efun.h>
+
 template<class T>
 al::LiveActor* createActorFunction(const char *name);
 
@@ -54,7 +56,12 @@ namespace al
     bool isPadTriggerPressLeftStick(int port);
     bool isPadTriggerRight(int port);
 
+    #if(S2VER==100)
     bool isPadTriggerA(int port);
+    #endif
+    #if(S2VER==130)
+    EFUN(0x005CFBD0, bool, isPadTriggerA, EFUN_ARGS(int port)); 
+    #endif
     bool isPadTriggerB(int port);
     bool isPadTriggerX(int port);
     bool isPadTriggerY(int port);
@@ -138,7 +145,12 @@ namespace al
 
     void setTransY(al::LiveActor *, float);
 
+    #if(S2VER==100)
     void setTrans(al::LiveActor *, sead::Vector3f const &);
+    #endif
+    #if(S2VER==130)
+    EFUN(0x0066D6D0, void, setTrans, EFUN_ARGS(const al::LiveActor* actor, const sead::Vector3f& trans));
+    #endif
 
     void setScaleAll(al::LiveActor *, float);
 
