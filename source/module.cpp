@@ -1,5 +1,5 @@
-#define MODULE_NAME "Starlight"
-#define MODULE_NAME_LEN 9
+#define MODULE_NAME "smo-practice"
+#define MODULE_NAME_LEN 12
 
 // rtld working object
 __attribute__((section(".bss"))) char __nx_module_runtime[0xD0];

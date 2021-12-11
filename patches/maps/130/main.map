@@ -1,0 +1,8 @@
+﻿Address         Publics by Value
+00000000:0000007100472AF0       _ZN10StageScene7controlEv
+00000000:0000007100589CD0       _ZN2al24AudioEffectLevelDetector15updateGameFrameEv
+00000000:000000710023E000       _ZN17ElectricWireKoopa14exeInMoveStartEv
+00000000:00000071004B9200       _ZN24HakoniwaStateDemoOpening14exeDemoOpeningEv
+00000000:000000710057D9A0       _ZN2al11AudioSystem6updateEv
+00000000:00000071004E2730       _ZN10GameSystem8movementEv
+00000000:00000071008038AC       _ZN2al26ApplicationMessageReceiver6updateEv
