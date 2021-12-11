@@ -102,7 +102,7 @@ void fl::PracticeUI::print(sead::TextWriter& p)
     {
         enum Page : u8
         {
-            About, Options, Stage, Misc, Info, Debug, MoonInfo
+            About, Options, Stage, Misc, Info, MoonInfo, Debug
         };
         static Page curPage = About;
         static u8 curLine = 0;
@@ -121,8 +121,8 @@ void fl::PracticeUI::print(sead::TextWriter& p)
                 else if (curPage == Options) curPage = Stage;
                 else if (curPage == Stage) curPage = Misc;
                 else if (curPage == Misc) curPage = Info;
-                else if (curPage == Info) curPage = Debug;
-                else if (curPage == Debug) curPage = MoonInfo;
+                else if (curPage == Info) curPage = MoonInfo;
+                else if (curPage == MoonInfo) curPage = Debug;
             }
             if (al::isPadTriggerLeft(CONTROLLER_AUTO))
             {
@@ -130,8 +130,8 @@ void fl::PracticeUI::print(sead::TextWriter& p)
                 else if (curPage == Stage) curPage = Options;
                 else if (curPage == Misc) curPage = Stage;
                 else if (curPage == Info) curPage = Misc;
-                else if (curPage == Debug) curPage = Info;
-                else if (curPage == MoonInfo) curPage = Debug;
+                else if (curPage == MoonInfo) curPage = Info;
+                else if (curPage == Debug) curPage = MoonInfo;
             }
         }
 
@@ -271,19 +271,6 @@ void fl::PracticeUI::print(sead::TextWriter& p)
 
                 break;
             }
-            case Debug:
-            {
-                p.printf("Debug\n");
-                MAX_LINE(0);
-                CURSOR(p, 0);
-                CHANGE_PAGE();
-
-                p.printf("Current Stage: %s\n", stageScene->mHolder->getCurrentStageName());
-                p.printf("Current Scenario: %d\n", GameDataFunction::getWorldScenarioNo(*stageScene->mHolder, GameDataFunction::getCurrentWorldId(*stageScene->mHolder)));
-                p.printf("Current World ID: %d\n", GameDataFunction::getCurrentWorldId(*stageScene->mHolder));
-                p.printf("Language: %s\n", stageScene->mHolder->getLanguage());
-                break;
-            }
             case MoonInfo:
             {
                 p.printf("Moon Info\n");
@@ -295,16 +282,29 @@ void fl::PracticeUI::print(sead::TextWriter& p)
                 TOGGLE("Hide Original Moon Counter: %s\n", hideShineCounter, 1);
 
                 if (hideShineCounter)
-                al::hidePane(stageScene->stageSceneLayout->shineCounter, "TxtShine");
+                    al::hidePane(stageScene->stageSceneLayout->shineCounter, "TxtShine");
                 else
-                al::showPane(stageScene->stageSceneLayout->shineCounter, "TxtShine");
+                    al::showPane(stageScene->stageSceneLayout->shineCounter, "TxtShine");
 
-                s32 currshine = GameDataFunction::getCurrentShineNum(*stageScene->mHolder);
-                s32 totalshine = GameDataFunction::getTotalShineNum(*stageScene->mHolder, -1);
-                s32 unlockshine = GameDataFunction::findUnlockShineNumByWorldId(0, *stageScene->mHolder, GameDataFunction::getCurrentWorldId(*stageScene->mHolder));
-                p.printf("Current Moons: %d\n", currshine);
-                p.printf("Total Moons: %d\n", totalshine);
-                p.printf("Required Moons: %d", unlockshine);
+                s32 currShine = GameDataFunction::getCurrentShineNum(*stageScene->mHolder);
+                s32 totalShine = GameDataFunction::getTotalShineNum(*stageScene->mHolder, -1);
+                s32 unlockShine = GameDataFunction::findUnlockShineNumByWorldId(0, *stageScene->mHolder, GameDataFunction::getCurrentWorldId(*stageScene->mHolder));
+                p.printf("Current Moons: %d\n", currShine);
+                p.printf("Total Moons: %d\n", totalShine);
+                p.printf("Required Moons: %d", unlockShine);
+                break;
+            }
+            case Debug:
+            {
+                p.printf("Debug\n");
+                MAX_LINE(0);
+                CURSOR(p, 0);
+                CHANGE_PAGE();
+
+                p.printf("Current Stage: %s\n", stageScene->mHolder->getCurrentStageName());
+                p.printf("Current Scenario: %d\n", GameDataFunction::getWorldScenarioNo(*stageScene->mHolder, GameDataFunction::getCurrentWorldId(*stageScene->mHolder)));
+                p.printf("Current World ID: %d\n", GameDataFunction::getCurrentWorldId(*stageScene->mHolder));
+                p.printf("Language: %s\n", stageScene->mHolder->getLanguage());
                 break;
             }
             default:

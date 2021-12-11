@@ -2,11 +2,12 @@
 
 #include "game/Layouts/CoinCounter.h"
 #include "game/Layouts/ShineCounter.h"
+#include <types.h>
 
 class StageSceneLayout {
     public:
-        unsigned char padding_18[0x18];
+        spad(gap, 0x18);
         CoinCounter* coinCounter; // 0x18
-        unsigned char padding_sus[0x8];
+        spad(gap2, 0x8);
         ShineCounter* shineCounter; //0x20
 };
