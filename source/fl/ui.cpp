@@ -97,6 +97,13 @@ void fl::PracticeUI::update(StageScene& stageScene)
 
 void fl::PracticeUI::print(sead::TextWriter& p)
 {
+
+    static bool hideShineCounter = false;
+    if (hideShineCounter)
+        al::hidePane(stageScene->stageSceneLayout->shineCounter, "TxtShine");
+    else
+        al::showPane(stageScene->stageSceneLayout->shineCounter, "TxtShine");
+
     if (!stageScene) return;
     if (showMenu)
     {
@@ -123,6 +130,7 @@ void fl::PracticeUI::print(sead::TextWriter& p)
                 else if (curPage == Misc) curPage = Info;
                 else if (curPage == Info) curPage = MoonInfo;
                 else if (curPage == MoonInfo) curPage = Debug;
+
             }
             if (al::isPadTriggerLeft(CONTROLLER_AUTO))
             {
@@ -278,13 +286,7 @@ void fl::PracticeUI::print(sead::TextWriter& p)
                 CURSOR(p, 0);
                 CHANGE_PAGE();
 
-                static bool hideShineCounter = false;
                 TOGGLE("Hide Original Moon Counter: %s\n", hideShineCounter, 1);
-
-                if (hideShineCounter)
-                    al::hidePane(stageScene->stageSceneLayout->shineCounter, "TxtShine");
-                else
-                    al::showPane(stageScene->stageSceneLayout->shineCounter, "TxtShine");
 
                 s32 currShine = GameDataFunction::getCurrentShineNum(*stageScene->mHolder);
                 s32 totalShine = GameDataFunction::getTotalShineNum(*stageScene->mHolder, -1);
