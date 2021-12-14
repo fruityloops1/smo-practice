@@ -1,6 +1,9 @@
 #include "al/util.hpp"
 #include "fl/packet.h"
 #include "game/Layouts/CoinCounter.h"
+#include "nn/init.h"
+#include "nn/os.hpp"
+#include "types.h"
 #include <fl/server.h>
 #include <mem.h>
 #include <nn/nifm.h>
@@ -12,6 +15,18 @@
                 p.parse(buf + 1, len - 1);\
                 p.on(*this);\
                 break;}
+
+void threadFunc(void* args)
+{
+    smo::Server* server = (smo::Server*) args;
+    nn::TimeSpan w = nn::TimeSpan::FromNanoSeconds(1000000);
+    while (true)
+    {
+        server->handlePacket();
+        nn::os::YieldThread();
+        nn::os::SleepThread(w);
+    }
+}
 
 namespace smo
 {
@@ -40,6 +55,16 @@ namespace smo
         nn::socket::SendTo(socket, &dummy, 1, 0, (struct sockaddr*) &server, sizeof(server));
 
         connected = true;
+
+        if (!thread)
+        {
+            thread = (nn::os::ThreadType*) nn::init::GetAllocator()->Allocate(sizeof(nn::os::ThreadType));
+            threadStack = aligned_alloc(0x1000, 0x5000);
+            nn::os::CreateThread(thread, threadFunc, this, threadStack, 0x5000, 16, 0);
+            nn::os::SetThreadName(thread, "UDP Thread");
+            nn::os::StartThread(thread);
+        }
+
         if (!nn::nifm::IsNetworkAvailable()) return 1;
 
         return 0;
@@ -47,6 +72,15 @@ namespace smo
 
     void Server::disconnect()
     {
+        if (thread)
+        {
+            nn::os::SuspendThread(thread);
+            nn::os::DestroyThread(thread);
+            /*free(thread);
+            if (threadStack) free(threadStack);
+            thread = nullptr;
+            threadStack = nullptr;*/
+        }
         if (socket != -1)
         {
             nn::socket::Close(socket);

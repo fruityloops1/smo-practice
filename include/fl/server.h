@@ -1,5 +1,6 @@
 #pragma once
 
+#include "nn/os.hpp"
 #include <fl/packet.h>
 #include <nn/socket.h>
 #include <types.h>
@@ -12,6 +13,9 @@ namespace smo
     {
     private:
         bool connected = false;
+
+        void* threadStack = nullptr;
+        nn::os::ThreadType* thread = nullptr;
     public:
         u8 connect(const char* ip, u16 port);
         void disconnect();

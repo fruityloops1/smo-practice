@@ -6,18 +6,6 @@
 #include <nn/init.h>
 #include <mem.h>
 
-void serverThreadFunc(void* args)
-{
-    smo::Server* server = (smo::Server*) args;
-    nn::TimeSpan w = nn::TimeSpan::FromNanoSeconds(1000000);
-    while (true)
-    {
-        server->handlePacket();
-        nn::os::YieldThread();
-        nn::os::SleepThread(w);
-    }
-}
-
 void stageSceneControlHook() {
     __asm ("MOV X19, X0");
 
@@ -25,21 +13,6 @@ void stageSceneControlHook() {
     __asm ("MOV %[result], X0" : [result] "=r" (stageScene));
     
     fl::PracticeUI::instance().update(*stageScene);
-
-    #if(SMOVER==100)
-    static bool init = false;
-    if (!init)
-    {
-        smo::Server& server = smo::Server::instance();
-        nn::os::ThreadType* thread = (nn::os::ThreadType*) nn::init::GetAllocator()->Allocate(sizeof(nn::os::ThreadType));
-        const u32 stackSize = 0x5000;
-        void* threadStack = aligned_alloc(0x1000, stackSize);
-        nn::os::CreateThread(thread, serverThreadFunc, &server, threadStack, stackSize, 16, 0);
-        nn::os::SetThreadName(thread, "UDP Thread");
-        nn::os::StartThread(thread);
-        init = true;
-    }
-    #endif
 
     __asm ("MOV X0, %[input]" : [input] "=r" (stageScene));
 }
