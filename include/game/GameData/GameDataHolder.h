@@ -12,6 +12,8 @@
 #include "game/WorldList/WorldList.h"
 #include "sead/prim/seadSafeString.h"
 
+#include <fl/efun.h>
+
 class ChangeStageInfo;
 class GameDataFile;
 
@@ -47,14 +49,25 @@ public:
 
     void resetLocationName();
     void changeNextStageWithDemoWorldWarp(char const *);
+    #if(SMOVER==100)
     void changeNextStage(ChangeStageInfo const*, int);
+    #endif
+    #if(SMOVER==130)
+    VCEFUN(GameDataHolder, 0x004DB060, changeNextStage, EFUN_ARGS(const ChangeStageInfo* info, int something), EFUN_ARGS(info, something));
+    #endif
     bool tryChangeNextStageWithWorldWarpHole(char const *);
     void returnPrevStage();
     char* getNextStageName() const;
     char* getNextStageName(s32 idx) const;
     GameDataFile* getGameDataFile(s32 idx) const;
     // u64 getNextPlayerStartId() const;
+    
+    #if(SMOVER==100)
     char* getCurrentStageName() const;
+    #endif
+    #if(SMOVER==130)
+    CVEFUN(GameDataHolder, 0x004DB1C0, char*, getCurrentStageName);
+    #endif
     char* tryGetCurrentStageName() const;
     char* getCurrentStageName(s32 idx) const;
     // void setCheckpointId(al::PlacementId const *);

@@ -22,12 +22,20 @@ private:
     StageScene* stageScene;
     bool inputEnabled = true;
 
+    char textBuffer[4096];
+    u32 printPos;
+
     void savePosition(PlayerActorHakoniwa& player);
     void loadPosition(PlayerActorHakoniwa& player);
 public:
     static inline PracticeUI& instance() {static PracticeUI ui; return ui;}
     void update(StageScene& stageScene);
-    void print(sead::TextWriter& p);
+    #if(SMOVER==100)
+    void menu(sead::TextWriter& p);
+    #endif
+    #if(SMOVER==130)
+    void menu();
+    #endif
 
     bool shineRefresh = false;
     bool gotShineRefresh = false;

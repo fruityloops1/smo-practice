@@ -5,6 +5,7 @@
 
 #pragma once
 
+#include "game/Player/PlayerHitPointData.h"
 #include "types.h"
 #include "game/StageScene/ChangeStageInfo.h"
 #include "GameProgressData.h"
@@ -19,6 +20,7 @@ class GameDataFile
         void changeNextStage(ChangeStageInfo const*, int);
         void setGotShine(const ShineInfo*);
         bool isGotShine(const ShineInfo*) const;
+        PlayerHitPointData* getPlayerHitPointData() const;
 
         unsigned char padding_6A8[0x6A8];
         GameProgressData *mGameProgressData; // 0x6A8

@@ -18,10 +18,18 @@ class StageScene : public al::Scene
         virtual void drawMain();
 
         bool isEnableSave(void) const;
+        #if(SMOVER==100)
         spad(inherit, 0x2D0 - sizeof(al::Scene));
         GameDataHolderAccessor* mHolder; // 0x2D0
         spad(gap1, 0x20);
         StageSceneLayout* stageSceneLayout; // 0x2F8
         spad(gap2, 0x1B8);
         HelpAmiiboDirector* mHelpAmiiboDirector;
+        #endif
+        #if(SMOVER==130)
+        spad(inherit, 0x2E8 - sizeof(al::Scene));
+        GameDataHolderAccessor* mHolder; // 0x2E8
+        spad(gap1, 0x18);
+        StageSceneLayout* stageSceneLayout; // 0x308
+        #endif
 };

@@ -16,6 +16,8 @@
 #include "game/Player/PlayerDamageKeeper.h"
 #include "game/Player/PlayerHackKeeper.h"
 
+#include <fl/efun.h>
+
 #define PACTORSIZE 0xC8
 
 class PlayerActorHakoniwa : public PlayerActorBase , public IUseDimension {
@@ -23,8 +25,14 @@ class PlayerActorHakoniwa : public PlayerActorBase , public IUseDimension {
         int *getPortNo(void) const;
         void startDemoMainShineGet();
         void endDemoMainShineGet();
+        #if(SMOVER==100)
         void startDemoPuppetable();
         void endDemoPuppetable();
+        #endif
+        #if(SMOVER==130)
+        VVCEFUN(PlayerActorHakoniwa, 0x003C4840, startDemoPuppetable);
+        VVCEFUN(PlayerActorHakoniwa, 0x003C4AA0, endDemoPuppetable);
+        #endif
         void startDemoShineGet();
         void tryActionStartSpinAttack();
         unsigned char padding_E8[0xE8 - PACTORSIZE];

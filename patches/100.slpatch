@@ -3,12 +3,12 @@ StageScene::control+18:
     bl stageSceneControlHook
 
 // overwrites some move instructions with hook code, which reimplements the move instructions at the end of the code
-5359DC: // GameSystem::init+18C
+005359dc: // GameSystem::init+18C
     mov x0, x19 // move GameSystem to arg register
     bl setupDebugMenu
     
 // replaces an execute draw call with custom hook that handles execute draw itself after running draw code
-50F258: // HakoniwaSequence::drawMain+84
+0050f258: // HakoniwaSequence::drawMain+84
     mov x0, x19 // HakoniwaSequence
     mov x1, sp // viewport
     mov x2, x20 // drawContext
@@ -59,3 +59,531 @@ StageScene::control+18:
     bl isEnableSaveVar
 0050f104:
     bl isEnableSaveVar
+
+// TAS
+
+// Left Stick
+// Trigger
+0041401c:
+    bl fgetLeftStick
+00447dfc:
+    bl fgetLeftStick
+0044c108:
+    bl fgetLeftStick
+0045034c:
+    bl fgetLeftStick
+004504d8:
+    bl fgetLeftStick
+004508e0:
+    bl fgetLeftStick
+004508fc:
+    bl fgetLeftStick
+0056e270:
+    bl fgetLeftStick
+0057313c:
+    bl fgetLeftStick
+00576b50:
+    bl fgetLeftStick
+00576bdc:
+    bl fgetLeftStick
+00576c50:
+    bl fgetLeftStick
+00576cc8:
+    bl fgetLeftStick
+0097a6d0:
+    bl fgetLeftStick
+009a37b4:
+    bl fgetLeftStick
+009a3a2c:
+    bl fgetLeftStick
+
+// Right Stick
+// Trigger
+0044c144:
+    bl fgetRightStick
+00450430:
+    bl fgetRightStick
+004508a4:
+    bl fgetRightStick
+0056e288:
+    bl fgetRightStick
+005730e0:
+    bl fgetRightStick
+00576c7c:
+    bl fgetRightStick
+00576cd4:
+    bl fgetRightStick
+00576cf0:
+    bl fgetRightStick
+00840010:
+    bl fgetRightStick
+
+// A
+// Trigger
+0045022c:
+    b fisPadTriggerA
+00450234:
+    b fisPadTriggerA
+0056e260:
+    b fisPadTriggerA
+00575be4:
+    b fisPadTriggerA
+00575bf4:
+    b fisPadTriggerA
+00575c2c:
+    b fisPadTriggerA
+00575c3c:
+    b fisPadTriggerA
+00576ae8:
+    b fisPadTriggerA
+00576af8:
+    b fisPadTriggerA
+00414000:
+    bl fisPadTriggerA
+004140f8:
+    bl fisPadTriggerA
+004142c4:
+    bl fisPadTriggerA
+0044fe94:
+    bl fisPadTriggerA
+004fd988:
+    bl fisPadTriggerA
+0050bcf0:
+    bl fisPadTriggerA
+0050bd8c:
+    bl fisPadTriggerA
+0050c218:
+    bl fisPadTriggerA
+0050c620:
+    bl fisPadTriggerA
+00575bc8:
+    bl fisPadTriggerA
+00575c10:
+    bl fisPadTriggerA
+00576acc:
+    bl fisPadTriggerA
+// Hold
+00450790:
+    b fisPadHoldA
+00573594:
+    b fisPadHoldA
+005765a4:
+    b fisPadHoldA
+0044fed0:
+    bl fisPadHoldA
+00450448:
+    bl fisPadHoldA
+00576554:
+    bl fisPadHoldA
+// Release
+0044ff0c:
+    bl fisPadReleaseA
+
+// B
+// Trigger
+0044feb8:
+    b fisPadTriggerB
+0056e23c:
+    b fisPadTriggerB
+00575cb8:
+    b fisPadTriggerB
+00450250:
+    bl fisPadTriggerB
+0050bcb8:
+    bl fisPadTriggerB
+00575c68:
+    bl fisPadTriggerB
+// Hold
+0044fef4:
+    b fisPadHoldB
+00576620:
+    b fisPadHoldB
+005765d0:
+    bl fisPadHoldB
+// Release
+0044ff30:
+    b fisPadReleaseB
+
+// X
+// Trigger
+004502b0:
+    b fisPadTriggerX
+00450594:
+    b fisPadTriggerX
+0056e1ac:
+    b fisPadTriggerX
+00576240:
+    b fisPadTriggerX
+0044ff68:
+    bl fisPadTriggerX
+004fd9b0:
+    bl fisPadTriggerX
+0050bd5c:
+    bl fisPadTriggerX
+0050be1c:
+    bl fisPadTriggerX
+005761f0:
+    bl fisPadTriggerX
+// Hold
+00450740:
+    b fisPadHoldX
+0056e1f4:
+    b fisPadHoldX
+00573558:
+    b fisPadHoldX
+0044ffc4:
+    bl fisPadHoldX
+0045030c:
+    bl fisPadHoldX
+004503a8:
+    bl fisPadHoldX
+00450534:
+    bl fisPadHoldX
+00450890:
+    bl fisPadHoldX
+00576b38:
+    bl fisPadHoldX
+00576ba8:
+    bl fisPadHoldX
+00576c44:
+    bl fisPadHoldX
+00576cbc:
+    bl fisPadHoldX
+// Release
+00450608:
+    b fisPadReleaseX
+00450020:
+    bl fisPadReleaseX
+
+// Y
+// Trigger
+0044ff8c:
+    b fisPadTriggerY
+0056e1d0:
+    b fisPadTriggerY
+005762bc:
+    b fisPadTriggerY
+00576e78:
+    b fisPadTriggerY
+00577134:
+    b fisPadTriggerY
+00450264:
+    bl fisPadTriggerY
+004fd9dc:
+    bl fisPadTriggerY
+0050bd28:
+    bl fisPadTriggerY
+0050bdd4:
+    bl fisPadTriggerY
+0057626c:
+    bl fisPadTriggerY
+00576e2c:
+    bl fisPadTriggerY
+00576ebc:
+    bl fisPadTriggerY
+00576ec8:
+    bl fisPadTriggerY
+00576f00:
+    bl fisPadTriggerY
+// Hold
+0044ffe8:
+    b fisPadHoldY
+0056e218:
+    b fisPadHoldY
+00576808:
+    b fisPadHoldY
+0045041c:
+    bl fisPadHoldY
+005767b8:
+    bl fisPadHoldY
+// Release
+00450044:
+    b fisPadReleaseY
+
+// L
+// Trigger
+005760cc:
+    b fisPadTriggerL
+004143d8:
+    bl fisPadTriggerL
+0045007c:
+    bl fisPadTriggerL
+0045059c:
+    bl fisPadTriggerL
+00450610:
+    bl fisPadTriggerL
+00573454:
+    bl fisPadTriggerL
+0057607c:
+    bl fisPadTriggerL
+0084003c:
+    bl fisPadTriggerL
+// Hold
+0056e2b4:
+    b fisPadHoldL
+00576710:
+    b fisPadHoldL
+004500f4:
+    bl fisPadHoldL
+004501e4:
+    bl fisPadHoldL
+00450334:
+    bl fisPadHoldL
+004503c0:
+    bl fisPadHoldL
+004508c8:
+    bl fisPadHoldL
+005766c0:
+    bl fisPadHoldL
+// Release
+0045016c:
+    bl fisPadReleaseL
+
+// R
+// Trigger
+00450090:
+    b fisPadTriggerR
+004505c0:
+    b fisPadTriggerR
+0045062c:
+    b fisPadTriggerR
+0056e2d8:
+    b fisPadTriggerR
+00573478:
+    b fisPadTriggerR
+00576050:
+    b fisPadTriggerR
+00840060:
+    b fisPadTriggerR
+0050bd74:
+    bl fisPadTriggerR
+0050bdbc:
+    bl fisPadTriggerR
+0050be04:
+    bl fisPadTriggerR
+00576000:
+    bl fisPadTriggerR
+// Hold
+00450108:
+    b fisPadHoldR
+004501f8:
+    b fisPadHoldR
+004503e4:
+    b fisPadHoldR
+0057678c:
+    b fisPadHoldR
+00450340:
+    bl fisPadHoldR
+004508d4:
+    bl fisPadHoldR
+0050bd80:
+    bl fisPadHoldR
+0050bdc8:
+    bl fisPadHoldR
+0050be10:
+    bl fisPadHoldR
+0050c224:
+    bl fisPadHoldR
+0050c644:
+    bl fisPadHoldR
+0057673c:
+    bl fisPadHoldR
+// Release
+00450180:
+    b fisPadReleaseR
+
+// ZL
+// Trigger
+0056e57c:
+    b fisPadTriggerZL
+005761c4:
+    b fisPadTriggerZL
+0044d89c:
+    bl fisPadTriggerZL
+0044d8ec:
+    bl fisPadTriggerZL
+00450098:
+    bl fisPadTriggerZL
+00576174:
+    bl fisPadTriggerZL
+// Hold
+004507e0:
+    b fisPadHoldZL
+005735d0:
+    b fisPadHoldZL
+008400a4:
+    b fisPadHoldZL
+00450110:
+    bl fisPadHoldZL
+00450200:
+    bl fisPadHoldZL
+004506cc:
+    bl fisPadHoldZL
+005734f8:
+    bl fisPadHoldZL
+00840078:
+    bl fisPadHoldZL
+// Release
+00450188:
+    bl fisPadReleaseZL
+
+// ZR
+// Trigger
+0044d8c0:
+    b fisPadTriggerZR
+0044d910:
+    b fisPadTriggerZR
+004500bc:
+    b fisPadTriggerZR
+0056e5c4:
+    b fisPadTriggerZR
+00576148:
+    b fisPadTriggerZR
+0050bca0:
+    bl fisPadTriggerZR
+0050bcd8:
+    bl fisPadTriggerZR
+0050bd10:
+    bl fisPadTriggerZR
+0050bd44:
+    bl fisPadTriggerZR
+0050be34:
+    bl fisPadTriggerZR
+005760f8:
+    bl fisPadTriggerZR
+// Hold
+00450134:
+    b fisPadHoldZR
+00450214:
+    b fisPadHoldZR
+004506f0:
+    b fisPadHoldZR
+00450830:
+    b fisPadHoldZR
+0057351c:
+    b fisPadHoldZR
+0057360c:
+    b fisPadHoldZR
+0084009c:
+    b fisPadHoldZR
+008400ac:
+    b fisPadHoldZR
+0050bc48:
+    bl fisPadHoldZR
+0050bcac:
+    bl fisPadHoldZR
+0050bd1c:
+    bl fisPadHoldZR
+0050bd50:
+    bl fisPadHoldZR
+0050be40:
+    bl fisPadHoldZR
+0050c230:
+    bl fisPadHoldZR
+0050c650:
+    bl fisPadHoldZR
+// Release
+004501ac:
+    b fisPadReleaseZR
+
+// Press Right Stick
+// Trigger
+0045068c:
+    b fisPadTriggerPressRightStick
+0056e2fc:
+    b fisPadTriggerPressRightStick
+005734b4:
+    b fisPadTriggerPressRightStick
+004d648c:
+    bl fisPadTriggerPressRightStick
+004d7420:
+    bl fisPadTriggerPressRightStick
+
+// Plus
+// Trigger
+00575d14:
+    b fisPadTriggerPlus
+00575de4:
+    b fisPadTriggerPlus
+00576678:
+    b fisPadTriggerPlus
+00576d88:
+    b fisPadTriggerPlus
+0050be4c:
+    bl fisPadTriggerPlus
+00575db8:
+    bl fisPadTriggerPlus
+// Hold
+0050bc54:
+    bl fisPadHoldPlus
+
+// Minus
+// Trigger
+00575d04:
+    b fisPadTriggerMinus
+00576694:
+    b fisPadTriggerMinus
+00576db4:
+    b fisPadTriggerMinus
+00575d84:
+    bl fisPadTriggerMinus
+00576a94:
+    bl fisPadTriggerMinus
+00576d74:
+    bl fisPadTriggerMinus
+00576d90:
+    bl fisPadTriggerMinus
+00576f2c:
+    bl fisPadTriggerMinus
+
+// Dpad up
+// Trigger
+0050c360:
+    bl fisPadTriggerUp
+00576a68:
+    bl fisPadTriggerUp
+// Hold
+009a38a8:
+    bl fisPadHoldUp
+009a390c:
+    bl fisPadHoldUp
+
+// Dpad right
+// Trigger
+00577074:
+    b fisPadTriggerRight
+00577200:
+    b fisPadTriggerRight
+0057720c:
+    b fisPadTriggerRight
+// Hold
+005770d4:
+    b fisPadHoldRight
+009a38cc:
+    bl fisPadHoldRight
+009a38fc:
+    bl fisPadHoldRight
+
+// Dpad down
+// Trigger
+00577014:
+    b fisPadTriggerDown
+0050c4b8:
+    bl fisPadTriggerDown
+// Hold
+009a38b4:
+    bl fisPadHoldDown
+009a3928:
+    bl fisPadHoldDown
+
+// Dpad left
+// Trigger
+00577234:
+    b fisPadTriggerLeft
+00577240:
+    b fisPadTriggerLeft
+// Hold
+009a38c0:
+    bl fisPadHoldLeft
+009a38dc:
+    bl fisPadHoldLeft

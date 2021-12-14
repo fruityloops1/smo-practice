@@ -15,10 +15,10 @@ namespace rs
 {
     uint32_t getStageShineAnimFrame(const al::LiveActor *, const char *);
 
-    #if (S2VER==100)
+    #if (SMOVER==100)
     PlayerActorHakoniwa* getPlayerActor(const al::Scene *);
     #endif
-    #if (S2VER==130)
+    #if (SMOVER==130)
     EFUN(0x00479670, PlayerActorHakoniwa*, getPlayerActor, EFUN_ARGS(const al::Scene*));
     #endif
 

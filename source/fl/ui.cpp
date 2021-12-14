@@ -1,28 +1,54 @@
 #include "al/LiveActor/LiveActor.h"
 #include "al/PlayerHolder/PlayerHolder.h"
+#include "al/util.hpp"
+#include "fl/input.h"
+#include "fl/tas.h"
 #include "game/GameData/GameDataFunction.h"
+#include "game/Player/PlayerActorHakoniwa.h"
+#include "game/Player/PlayerDamageKeeper.h"
+#include "rs/util.hpp"
+#include "sead/math/seadVector.h"
+#include "str.h"
 
 #include <fl/ui.h>
 #include <fl/util.h>
 
+#include <nn/init.h>
+#include <mem.h>
+
+#include <fl/server.h>
+
 const char* stageNames[] = {"CapWorldHomeStage", "WaterfallWorldHomeStage", "SandWorldHomeStage", "LakeWorldHomeStage", "ForestWorldHomeStage", "CloudWorldHomeStage", "ClashWorldHomeStage", "CityWorldHomeStage",
                             "SnowWorldHomeStage", "SeaWorldHomeStage", "LavaWorldHomeStage", "BossRaidWorldHomeStage", "SkyWorldHomeStage", "MoonWorldHomeStage", "PeachWorldHomeStage", "Special1WorldHomeStage", "Special2WorldHomeStage", "DotTowerExStage", "Special2WorldLavaStage", "FrogSearchExStage", "Cube2DExStage", "SandWorldPyramid001Stage", "SeaWorldSecretStage", "CapAppearExStage", "ForestWorldWaterExStage", "PeachWorldShopStage", "SkyWorldTreasureStage", "SnowWorldRaceExStage", "PushBlockExStage", "ShootingCityYoshiExStage", "SnowWorldLobbyExStage", "DemoChangeWorldFindKoopaShipStage", "DonsukeExStage", "BullRunExStage", "DemoBossRaidAttackStage", "PeachWorldPictureGiantWanderBossStage", "CityWorldShop01Stage", "PackunPoisonNoCapExStage", "RevengeBossKnuckleStage", "SenobiTowerYoshiExStage", "SnowWorldShopStage", "Theater2DExStage", "LavaWorldBubbleLaneExStage", "DemoChangeWorldBossRaidAttackStage", "Special1WorldTowerStackerStage", "Special1WorldTowerFireBlowerStage", "SandWorldCostumeStage", "LavaWorldFenceLiftExStage", "ForestWorldBossStage", "BikeSteelExStage", "FastenerExStage", "SandWorldRotateExStage", "SeaWorldSneakingManStage", "TrexBikeExStage", "SnowWorldRaceHardExStage", "SandWorldPressExStage", "DemoCrashHomeStage", "WaterValleyExStage", "CapWorldTowerStage", "KillerRailCollisionExStage", "ByugoPuzzleExStage", "CityWorldFactoryStage", "Special2WorldKoopaStage", "SandWorldUnderground001Stage", "MoonWorldKoopa2Stage", "IceWaterBlockExStage", "PackunPoisonExStage", "DemoEndingStage", "DotHardExStage", "SenobiTowerExStage", "GabuzouClockExStage", "PeachWorldPictureBossMagmaStage", "ClashWorldShopStage", "SeaWorldCostumeStage", "DemoCrashHomeFallStage", "MoonWorldSphinxRoom", "SandWorldUnderground000Stage", "ShootingCityExStage", "PeachWorldPictureBossRaidStage", "RailCollisionExStage", "RevengeBossRaidStage", "LavaWorldTreasureStage", "Special2WorldCloudStage", "DemoWorldMoveForwardArriveStage", "MoonWorldWeddingRoomStage", "SeaWorldVibrationStage", "DemoWorldMoveMoonForwardStage", "MoonWorldBasementStage", "ForestWorldWoodsTreasureStage", "ForestWorldWoodsStage", "ForestWorldCloudBonusExStage", "PeachWorldPictureMofumofuStage", "CapRotatePackunExStage", "GotogotonExStage", "IceWalkerExStage", "PeachWorldPictureBossKnuckleStage", "MoonWorldKoopa1Stage", "RevengeBossMagmaStage", "ForestWorldTowerStage", "DemoStartWorldWaterfallStage", "PeachWorldCastleStage", "SkyWorldCostumeStage", "DemoWorldMoveMoonForwardFirstStage", "SkyWorldShopStage", "SnowWorldTownStage", "DemoLavaWorldScenario1EndStage", "RevengeGiantWanderBossStage", "SandWorldSphinxExStage", "DemoWorldMoveMoonBackwardStage", "SnowWorldRace000Stage", "SnowWorldCostumeStage", "BikeSteelNoCapExStage", "CapAppearLavaLiftExStage", "DemoHackKoopaStage", "RadioControlExStage", "TrexPoppunExStage", "TsukkunClimbExStage", "LavaWorldShopStage", "SandWorldSecretStage", "FukuwaraiKuriboStage", "ForkExStage", "JangoExStage", "DemoOpeningStage", "LakeWorldShopStage", "PoleGrabCeilExStage", "PoisonWaveExStage", "DemoWorldWarpHoleStage", "SandWorldVibrationStage", "LavaWorldClockExStage", "FukuwaraiMarioStage", "HomeShipInsideStage", "ImomuPoisonExStage", "CityWorldMainTowerStage", "SnowWorldRaceTutorialStage", "WorldStage", "SandWorldSlotStage", "RollingExStage", "SnowWorldRace001Stage", "SnowWorldLobby000Stage", "MoonWorldWeddingRoom2Stage", "LavaWorldUpDownExStage", "RevengeForestBossStage", "AnimalChaseExStage", "SeaWorldUtsuboCaveStage", "DemoTakeOffKoopaForMoonStage", "MoonWorldCaptureParadeStage", "LavaWorldCostumeStage", "Lift2DExStage", "Special1WorldTowerBombTailStage", "MoonWorldShopRoom", "SnowWorldCloudBonusExStage", "TogezoRotateExStage", "FrogPoisonExStage", "SkyWorldCloudBonusExStage", "KaronWingTowerStage", "WanwanClashExStage", "WaterTubeExStage", "DemoMeetCapNpcSubStage", "MoonAthleticExStage", "CloudExStage", "DemoHackFirstStage", "PeachWorldPictureBossForestStage", "ShootingElevatorExStage", "PeachWorldCostumeStage", "MeganeLiftExStage", "TrampolineWallCatchExStage", "CityWorldSandSlotStage", "ForestWorldBonusStage", "SwingSteelExStage", "TsukkunRotateExStage", "RocketFlowerExStage", "WindBlowExStage", "ForestWorldWoodsCostumeStage", "ElectricWireExStage", "DemoWorldMoveBackwardArriveStage", "Galaxy2DExStage", "IceWaterDashExStage", "ReflectBombExStage", "LavaWorldUpDownYoshiExStage", "JizoSwitchExStage", "RevengeMofumofuStage", "SnowWorldLobby001Stage", "YoshiCloudExStage", "KillerRoadExStage", "CityPeopleRoadStage", "Note2D3DRoomExStage", "DemoWorldMoveBackwardStage", "KillerRoadNoCapExStage", "DemoWorldMoveForwardStage", "SandWorldMeganeExStage", "LavaWorldExcavationExStage", "Special1WorldTowerCapThrowerStage", "DemoChangeWorldStage", "FogMountainExStage", "SandWorldPyramid000Stage", "SandWorldShopStage", "SandWorldKillerExStage", "PoleKillerExStage", "DemoWorldMoveForwardFirstStage", "StaffRollMoonRockDemo"};
 
-#define NUM_PAGES 7
+#if(SMOVER==100)
+#define printf(FORMAT, ...) p.printf(FORMAT, ##__VA_ARGS__);
+#endif
+#if(SMOVER==130)
+#define printf(FORMAT, ...) {sprintfRv = sprintf(textBuffer + printPos, FORMAT, ##__VA_ARGS__); printPos += sprintfRv;}
+#endif
+
+
+#define NUM_PAGES 8
 #define NUM_STAGES 200
 
-#define CURSOR(WRITER, LINE) WRITER.printf(curLine == LINE ? ">" : "")
-#define CHANGE_PAGE() p.printf("Change Page (%d/%d)\n", +curPage + 1, NUM_PAGES)
+#if(SMOVER==100)
+#define CURSOR(LINE) printf(curLine == LINE ? ">" : "")
+#endif
+#if(SMOVER==130)
+#define CURSOR(LINE) printf(curLine == LINE ? "·" : "")
+#endif
+#define CHANGE_PAGE() printf("Change Page (%d/%d)\n", +curPage + 1, NUM_PAGES)
 
 // Sets max amount of lines for a page
 #define MAX_LINE(LINE) if (curLine > LINE) curLine = 0;
 
-#define TOGGLE(FORMAT, BOOL, LINE) CURSOR(p, LINE);\
-                                   p.printf(FORMAT, BOOL ? "Enabled" : "Disabled");\
+#define TOGGLE(FORMAT, BOOL, LINE) CURSOR(LINE);\
+                                   printf(FORMAT, BOOL ? "Enabled" : "Disabled");\
                                    if (inputEnabled && curLine == LINE && (al::isPadTriggerLeft(CONTROLLER_AUTO) || al::isPadTriggerRight(CONTROLLER_AUTO))) BOOL = !BOOL;
 
-#define TRIGGER(NAME, LINE, ACTION) CURSOR(p, LINE);\
-                              p.printf(NAME);\
+#define TRIGGER(NAME, LINE, ACTION) CURSOR(LINE);\
+                              printf(NAME);\
                               if (inputEnabled && curLine == LINE && al::isPadTriggerRight(CONTROLLER_AUTO)) ACTION;
 
 void fl::PracticeUI::savePosition(PlayerActorHakoniwa& player)
@@ -55,9 +81,17 @@ void fl::PracticeUI::update(StageScene& stageScene)
     this->stageScene = &stageScene;
     isInGame = true;
 
-    al::PlayerHolder* pHolder = al::getScenePlayerHolder(&stageScene);
-    PlayerActorHakoniwa* player = al::tryGetPlayerActor(pHolder, 0);
-    
+    PlayerActorHakoniwa* player = rs::getPlayerActor(&stageScene);
+
+    bool holdL = al::isPadHoldL(CONTROLLER_AUTO);
+
+    #if(SMOVER==100)
+    fl::TasHolder::instance().update();
+    #endif
+
+    if (holdL && al::isPadTriggerRight(CONTROLLER_AUTO)) {inputEnabled = !inputEnabled; return;}
+    else if (holdL && al::isPadTriggerLeft(CONTROLLER_AUTO)) showMenu = !showMenu;
+
     if (!showMenu)
     {
         if (teleportEnabled)
@@ -70,27 +104,23 @@ void fl::PracticeUI::update(StageScene& stageScene)
         }
     }
 
-    if (reloadStageForPos != -1)
-    {
-        reloadStageForPos++;
-        if (reloadStageForPos == 11)
-        {
-            player->startDemoPuppetable();
-            al::setTrans(player, reloadStagePos);
-            al::updatePoseQuat(player, reloadStageQuat);
-            player->endDemoPuppetable();
-            reloadStageForPos = -1;
-        }
-    }
-
-    bool triggerLeftStick = al::isPadTriggerPressLeftStick(CONTROLLER_AUTO);
-
-    if (al::isPadHoldL(CONTROLLER_AUTO) && triggerLeftStick) inputEnabled = !inputEnabled;
-    else if (triggerLeftStick) showMenu = !showMenu;
+    #if(SMOVER==130)
+    if (showMenu) menu();
+    else al::setPaneStringFormat(stageScene.stageSceneLayout->coinCounter, "TxtDebug", " ");
+    #endif
 }
 
-void fl::PracticeUI::print(sead::TextWriter& p)
+#if(SMOVER==100)
+void fl::PracticeUI::menu(sead::TextWriter& p)
+#endif
+#if(SMOVER==130)
+void fl::PracticeUI::menu()
+#endif
 {
+    #if(SMOVER==130)
+    s32 sprintfRv = 0;
+    printPos = 0;
+    #endif
     if (!stageScene) return;
     if (showMenu)
     {
@@ -100,6 +130,8 @@ void fl::PracticeUI::print(sead::TextWriter& p)
         };
         static Page curPage = About;
         static u8 curLine = 0;
+
+        PlayerActorHakoniwa* player = rs::getPlayerActor(stageScene);
 
         if (inputEnabled)
         {
@@ -116,7 +148,7 @@ void fl::PracticeUI::print(sead::TextWriter& p)
                 else if (curPage == Stage) curPage = Misc;
                 else if (curPage == Misc) curPage = Info;
                 else if (curPage == Info) curPage = MoonInfo;
-                else if (curPage == MoonInfo) curPage = Debug;
+                else if (curPage == MoonInfo) curPage = Debug;;
             }
             if (al::isPadTriggerLeft(CONTROLLER_AUTO))
             {
@@ -129,26 +161,23 @@ void fl::PracticeUI::print(sead::TextWriter& p)
             }
         }
 
-        al::PlayerHolder* pHolder = al::getScenePlayerHolder(stageScene);
-        PlayerActorHakoniwa* player = al::tryGetPlayerActor(pHolder, 0);
-
         switch (curPage)
         {
             case About:
             {
                 MAX_LINE(0);
-                CURSOR(p, 0);
+                CURSOR(0);
                 CHANGE_PAGE();
-                p.printf("Welcome to the Practice Mod!\n");
-                p.printf("Made by Fruityloops#8500\n");
-                p.printf("Big thanks to CraftyBoss and bryce_____!\n");
+                printf("Welcome to the Practice Mod!\n");
+                printf("Made by Fruityloops#8500 and contributors\n");
+                printf("Big thanks to CraftyBoss and bryce_____!\n");
                 break;
             }
             case Options:
             {
-                p.printf("Options\n");
+                printf("Options\n");
                 MAX_LINE(5);
-                CURSOR(p, 0);
+                CURSOR(0);
                 CHANGE_PAGE();
                 
                 TOGGLE("Teleport: %s\n", teleportEnabled, 1);
@@ -163,11 +192,11 @@ void fl::PracticeUI::print(sead::TextWriter& p)
                 static u32 currentStage = 0;
                 static s8 currentScenario = -1;
 
-                p.printf("Stages\n");
+                printf("Stages\n");
                 MAX_LINE(3);
-                CURSOR(p, 0);
+                CURSOR(0);
                 CHANGE_PAGE();
-                CURSOR(p, 1);
+                CURSOR(1);
 
                 if (inputEnabled && curLine == 1)
                 {
@@ -184,16 +213,20 @@ void fl::PracticeUI::print(sead::TextWriter& p)
                 {
                     if (al::isPadTriggerRight(CONTROLLER_AUTO))
                         currentScenario = currentScenario == -1 ? 1 : currentScenario + 1;
-                    if (al::isPadTriggerLeft(CONTROLLER_AUTO)) currentScenario--;
+                    if (al::isPadTriggerLeft(CONTROLLER_AUTO))
+                    {
+                        currentScenario--;
+                        if (currentScenario == 0) currentScenario = 15; 
+                    }
                 }
 
                 if (currentScenario < -1 || currentScenario == 0 || currentScenario > 15) currentScenario = -1;
 
                 if (currentStage + 1 > NUM_STAGES) currentStage = 0;
-                p.printf("Stage: %s\n", stageNames[currentStage]);
-                CURSOR(p, 2);
-                if (currentScenario != -1) p.printf("Scenario: %d\n", +currentScenario);
-                else p.printf("Scenario: Don't change\n");
+                printf("Stage: %s\n", stageNames[currentStage]);
+                CURSOR(2);
+                if (currentScenario != -1)  {printf("Scenario: %d\n", +currentScenario);}
+                else printf("Scenario: Don't change\n");
 
                 TRIGGER("Go\n", 3, {
                     ChangeStageInfo info = ChangeStageInfo(stageScene->mHolder, "start", stageNames[currentStage], false, currentScenario, {0});
@@ -204,18 +237,21 @@ void fl::PracticeUI::print(sead::TextWriter& p)
             }
             case Misc:
             {
-                p.printf("Miscellaneous\n");
-                MAX_LINE(4);
-                CURSOR(p, 0);
+                printf("Miscellaneous\n");
+                MAX_LINE(7);
+                CURSOR(0);
                 CHANGE_PAGE();
 
                 TRIGGER("Kill Mario\n", 1, {
                     player->mDamageKeeper->dead();
                     curLine = 0;
                 });
-                TRIGGER("Remove Cappy\n", 2, GameDataFunction::disableCapByPlacement(player->mHackCap));
-                TRIGGER("Invincibility Star\n", 3, player->mDamageKeeper->activatePreventDamage());
-                TRIGGER("Reload Stage\n", 4, {
+                TRIGGER("Damage Mario\n", 2, player->mDamageKeeper->damage(1));
+                TRIGGER("Life Up Heart\n", 3, stageScene->mHolder->mGameDataFile->getPlayerHitPointData()->getMaxUpItem());
+                TRIGGER("Heal Mario\n", 4, stageScene->mHolder->mGameDataFile->getPlayerHitPointData()->recover());
+                TRIGGER("Remove Cappy\n", 5, GameDataFunction::disableCapByPlacement(player->mHackCap));
+                TRIGGER("Invincibility Star\n", 6, player->mDamageKeeper->activatePreventDamage());
+                TRIGGER("Reload Stage\n", 7, {
                     reloadStageForPos = 0;
                     reloadStagePos = *al::getTrans(player);
                     reloadStageQuat = *al::getQuat(player);
@@ -227,9 +263,9 @@ void fl::PracticeUI::print(sead::TextWriter& p)
             }
             case Info:
             {
-                p.printf("Info\n");
+                printf("Info\n");
                 MAX_LINE(1);
-                CURSOR(p, 0);
+                CURSOR(0);
                 CHANGE_PAGE();
 
                 static bool quatRot = false;
@@ -248,28 +284,32 @@ void fl::PracticeUI::print(sead::TextWriter& p)
                 const char* anim = player->mPlayerAnimator->mCurrentAnim;
                 float hSpeed = al::calcSpeedH(player), vSpeed = al::calcSpeedV(player), speed = al::calcSpeed(player);
 
-                p.printf("Player Pos: (X: %.3f Y: %.3f Z: %.3f)\n", playerTrans->x, playerTrans->y, playerTrans->z);
-                p.printf("Player Vel: (X: %.3f Y: %.3f Z: %.3f)\n", playerVel->x, playerVel->y, playerVel->z);
-                p.printf("Player Speed: (H: %.3f V: %.3f S: %.3f)\n", hSpeed, vSpeed, speed);
+                printf("Player Pos: (X: %.3f Y: %.3f Z: %.3f)\n", playerTrans->x, playerTrans->y, playerTrans->z);
+                printf("Player Vel: (X: %.3f Y: %.3f Z: %.3f)\n", playerVel->x, playerVel->y, playerVel->z);
+                printf("Player Speed: (H: %.3f V: %.3f S: %.3f)\n", hSpeed, vSpeed, speed);
                 if (quatRot)
-                    p.printf("Player Rot: (W: %.3f X: %.3f Y: %.3f Z: %.3f)\n", playerQuat->w, playerQuat->x, playerQuat->y, playerQuat->z);
+                {
+                    printf("Player Rot: (W: %.3f X: %.3f Y: %.3f Z: %.3f)\n", playerQuat->w, playerQuat->x, playerQuat->y, playerQuat->z);
+                }
                 else
-                    p.printf("Player Rot: (X: %.3f Y: %.3f Z: %.3f)\n", playerRot.x, playerRot.y, playerRot.z);
-                p.printf("Cappy Pos: (X: %.3f Y: %.3f Z: %.3f)\n", cappyPosition->x, cappyPosition->y, cappyPosition->z);
+                    printf("Player Rot: (X: %.3f Y: %.3f Z: %.3f)\n", playerRot.x, playerRot.y, playerRot.z);
+                printf("Cappy Pos: (X: %.3f Y: %.3f Z: %.3f)\n", cappyPosition->x, cappyPosition->y, cappyPosition->z);
                 if (quatRot)
-                    p.printf("Cappy Rot: (W: %.3f X: %.3f Y: %.3f Z: %.3f)\n", cappyQuat->w, cappyQuat->x, cappyQuat->y, cappyQuat->z);
+                {
+                    printf("Cappy Rot: (W: %.3f X: %.3f Y: %.3f Z: %.3f)\n", cappyQuat->w, cappyQuat->x, cappyQuat->y, cappyQuat->z);
+                }
                 else
-                    p.printf("Cappy Rot: (X: %.3f Y: %.3f Z: %.3f)\n", cappyRot.x, cappyRot.y, cappyRot.z);
-                p.printf("Bubble Pos: (X: %.3f Y: %.3f Z: %.3f)\n", playerRecoveryPoint->x, playerRecoveryPoint->y, playerRecoveryPoint->z);
-                p.printf("Current Animation: %s (%.0f/%.0f)\n", anim, player->mPlayerAnimator->getAnimFrame() - 1.0f, player->mPlayerAnimator->getAnimFrameMax());
+                    printf("Cappy Rot: (X: %.3f Y: %.3f Z: %.3f)\n", cappyRot.x, cappyRot.y, cappyRot.z);
+                printf("Bubble Pos: (X: %.3f Y: %.3f Z: %.3f)\n", playerRecoveryPoint->x, playerRecoveryPoint->y, playerRecoveryPoint->z);
+                printf("Current Animation: %s (%.0f/%.0f)\n", anim, player->mPlayerAnimator->getAnimFrame() - 1.0f, player->mPlayerAnimator->getAnimFrameMax());
 
                 break;
             }
             case MoonInfo:
             {
-                p.printf("Moon Info\n");
+                printf("Moon Info\n");
                 MAX_LINE(1);
-                CURSOR(p, 0);
+                CURSOR(0);
                 CHANGE_PAGE();
 
                 static bool hideShineCounter = false;
@@ -280,26 +320,30 @@ void fl::PracticeUI::print(sead::TextWriter& p)
                 else
                     al::showPane(stageScene->stageSceneLayout->shineCounter, "TxtShine");
 
+                #if(SMOVER==100)
                 s32 currShine = GameDataFunction::getCurrentShineNum(*stageScene->mHolder);
                 s32 totalShine = GameDataFunction::getTotalShineNum(*stageScene->mHolder, -1);
                 s32 unlockShine = GameDataFunction::findUnlockShineNumByWorldId(0, *stageScene->mHolder, GameDataFunction::getCurrentWorldId(*stageScene->mHolder));
-                p.printf("Current Moons: %d\n", currShine);
-                p.printf("Total Moons: %d\n", totalShine);
-                p.printf("Required Moons: %d", unlockShine);
+                printf("Current Moons: %d\n", currShine);
+                printf("Total Moons: %d\n", totalShine);
+                printf("Required Moons: %d", unlockShine);
+                #endif
                 break;
             }
             case Debug:
             {
-                p.printf("Debug\n");
+                printf("Debug\n");
                 MAX_LINE(0);
-                CURSOR(p, 0);
+                CURSOR(0);
                 CHANGE_PAGE();
 
-                p.printf("Calculated: %p\nReal: %p\n", (((u64) free) - 0x00724BEC) + 0x008EE364, al::setTrans);
-                p.printf("Current Stage: %s\n", stageScene->mHolder->getCurrentStageName());
-                p.printf("Current Scenario: %d\n", GameDataFunction::getWorldScenarioNo(*stageScene->mHolder, GameDataFunction::getCurrentWorldId(*stageScene->mHolder)));
-                p.printf("Current World ID: %d\n", GameDataFunction::getCurrentWorldId(*stageScene->mHolder));
-                p.printf("Language: %s\n", stageScene->mHolder->getLanguage());
+                #if(SMOVER==100)
+                printf("Calculated: %p\nReal: %p\n", (((u64) free) - 0x00724BEC) + 0x008EE364, al::setTrans);
+                printf("Current Stage: %s\n", stageScene->mHolder->getCurrentStageName());
+                printf("Current Scenario: %d\n", GameDataFunction::getWorldScenarioNo(*stageScene->mHolder, GameDataFunction::getCurrentWorldId(*stageScene->mHolder)));
+                printf("Current World ID: %d\n", GameDataFunction::getCurrentWorldId(*stageScene->mHolder));
+                printf("Language: %s\n", stageScene->mHolder->getLanguage());
+                #endif
                 break;
             }
             default:
@@ -309,4 +353,8 @@ void fl::PracticeUI::print(sead::TextWriter& p)
             }
         }
     }
+    #if(SMOVER==130)
+    al::showPane(stageScene->stageSceneLayout->coinCounter, "TxtDebug");
+    al::setPaneStringFormat(stageScene->stageSceneLayout->coinCounter, "TxtDebug", textBuffer);
+    #endif
 }

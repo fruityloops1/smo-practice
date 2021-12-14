@@ -15,6 +15,7 @@ int strcmp(char const *str1, char const *str2);
 u64 strlen(char const *str);
 
 char* strcpy(char* dest, char const* src);
+int sprintf(char * __s, const char * __format, ...);
 
 #ifdef __cplusplus
 }

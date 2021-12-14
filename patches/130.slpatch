@@ -1,1 +1,6 @@
 [version=130, target=main]
+StageScene::control+18:
+    bl stageSceneControlHook
+
+001E7770: // some stupid crash fix
+    ret

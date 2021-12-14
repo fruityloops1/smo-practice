@@ -125,7 +125,9 @@ void drawMainHook(HakoniwaSequence *curSequence, sead::Viewport *viewport, sead:
         gTextWriter->beginDraw();
         gTextWriter->setCursorFromTopLeft(sead::Vector2f(10.f, (dispHeight / 2) + 30.f));
         gTextWriter->setScaleFromFontHeight(20.f);
-        fl::PracticeUI::instance().print(*gTextWriter);
+        #if(SMOVER==100)
+        fl::PracticeUI::instance().menu(*gTextWriter);
+        #endif
 
         isInGame = false;
     }

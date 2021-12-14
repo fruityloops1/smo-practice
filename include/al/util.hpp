@@ -50,52 +50,76 @@ namespace al
 
     // General Input functions
 
-    bool isPadTriggerUp(int port);
-    bool isPadTriggerDown(int port);
-    bool isPadTriggerLeft(int port);
-    bool isPadTriggerPressLeftStick(int port);
-    bool isPadTriggerRight(int port);
-
-    #if(S2VER==100)
+    #if(SMOVER==100)
     bool isPadTriggerA(int port);
-    #endif
-    #if(S2VER==130)
-    EFUN(0x005CFBD0, bool, isPadTriggerA, EFUN_ARGS(int port)); 
-    #endif
     bool isPadTriggerB(int port);
     bool isPadTriggerX(int port);
     bool isPadTriggerY(int port);
-
+    bool isPadTriggerPressLeftStick(int port);
+    bool isPadTriggerPressRightStick(int port);
     bool isPadTriggerZL(int port);
     bool isPadTriggerZR(int port);
-
     bool isPadTriggerL(int port);
     bool isPadTriggerR(int port);
-
-    bool isPadHoldUp(int port);
-    bool isPadHoldDown(int port);
-    bool isPadHoldLeft(int port);
-    bool isPadHoldLeftLeftStick(int port);
-    bool isPadHoldRight(int port);
-
+    bool isPadTriggerPlus(int port);
+    bool isPadTriggerMinus(int port);
+    bool isPadTriggerDown(int port);
+    bool isPadTriggerUp(int port);
+    bool isPadTriggerLeft(int port);
+    bool isPadTriggerRight(int port);
     bool isPadHoldA(int port);
     bool isPadHoldB(int port);
     bool isPadHoldX(int port);
     bool isPadHoldY(int port);
-
-    bool isPadHoldL(int port);
-    bool isPadHoldR(int port);
-
+    bool isPadHoldPressLeftStick(int port);
+    bool isPadHoldPressRightStick(int port);
     bool isPadHoldZL(int port);
     bool isPadHoldZR(int port);
-    bool isPadReleaseLeftLeftStick(int port);
+    bool isPadHoldL(int port);
+    bool isPadHoldR(int port);
+    bool isPadHoldPlus(int port);
+    bool isPadHoldMinus(int port);
+    bool isPadHoldDown(int port);
+    bool isPadHoldUp(int port);
+    bool isPadHoldLeft(int port);
+    bool isPadHoldRight(int port);
+    bool isPadReleaseA(int port);
+    bool isPadReleaseB(int port);
+    bool isPadReleaseX(int port);
+    bool isPadReleaseY(int port);
+    bool isPadReleasePressLeftStick(int port);
+    bool isPadReleasePressRightStick(int port);
+    bool isPadReleaseZL(int port);
+    bool isPadReleaseZR(int port);
+    bool isPadReleaseL(int port);
+    bool isPadReleaseR(int port);
+    bool isPadReleasePlus(int port);
+    bool isPadReleaseMinus(int port);
+    bool isPadReleaseDown(int port);
+    bool isPadReleaseUp(int port);
+    bool isPadReleaseLeft(int port);
+    bool isPadReleaseRight(int port);
+    #endif
+    #if(SMOVER==130)
+    EFUN(0x005D0200, bool, isPadTriggerDown, EFUN_ARGS(int port));
+    EFUN(0x005D0150, bool, isPadTriggerUp, EFUN_ARGS(int port));
+    EFUN(0x005D02B0, bool, isPadTriggerLeft, EFUN_ARGS(int port));
+    EFUN(0x005D0360, bool, isPadTriggerRight, EFUN_ARGS(int port));
+    EFUN(0x005CFBD0, bool, isPadTriggerA, EFUN_ARGS(int port));
+    EFUN(0x005D0fD0, bool, isPadHoldL, EFUN_ARGS(int port));
+    #endif
 
     sead::Vector2f *getLeftStick(int);
     sead::Vector2f *getRightStick(int);
 
     // getters
     
+    #if(SMOVER==100)
     sead::Vector3f *getTrans(al::LiveActor const *);
+    #endif
+    #if(SMOVER==130)
+    EFUN(0x0066D810, sead::Vector3f*, getTrans, EFUN_ARGS(const al::LiveActor*));
+    #endif
 
     sead::Vector3f *getTransPtr(al::LiveActor *);
 
@@ -123,7 +147,12 @@ namespace al
 
     PlayerActorHakoniwa *tryGetPlayerActor(al::PlayerHolder const *, int);
 
+    #if(SMOVER==100)
     sead::Heap *getCurrentHeap(void);
+    #endif
+    #if(SMOVER==130)
+    EFUN(0x006A4550, sead::Heap*, getCurrentHeap, EFUN_ARGS(void));
+    #endif
 
     al::Projection *getProjection(al::IUseCamera const *, int);
 
@@ -131,9 +160,14 @@ namespace al
 
     al::LiveActor *getSubActor(al::LiveActor const *, int);
 
+    #if(SMOVER==100)
     sead::Vector3f *getVelocity(al::LiveActor const *);
-
     sead::Quatf *getQuat(al::LiveActor const *);
+    #endif
+    #if(SMOVER==130)
+    EFUN(0x006652C0, sead::Vector3f*, getVelocity, EFUN_ARGS(const al::LiveActor*));
+    EFUN(0x0066DFC0, sead::Quatf*, getQuat, EFUN_ARGS(const al::LiveActor*));
+    #endif
 
     int getPlayerControllerPort(int);
 
@@ -145,10 +179,10 @@ namespace al
 
     void setTransY(al::LiveActor *, float);
 
-    #if(S2VER==100)
+    #if(SMOVER==100)
     void setTrans(al::LiveActor *, sead::Vector3f const &);
     #endif
-    #if(S2VER==130)
+    #if(SMOVER==130)
     EFUN(0x0066D6D0, void, setTrans, EFUN_ARGS(const al::LiveActor* actor, const sead::Vector3f& trans));
     #endif
 
@@ -160,10 +194,14 @@ namespace al
 
     void setQuat(al::LiveActor *, const sead::Quatf &);
 
-    void updatePoseQuat(al::LiveActor*, const sead::Quatf&);
-
-    void setVelocityZero(al::LiveActor *);
-
+    #if(SMOVER==100)
+    void updatePoseQuat(al::LiveActor*, const sead::Quatf&); // 0x0066d880
+    void setVelocityZero(al::LiveActor *); // 0x006654b0
+    #endif
+    #if(SMOVER==130)
+    EFUN(0x0066D880, void, updatePoseQuat, EFUN_ARGS(al::LiveActor*, const sead::Quatf&));
+    EFUN(0x006654B0, void, setVelocityZero, EFUN_ARGS(al::LiveActor*));
+    #endif
     void setEffectParticleScale(al::IUseEffectKeeper *actor, char const *effectName, float scale);
 
     // layout stuff
@@ -172,7 +210,12 @@ namespace al
 
     //void setPaneString(al::IUseLayout *layout, char const *paneName, char16_t const *, ushort);
 
+    #if(SMOVER==100)
     void setPaneStringFormat(al::IUseLayout *layout, char const *paneName, char const *format,...);
+    #endif
+    #if(SMOVER==130)
+    EFUN(0x006315D0, void, setPaneStringFormat, EFUN_ARGS(al::IUseLayout* layout, const char* paneName, const char* format, ...));
+    #endif
 
     void setPaneLocalTrans(al::IUseLayout *layout, const char *paneName, sead::Vector3f const &);
     void setPaneLocalTrans(al::IUseLayout *layout, const char *paneName, sead::Vector2f const &);
@@ -187,11 +230,16 @@ namespace al
 
     bool killLayoutIfActive(al::LayoutActor *);
 
-    void hidePane(al::IUseLayout *lyt, const char *paneName);
-
     bool isHidePane(al::IUseLayout const *lyt, const char *paneName);
 
+    #if(SMOVER==100)
     void showPane(al::IUseLayout *lyt, const char *paneName);
+    void hidePane(al::IUseLayout *lyt, const char *paneName);
+    #endif
+    #if(SMOVER==130)
+    EFUN(0x00631070, void, showPane, EFUN_ARGS(al::IUseLayout* layout, const char* paneName));
+    EFUN(0x006310C0, void, hidePane, EFUN_ARGS(al::IUseLayout* layout, const char* paneName));
+    #endif
 
     // camera stuff
 
@@ -199,11 +247,16 @@ namespace al
 
     // calc functions
 
+    #if(SMOVER==100)
     f32 calcSpeed(al::LiveActor const *);
-
     f32 calcSpeedH(al::LiveActor const *);
-    
     f32 calcSpeedV(al::LiveActor const *);
+    #endif
+    #if(SMOVER==130)
+    EFUN(0x00666DA0, float, calcSpeed, EFUN_ARGS(const al::LiveActor*));
+    EFUN(0x00668700, float, calcSpeedH, EFUN_ARGS(const al::LiveActor*));
+    EFUN(0x00668790, float, calcSpeedV, EFUN_ARGS(const al::LiveActor*));
+    #endif
 
     f32 calcDistance(al::LiveActor const *, al::LiveActor const*); // calculates distance between two actors
 
@@ -316,8 +369,14 @@ namespace al
 
     void tryGetAreaObjStringArg(const char **, al::AreaObj const *, const char *);
 
-    void offCollide(al::LiveActor *);
-    void onCollide(al::LiveActor *);
+    #if(SMOVER==100)
+    void offCollide(al::LiveActor *); // 0x0065d650
+    void onCollide(al::LiveActor *); // 0x0065d630
+    #endif
+    #if(SMOVER==130)
+    EFUN(0x0065D650, void, offCollide, EFUN_ARGS(al::LiveActor*));
+    EFUN(0x0065D630, void, onCollide, EFUN_ARGS(al::LiveActor*));
+    #endif
 
     void startAction(al::LiveActor *, char const *);
 

@@ -6,3 +6,4 @@
 00000000:000000710057D9A0       _ZN2al11AudioSystem6updateEv
 00000000:00000071004E2730       _ZN10GameSystem8movementEv
 00000000:00000071008038AC       _ZN2al26ApplicationMessageReceiver6updateEv
+00000000:000000710021C040       _ZN15ChangeStageInfoC2EPK14GameDataHolderPKcS4_biNS_15SubScenarioTypeE
