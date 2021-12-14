@@ -21,6 +21,7 @@ private:
     sead::Quatf reloadStageQuat;
     StageScene* stageScene;
     bool inputEnabled = true;
+    bool hideShineCounter = false;
 
     char textBuffer[4096];
     u32 printPos;

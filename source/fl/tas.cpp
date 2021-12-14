@@ -9,6 +9,11 @@ void fl::TasHolder::update()
 
 void fl::TasHolder::start(TasFrame* script, size_t scriptLen)
 {
+    if (isRunning)
+    {
+        free(script);
+        return;
+    }
     frames = script;
     frameCount = scriptLen;
     curFrame = 0;

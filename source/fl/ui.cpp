@@ -1,20 +1,8 @@
-#include "al/LiveActor/LiveActor.h"
-#include "al/PlayerHolder/PlayerHolder.h"
-#include "al/util.hpp"
-#include "fl/input.h"
-#include "fl/tas.h"
 #include "game/GameData/GameDataFunction.h"
-#include "game/Player/PlayerActorHakoniwa.h"
-#include "game/Player/PlayerDamageKeeper.h"
 #include "rs/util.hpp"
-#include "sead/math/seadVector.h"
-#include "str.h"
 
 #include <fl/ui.h>
 #include <fl/util.h>
-
-#include <nn/init.h>
-#include <mem.h>
 
 #include <fl/server.h>
 
@@ -29,7 +17,7 @@ const char* stageNames[] = {"CapWorldHomeStage", "WaterfallWorldHomeStage", "San
 #endif
 
 
-#define NUM_PAGES 8
+#define NUM_PAGES 7
 #define NUM_STAGES 200
 
 #if(SMOVER==100)
@@ -104,6 +92,11 @@ void fl::PracticeUI::update(StageScene& stageScene)
         }
     }
 
+    if (hideShineCounter)
+        al::hidePane(stageScene.stageSceneLayout->shineCounter, "TxtShine");
+    else
+        al::showPane(stageScene.stageSceneLayout->shineCounter, "TxtShine");
+
     #if(SMOVER==130)
     if (showMenu) menu();
     else al::setPaneStringFormat(stageScene.stageSceneLayout->coinCounter, "TxtDebug", " ");
@@ -148,7 +141,8 @@ void fl::PracticeUI::menu()
                 else if (curPage == Stage) curPage = Misc;
                 else if (curPage == Misc) curPage = Info;
                 else if (curPage == Info) curPage = MoonInfo;
-                else if (curPage == MoonInfo) curPage = Debug;;
+                else if (curPage == MoonInfo) curPage = Debug;
+                else if (curPage == Debug) curPage = About;
             }
             if (al::isPadTriggerLeft(CONTROLLER_AUTO))
             {
@@ -158,6 +152,7 @@ void fl::PracticeUI::menu()
                 else if (curPage == Info) curPage = Misc;
                 else if (curPage == MoonInfo) curPage = Info;
                 else if (curPage == Debug) curPage = MoonInfo;
+                else if (curPage == About) curPage = Debug;
             }
         }
 
@@ -215,8 +210,8 @@ void fl::PracticeUI::menu()
                         currentScenario = currentScenario == -1 ? 1 : currentScenario + 1;
                     if (al::isPadTriggerLeft(CONTROLLER_AUTO))
                     {
-                        currentScenario--;
-                        if (currentScenario == 0) currentScenario = 15; 
+                        if (currentScenario == -1) currentScenario = 15;
+                        else currentScenario--;
                     }
                 }
 
@@ -312,13 +307,7 @@ void fl::PracticeUI::menu()
                 CURSOR(0);
                 CHANGE_PAGE();
 
-                static bool hideShineCounter = false;
                 TOGGLE("Hide Original Moon Counter: %s\n", hideShineCounter, 1);
-
-                if (hideShineCounter)
-                    al::hidePane(stageScene->stageSceneLayout->shineCounter, "TxtShine");
-                else
-                    al::showPane(stageScene->stageSceneLayout->shineCounter, "TxtShine");
 
                 #if(SMOVER==100)
                 s32 currShine = GameDataFunction::getCurrentShineNum(*stageScene->mHolder);
@@ -338,10 +327,9 @@ void fl::PracticeUI::menu()
                 CHANGE_PAGE();
 
                 #if(SMOVER==100)
-                printf("Calculated: %p\nReal: %p\n", (((u64) free) - 0x00724BEC) + 0x008EE364, al::setTrans);
-                printf("Current Stage: %s\n", stageScene->mHolder->getCurrentStageName());
                 printf("Current Scenario: %d\n", GameDataFunction::getWorldScenarioNo(*stageScene->mHolder, GameDataFunction::getCurrentWorldId(*stageScene->mHolder)));
                 printf("Current World ID: %d\n", GameDataFunction::getCurrentWorldId(*stageScene->mHolder));
+                printf("Current Stage Name: %s\n", GameDataFunction::getCurrentStageName(*stageScene->mHolder));
                 printf("Language: %s\n", stageScene->mHolder->getLanguage());
                 #endif
                 break;
