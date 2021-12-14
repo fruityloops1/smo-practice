@@ -76,5 +76,13 @@
         _Z18fisPadReleaseRighti;
         _Z17fisPadReleaseDowni;
         _Z17fisPadReleaseLefti;
+
+    
+        _Z26fisModeDiverOrJungleGymRomv;
+        _Z15fisModeDiverRomv;
+        _Z16fisModeE3LiveRomv;
+        _Z17fisModeE3MovieRomv;
+        _Z18fisModeEpdMovieRomv;
+        _Z19fisModeJungleGymRomv;
     local: *;
 };

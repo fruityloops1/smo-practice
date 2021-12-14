@@ -75,3 +75,33 @@ bool isTriggerAmiiboModeVar(const al::IUseSceneObjHolder* objHolder)
 {
     return showMenu ? false : rs::isTriggerAmiiboMode(objHolder);
 }
+
+bool fisModeDiverOrJungleGymRom()
+{
+    return fl::PracticeUI::instance().isModeDiverOrJungleGymRom;
+}
+
+bool fisModeDiverRom()
+{
+    return fl::PracticeUI::instance().isModeDiverRom;
+}
+
+bool fisModeJungleGymRom()
+{
+    return fl::PracticeUI::instance().isModeJungleGymRom;
+}
+
+bool fisModeE3LiveRom()
+{
+    return fl::PracticeUI::instance().isModeE3LiveRom;
+}
+
+bool fisModeE3MovieRom()
+{
+    return fl::PracticeUI::instance().isModeE3MovieRom;
+}
+
+bool fisModeEpdMovieRom()
+{
+    return fl::PracticeUI::instance().isModeEpdMovieRom;
+}

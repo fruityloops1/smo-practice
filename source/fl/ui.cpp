@@ -1,9 +1,10 @@
+#include "al/util.hpp"
 #include "game/GameData/GameDataFunction.h"
 #include "rs/util.hpp"
 
+#include <fl/common.h>
 #include <fl/ui.h>
 #include <fl/util.h>
-
 #include <fl/server.h>
 
 const char* stageNames[] = {"CapWorldHomeStage", "WaterfallWorldHomeStage", "SandWorldHomeStage", "LakeWorldHomeStage", "ForestWorldHomeStage", "CloudWorldHomeStage", "ClashWorldHomeStage", "CityWorldHomeStage",
@@ -17,7 +18,7 @@ const char* stageNames[] = {"CapWorldHomeStage", "WaterfallWorldHomeStage", "San
 #endif
 
 
-#define NUM_PAGES 7
+#define NUM_PAGES 8
 #define NUM_STAGES 200
 
 #if(SMOVER==100)
@@ -78,7 +79,14 @@ void fl::PracticeUI::update(StageScene& stageScene)
     #endif
 
     if (holdL && al::isPadTriggerRight(CONTROLLER_AUTO)) {inputEnabled = !inputEnabled; return;}
-    else if (holdL && al::isPadTriggerLeft(CONTROLLER_AUTO)) showMenu = !showMenu;
+    else if
+    #if(SMOVER==130)
+    (holdL && al::isPadTriggerLeft(CONTROLLER_AUTO))
+    #endif
+    #if(SMOVER==100)
+    (al::isPadTriggerPressLeftStick(CONTROLLER_AUTO))
+    #endif
+    showMenu = !showMenu;
 
     if (!showMenu)
     {
@@ -119,7 +127,7 @@ void fl::PracticeUI::menu()
     {
         enum Page : u8
         {
-            About, Options, Stage, Misc, Info, MoonInfo, Debug
+            About, Options, Stage, Misc, Info, MoonInfo, Modes, Debug
         };
         static Page curPage = About;
         static u8 curLine = 0;
@@ -141,7 +149,8 @@ void fl::PracticeUI::menu()
                 else if (curPage == Stage) curPage = Misc;
                 else if (curPage == Misc) curPage = Info;
                 else if (curPage == Info) curPage = MoonInfo;
-                else if (curPage == MoonInfo) curPage = Debug;
+                else if (curPage == MoonInfo) curPage = Modes;
+                else if (curPage == Modes) curPage = Debug;
                 else if (curPage == Debug) curPage = About;
             }
             if (al::isPadTriggerLeft(CONTROLLER_AUTO))
@@ -151,7 +160,8 @@ void fl::PracticeUI::menu()
                 else if (curPage == Misc) curPage = Stage;
                 else if (curPage == Info) curPage = Misc;
                 else if (curPage == MoonInfo) curPage = Info;
-                else if (curPage == Debug) curPage = MoonInfo;
+                else if (curPage == Modes) curPage = MoonInfo;
+                else if (curPage == Debug) curPage = Modes;
                 else if (curPage == About) curPage = Debug;
             }
         }
@@ -319,6 +329,21 @@ void fl::PracticeUI::menu()
                 #endif
                 break;
             }
+            case Modes:
+            {
+                printf("Modes\n");
+                MAX_LINE(6);
+                CURSOR(0);
+                CHANGE_PAGE();
+
+                TOGGLE("isModeDiverOrJungleGymRom: %s\n", isModeDiverOrJungleGymRom, 1);
+                TOGGLE("isModeDiverRom: %s\n", isModeDiverRom, 2);
+                TOGGLE("isModeJungleGymRom: %s\n", isModeJungleGymRom, 3);
+                TOGGLE("isModeE3LiveRom: %s\n", isModeE3LiveRom, 4);
+                TOGGLE("isModeE3MovieRom: %s\n", isModeE3MovieRom, 5);
+                TOGGLE("isModeEpdMovieRom: %s\n", isModeEpdMovieRom, 6);
+                break;
+            };
             case Debug:
             {
                 printf("Debug\n");
@@ -331,6 +356,8 @@ void fl::PracticeUI::menu()
                 printf("Current World ID: %d\n", GameDataFunction::getCurrentWorldId(*stageScene->mHolder));
                 printf("Current Stage Name: %s\n", GameDataFunction::getCurrentStageName(*stageScene->mHolder));
                 printf("Language: %s\n", stageScene->mHolder->getLanguage());
+                printf("\n");
+                printf("Practice Mod Version: %s\n", PRACTICE_VERSTR);
                 #endif
                 break;
             }
