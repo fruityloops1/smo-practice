@@ -12,6 +12,7 @@ public:
     #endif
     #if(SMOVER==130)
     VVCEFUN(PlayerDamageKeeper, 0x003E2850, dead);
-    VVCEFUN(PlayerDamageKeeper, 0x003E28b0, activatePreventDamage); // fix
+    VVCEFUN(PlayerDamageKeeper, 0x003E28B0, activatePreventDamage);
+    VCEFUN(PlayerDamageKeeper, 0x003E25B0, damage, EFUN_ARGS(int amount), EFUN_ARGS(amount));
     #endif
 };

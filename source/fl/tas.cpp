@@ -1,4 +1,5 @@
 #include <fl/tas.h>
+#include <mem.h>
 
 void fl::TasHolder::update()
 {
@@ -7,24 +8,19 @@ void fl::TasHolder::update()
     curFrame++;
 }
 
-void fl::TasHolder::start(TasFrame* script, size_t scriptLen)
+void fl::TasHolder::start()
 {
-    if (isRunning)
-    {
-        free(script);
-        return;
-    }
-    frames = script;
-    frameCount = scriptLen;
-    curFrame = 0;
     isRunning = true;
 }
 
 void fl::TasHolder::stop()
 {
-    if (frames) free(frames);
-    frames = nullptr;
     curFrame = 0;
     isRunning = false;
-    frameCount = 0;
+}
+
+void fl::TasHolder::setScriptName(char* name)
+{
+    if (scriptName) dealloc(scriptName);
+    scriptName = name;
 }

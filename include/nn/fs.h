@@ -84,8 +84,9 @@ Result CreateDirectory(char const* path);
 Result DeleteDirectory(const char* path);
 Result DeleteDirectoryRecursively(const char* path);
 Result RenameDirectory(const char* path, const char* newPath);
+Result MountRom(char const* path, void*, unsigned long);
+static auto MountSdCard = (Result (*) (const char*)) (((u64) MountRom) + 0x3EA8);
 
-Result MountSdCard(const char* mountPoint);
 void Unmount(const char* mountPoint);
 
 } }

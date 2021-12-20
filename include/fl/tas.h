@@ -24,8 +24,13 @@ namespace fl
         u64 curFrame = 0;
         u64 frameCount = 0;
 
+        bool oldMotion = false;
+
+        char* scriptName = nullptr;
+
         void update();
-        void start(TasFrame* script, size_t scriptLen);
+        void start();
         void stop();
+        void setScriptName(char* name);
     };
 }

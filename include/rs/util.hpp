@@ -17,9 +17,13 @@ namespace rs
 
     #if (SMOVER==100)
     PlayerActorHakoniwa* getPlayerActor(const al::Scene *);
+    bool isTriggerSnapShotMode(al::IUseSceneObjHolder const*);
+    bool isTriggerAmiiboMode(al::IUseSceneObjHolder const*);
     #endif
     #if (SMOVER==130)
     EFUN(0x00479670, PlayerActorHakoniwa*, getPlayerActor, EFUN_ARGS(const al::Scene*));
+    EFUN(0x0051ED30, bool, isTriggerSnapShotMode, EFUN_ARGS(const al::IUseSceneObjHolder*));
+    EFUN(0x0051EDB0, bool, isTriggerAmiiboMode, EFUN_ARGS(const al::IUseSceneObjHolder*));
     #endif
 
     bool isInChangeStageArea(al::LiveActor const*, sead::Vector3f const *);
@@ -34,8 +38,5 @@ namespace rs
     int getActiveQuestNo(al::IUseSceneObjHolder const *);
     const char *getActiveQuestLabel(al::IUseSceneObjHolder const *);
     void requestShowHtmlViewer(al::IUseSceneObjHolder const *);
-
-    bool isTriggerSnapShotMode(al::IUseSceneObjHolder const*);
-    bool isTriggerAmiiboMode(al::IUseSceneObjHolder const*);
 
 }

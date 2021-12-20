@@ -147,8 +147,11 @@ namespace al
 
     PlayerActorHakoniwa *tryGetPlayerActor(al::PlayerHolder const *, int);
 
+    int getMainControllerPort();
+    int getPadAccelerationDeviceNum(int);
+
     #if(SMOVER==100)
-    sead::Heap *getCurrentHeap(void);
+    sead::Heap* getCurrentHeap(void);
     #endif
     #if(SMOVER==130)
     EFUN(0x006A4550, sead::Heap*, getCurrentHeap, EFUN_ARGS(void));

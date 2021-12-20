@@ -17,7 +17,12 @@ class StageScene : public al::Scene
         virtual void control();
         virtual void drawMain();
 
+        #if SMOVER==100
         bool isEnableSave(void) const;
+        #endif
+        #if SMOVER==130
+        CVEFUN(StageScene, 0x004731A0, bool, isEnableSave);
+        #endif
         #if(SMOVER==100)
         spad(inherit, 0x2D0 - sizeof(al::Scene));
         GameDataHolderAccessor* mHolder; // 0x2D0

@@ -4,3 +4,43 @@ StageScene::control+18:
 
 001E7770: // some stupid crash fix
     ret
+
+// disable snapshot mode if needed
+004f7f60:
+    b isTriggerSnapShotModeVar
+0049c440:
+    bl isTriggerSnapShotModeVar
+
+// disable amiibo if needed
+00002DA0:
+    bl isTriggerAmiiboModeVar
+
+// moon refresh
+001B63E8:
+    bl setGotShineVar
+001B62D4:
+    bl setGotShineVar
+001B51B0:
+    bl setGotShineVar
+001B4F04:
+    bl setGotShineVar
+001B3E08:
+    bl setGotShineVar
+
+// gray moon refresh
+001B256C:
+    bl isGotShineVar
+0026D834:
+    bl isGotShineVar
+
+// toggle warps
+001D1584:
+    bl isEnableCheckpointWarpVar
+
+// toggle autosave
+004742D0:
+    bl isEnableSaveVar
+004B1C78:
+    bl isEnableSaveVar
+004B4FA4:
+    bl isEnableSaveVar

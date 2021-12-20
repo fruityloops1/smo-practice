@@ -308,10 +308,7 @@ StageScene::control+18:
     bl fisPadTriggerL
 0045007c:
     bl fisPadTriggerL
-0045059c:
-    bl fisPadTriggerL
-00450610:
-    bl fisPadTriggerL
+
 00573454:
     bl fisPadTriggerL
 0057607c:
@@ -587,3 +584,34 @@ StageScene::control+18:
     bl fisPadHoldLeft
 009a38dc:
     bl fisPadHoldLeft
+
+// Motion
+
+// Camera Center off while TAS is running
+0045059c:
+    bl fisPadTriggerLMotion
+00450610:
+    bl fisPadTriggerLMotion
+
+// update
+0044ae5c:
+    bl motionUpdate
+0044ae64:
+    bl motionUpdate
+
+0044e7b0:
+    bl fgetPadAccelerationDeviceNum
+00865728:
+    bl fgetPadAccelerationDeviceNum
+008657a8:
+    bl fgetPadAccelerationDeviceNum
+00865848:
+    bl fgetPadAccelerationDeviceNum
+008658e8:
+    bl fgetPadAccelerationDeviceNum
+00865a20:
+    bl fgetPadAccelerationDeviceNum
+00865aa0:
+    bl fgetPadAccelerationDeviceNum
+00865b1c:
+    bl fgetPadAccelerationDeviceNum

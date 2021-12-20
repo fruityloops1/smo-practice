@@ -23,6 +23,7 @@ private:
 
     bool inputEnabled = true;
     bool hideShineCounter = false;
+    bool nextFrameNoLeftInput = false;
 
     #if(SMOVER==130)
     char textBuffer[4096];
@@ -40,6 +41,8 @@ public:
     #if(SMOVER==130)
     void menu();
     #endif
+
+    inline StageScene* getStageScene() {return stageScene;}
 
     bool shineRefresh = false;
     bool gotShineRefresh = false;

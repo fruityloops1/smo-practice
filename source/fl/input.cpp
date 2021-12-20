@@ -1,6 +1,9 @@
+#include "sead/math/seadVector.h"
 #include <al/util.hpp>
 #include <fl/tas.h>
 #include <fl/input.h>
+
+#if(SMOVER==100)
 
 #define PADTRIGGER(BUTTON, PNAME) bool fisPadTrigger##BUTTON(int port) {\
                                fl::TasHolder& h = fl::TasHolder::instance();\
@@ -13,13 +16,13 @@
                             fl::TasHolder& h = fl::TasHolder::instance();\
                             if (h.isRunning) {\
                                 if (h.curFrame == 0) return false;\
-                                return h.frames[h.curFrame - 1].PNAME && h.frames[h.curFrame].PNAME;\
+                                return h.frames[h.curFrame].PNAME;\
                             } else return al::isPadHold##BUTTON(port);}
 
 #define PADRELEASE(BUTTON, PNAME) bool fisPadRelease##BUTTON(int port) {\
                                fl::TasHolder& h = fl::TasHolder::instance();\
                                if (h.isRunning) {\
-                                   if (h.curFrame == 0) return false;\
+                                   if (h.curFrame <= 1) return false;\
                                    return h.frames[h.curFrame - 1].PNAME && !h.frames[h.curFrame].PNAME;\
                                } else return al::isPadRelease##BUTTON(port);}
 
@@ -84,3 +87,5 @@ PADRELEASE(Up, dUp);
 PADRELEASE(Right, dRight);
 PADRELEASE(Down, dDown);
 PADRELEASE(Left, dLeft);
+
+#endif

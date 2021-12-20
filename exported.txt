@@ -84,5 +84,9 @@
         _Z17fisModeE3MovieRomv;
         _Z18fisModeEpdMovieRomv;
         _Z19fisModeJungleGymRomv;
+
+        _Z20fisPadTriggerLMotioni;
+        _Z28fgetPadAccelerationDeviceNumi;
+        _Z12motionUpdatePN2al23JoyPadAccelPoseAnalyzerE;
     local: *;
 };

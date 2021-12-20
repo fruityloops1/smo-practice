@@ -14,9 +14,9 @@ public:
     {
         u32 type;
     };
+    #if(SMOVER==100)
     ChangeStageInfo(const GameDataHolder*, const al::PlacementInfo&);
     ChangeStageInfo(const GameDataHolder*, const al::PlacementInfo&, const char* entranceName, const char* stageName, bool, int scenario, ChangeStageInfo::SubScenarioType);
-    #if(SMOVER==100)
     ChangeStageInfo(const GameDataHolder*, const char* entranceName, const char* stageName, bool, int scenario, ChangeStageInfo::SubScenarioType);
     #endif
     #if(SMOVER==130)
