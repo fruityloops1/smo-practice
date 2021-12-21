@@ -1,15 +1,11 @@
-#include "al/util.hpp"
-#include "fl/tas.h"
+#include "al/LiveActor/LiveActor.h"
 #include "game/GameData/GameDataFunction.h"
-#include "nn/fs.h"
-#include "nn/result.h"
 #include "rs/util.hpp"
-#include "sead/math/seadVector.h"
 
 #include <fl/common.h>
+#include <fl/tas.h>
 #include <fl/ui.h>
 #include <fl/util.h>
-#include <fl/server.h>
 #include <str.h>
 
 const char* stageNames[] = {"CapWorldHomeStage", "WaterfallWorldHomeStage", "SandWorldHomeStage", "LakeWorldHomeStage", "ForestWorldHomeStage", "CloudWorldHomeStage", "ClashWorldHomeStage", "CityWorldHomeStage",
@@ -43,7 +39,7 @@ const char* stageNames[] = {"CapWorldHomeStage", "WaterfallWorldHomeStage", "San
 
 #define TRIGGER(NAME, LINE, ACTION) CURSOR(LINE);\
                               printf(NAME);\
-                              if (inputEnabled && curLine == LINE && al::isPadTriggerRight(CONTROLLER_AUTO)) ACTION;
+                              if (inputEnabled && curLine == LINE && al::isPadTriggerRight(CONTROLLER_AUTO)) {ACTION;}
 
 void fl::PracticeUI::savePosition(PlayerActorHakoniwa& player)
 {
@@ -187,7 +183,7 @@ void fl::PracticeUI::menu()
                 CHANGE_PAGE();
                 printf("Welcome to the Practice Mod!\n");
                 printf("Made by Fruityloops#8500 and contributors\n");
-                printf("Big thanks to CraftyBoss, bryce_____, and Mars2030!\n");
+                printf("Big thanks to CraftyBoss, bryce_____ and Mars2030!\n");
                 break;
             }
             case Options:
@@ -210,9 +206,16 @@ void fl::PracticeUI::menu()
                 static s8 currentScenario = -1;
 
                 printf("Stages\n");
+                #if SMOVER==100
                 MAX_LINE(3);
+                #endif
+                #if SMOVER==130
+                MAX_LINE(0);
+                #endif
                 CURSOR(0);
                 CHANGE_PAGE();
+
+                #if SMOVER==100
                 CURSOR(1);
 
                 if (inputEnabled && curLine == 1)
@@ -250,12 +253,22 @@ void fl::PracticeUI::menu()
                     stageScene->mHolder->changeNextStage(&info, 0);
                     curLine = 0;
                 });
+                #endif
+
+                #if SMOVER==130
+                printf(MSG_NO130);
+                #endif
                 break;
             }
             case Misc:
             {
                 printf("Miscellaneous\n");
+                #if SMOVER==100
+                MAX_LINE(8);
+                #endif
+                #if SMOVER==130
                 MAX_LINE(7);
+                #endif
                 CURSOR(0);
                 CHANGE_PAGE();
 
@@ -265,18 +278,47 @@ void fl::PracticeUI::menu()
                 });
                 TRIGGER("Damage Mario\n", 2, player->mDamageKeeper->damage(1));
                 TRIGGER("Life Up Heart\n", 3, {
-                    #if(SMOVER==100)
-                    stageScene->mHolder->mGameDataFile->getPlayerHitPointData()->getMaxUpItem();
-                    #endif
+                    GameDataFunction::getLifeMaxUpItem(player);
                 });
                 TRIGGER("Heal Mario\n", 4, {
-                    #if(SMOVER==100)
-                    stageScene->mHolder->mGameDataFile->getPlayerHitPointData()->recover();
-                    #endif
+                    GameDataFunction::recoveryPlayer(player);
                 });
                 TRIGGER("Remove Cappy\n", 5, GameDataFunction::disableCapByPlacement(player->mHackCap));
                 TRIGGER("Invincibility Star\n", 6, player->mDamageKeeper->activatePreventDamage());
-                TRIGGER("Reload Stage\n", 7, {
+                
+                static u8 gravity = 0;
+
+                CURSOR(7);
+
+                const char* gravityString = nullptr;
+
+                if (gravity == 0) gravityString = "Down";
+                else if (gravity == 1) gravityString = "Up";
+                else if (gravity == 2) gravityString = "North";
+                else if (gravity == 3) gravityString = "South";
+                else if (gravity == 4) gravityString = "East";
+                else if (gravity == 5) gravityString = "West";
+                
+                bool gravityChanged = false;
+
+                printf("Gravity: %s\n", gravityString);
+                if (curLine == 7 && inputEnabled && !nextFrameNoLeftInput && al::isPadTriggerLeft(CONTROLLER_AUTO)) {gravity--; gravityChanged = true;}
+                else if (curLine == 7 && inputEnabled && al::isPadTriggerRight(CONTROLLER_AUTO)) {gravity++; gravityChanged = true;}
+                if (gravity == 255) gravity = 5;
+                else if (gravity > 5) gravity = 0;
+
+                if (gravityChanged)
+                {
+                    if (gravity == 0) al::setGravity(player, {0, -1, 0});
+                    else if (gravity == 1) al::setGravity(player, {0, 1, 0});
+                    else if (gravity == 2) al::setGravity(player, {1, 0, 0});
+                    else if (gravity == 3) al::setGravity(player, {-1, 0, 0});
+                    else if (gravity == 4) al::setGravity(player, {0, 0, 1});
+                    else if (gravity == 5) al::setGravity(player, {0, 0, -1});
+                }
+
+                #if SMOVER==100
+                TRIGGER("Reload Stage\n", 8, {
                     #if(SMOVER==100)
                     reloadStageForPos = 0;
                     reloadStagePos = *al::getTrans(player);
@@ -285,6 +327,7 @@ void fl::PracticeUI::menu()
                     stageScene->mHolder->changeNextStage(&info, 0);
                     #endif
                 });
+                #endif
 
                 break;
             }
@@ -335,10 +378,20 @@ void fl::PracticeUI::menu()
             case Tas:
             {
                 printf("TAS\n");
+                #if SMOVER==100
                 MAX_LINE(3);
+                #endif
+                #if SMOVER==130
+                MAX_LINE(0);
+                #endif
                 CURSOR(0);
                 CHANGE_PAGE();
 
+                #if SMOVER==130
+                printf(MSG_NO130);
+                #endif
+
+                #if SMOVER==100
                 TRIGGER("Connect to server\n", 1, {
                     //smo::Server::instance().connect("someip", 7901);
                 });
@@ -355,11 +408,11 @@ void fl::PracticeUI::menu()
                 printf("\n");
 
                 if (h.scriptName)
-                    printf("Script: %s (%d frames)\n", h.scriptName, h.frameCount);
+                    printf("Script: %s (%lu frames)\n", h.scriptName, h.frameCount);
 
                 if (h.isRunning)
                 {
-                    printf("TAS Running %d/%d\n", h.curFrame, h.frameCount);
+                    printf("TAS Running %lu/%lu\n", h.curFrame, h.frameCount);
                     sead::Vector2f& left = h.frames[h.curFrame].leftStick;
                     sead::Vector2f& right = h.frames[h.curFrame].rightStick;
                     printf("Left Stick: (X: %.5f Y: %.5f)\n", left.x, left.y);
@@ -369,6 +422,7 @@ void fl::PracticeUI::menu()
                     printf("%s %s %s %s %s %s %s %s\n", f.A ? "A" : " ", f.B ? "B" : " ", f.X ? "X" : " ", f.Y ? "Y" : " ", f.L ? "L" : " ", f.R ? "R" : " ", f.ZL ? "ZL" : "  ", f.ZR ? "ZR" : "  ");
                     printf("%s %s %s %s %s %s %s %s\n", f.plus ? "+" : " ", f.minus ? "-" : " ", f.pressLeftStick ? "LS" : "  ", f.pressRightStick ? "RS" : "  ", f.dUp ? "DUP" : "   ", f.dRight ? "DRIGHT" : "      ", f.dDown ? "DDOWN" : "     ", f.dLeft ? "DLEFT" : "     ");
                 }
+                #endif
                 break;
             }
             case MoonInfo:
@@ -393,16 +447,27 @@ void fl::PracticeUI::menu()
             case Modes:
             {
                 printf("Modes\n");
+                #if SMOVER==100
                 MAX_LINE(6);
+                #endif
+                #if SMOVER==130
+                MAX_LINE(0);
+                #endif
                 CURSOR(0);
                 CHANGE_PAGE();
 
+                #if SMOVER==130
+                printf(MSG_NO130);
+                #endif
+
+                #if SMOVER==100
                 TOGGLE("isModeDiverOrJungleGymRom: %s\n", isModeDiverOrJungleGymRom, 1);
                 TOGGLE("isModeDiverRom: %s\n", isModeDiverRom, 2);
                 TOGGLE("isModeJungleGymRom: %s\n", isModeJungleGymRom, 3);
                 TOGGLE("isModeE3LiveRom: %s\n", isModeE3LiveRom, 4);
                 TOGGLE("isModeE3MovieRom: %s\n", isModeE3MovieRom, 5);
                 TOGGLE("isModeEpdMovieRom: %s\n", isModeEpdMovieRom, 6);
+                #endif
                 break;
             };
             case Debug:
