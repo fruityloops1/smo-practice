@@ -73,15 +73,18 @@ public:
     #if(SMOVER==100)
     static void disableCapByPlacement(al::LiveActor const*);
     static void missAndRestartStage(GameDataHolderWriter);
+    static void recoveryPlayer(al::LiveActor* player);
+    static void getLifeMaxUpItem(al::LiveActor* player);
     #endif
     #if(SMOVER==130)
     static WEFUN(0x004D80F0, void, disableCapByPlacement, EFUN_ARGS(al::LiveActor* actor), EFUN_ARGS(actor));
     static WEFUN(0x004D3050, void, missAndRestartStage, EFUN_ARGS(GameDataHolderWriter writer), EFUN_ARGS(writer));
+    static WEFUN(0x004D3990, void, recoveryPlayer, EFUN_ARGS(al::LiveActor* player), EFUN_ARGS(player));
+    static WEFUN(0x004D38A0, void, getLifeMaxUpItem, EFUN_ARGS(al::LiveActor* player), EFUN_ARGS(player));
     #endif
 
     // kills the player
     static void killPlayer(GameDataHolderWriter);
-    static void recoveryPlayer(al::LiveActor* player);
 
     // upgrades the odyssey
     static void upHomeLevel(GameDataHolderWriter);
