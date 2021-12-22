@@ -3,6 +3,7 @@
 #include "rs/util.hpp"
 
 #include <fl/common.h>
+#include <fl/server.h>
 #include <fl/tas.h>
 #include <fl/ui.h>
 #include <fl/util.h>
@@ -278,10 +279,20 @@ void fl::PracticeUI::menu()
                 });
                 TRIGGER("Damage Mario\n", 2, player->mDamageKeeper->damage(1));
                 TRIGGER("Life Up Heart\n", 3, {
+                    #if SMOVER==100
+                    stageScene->mHolder->mGameDataFile->getPlayerHitPointData()->getMaxUpItem();
+                    #endif
+                    #if SMOVER==130
                     GameDataFunction::getLifeMaxUpItem(player);
+                    #endif
                 });
                 TRIGGER("Heal Mario\n", 4, {
+                    #if SMOVER==100
+                    stageScene->mHolder->mGameDataFile->getPlayerHitPointData()->recover();
+                    #endif
+                    #if SMOVER==130
                     GameDataFunction::recoveryPlayer(player);
+                    #endif
                 });
                 TRIGGER("Remove Cappy\n", 5, GameDataFunction::disableCapByPlacement(player->mHackCap));
                 TRIGGER("Invincibility Star\n", 6, player->mDamageKeeper->activatePreventDamage());
