@@ -15,14 +15,14 @@
 #define PADHOLD(BUTTON, PNAME) bool fisPadHold##BUTTON(int port) {\
                             fl::TasHolder& h = fl::TasHolder::instance();\
                             if (h.isRunning) {\
-                                if (h.curFrame == 0) return false;\
+                                if (h.curFrame == 0) return h.frames[0].PNAME;\
                                 return h.frames[h.curFrame].PNAME;\
                             } else return al::isPadHold##BUTTON(port);}
 
 #define PADRELEASE(BUTTON, PNAME) bool fisPadRelease##BUTTON(int port) {\
                                fl::TasHolder& h = fl::TasHolder::instance();\
                                if (h.isRunning) {\
-                                   if (h.curFrame <= 1) return false;\
+                                   if (h.curFrame == 0) return false;\
                                    return h.frames[h.curFrame - 1].PNAME && !h.frames[h.curFrame].PNAME;\
                                } else return al::isPadRelease##BUTTON(port);}
 
