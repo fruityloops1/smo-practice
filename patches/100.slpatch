@@ -603,10 +603,6 @@ StageScene::control+18:
 0044ae64:
     bl motionUpdate
 
-00862f2c:
-    mov w0, #2
-    ret
-
 0044e7b0:
     bl fgetPadAccelerationDeviceNum
 00865728:
