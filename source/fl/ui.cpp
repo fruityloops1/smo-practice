@@ -406,7 +406,7 @@ void fl::PracticeUI::menu()
 
                 #if SMOVER==100
                 TRIGGER("Connect to server\n", 1, {
-                    smo::Server::instance().connect("192.168.188.109", 7901);
+                    //smo::Server::instance().connect("someip", 7901);
                 });
                 TOGGLE("Old Motion Mod: %s\n", fl::TasHolder::instance().oldMotion, 2);
 
