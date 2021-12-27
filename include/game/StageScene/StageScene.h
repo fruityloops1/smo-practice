@@ -19,9 +19,11 @@ class StageScene : public al::Scene
 
         #if SMOVER==100
         bool isEnableSave(void) const;
+        bool isDefeatKoopaLv1() const;
         #endif
         #if SMOVER==130
         CVEFUN(StageScene, 0x004731A0, bool, isEnableSave);
+        CVEFUN(StageScene, 0x00473080, bool, isDefeatKoopaLv1);
         #endif
         #if(SMOVER==100)
         spad(inherit, 0x2D0 - sizeof(al::Scene));

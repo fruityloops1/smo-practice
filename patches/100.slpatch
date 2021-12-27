@@ -60,6 +60,10 @@ StageScene::control+18:
 0050f104:
     bl isEnableSaveVar
 
+// toggle bowser skip
+0050fa10:
+    bl isDefeatKoopaLv1Var
+
 // TAS
 
 // Left Stick
@@ -598,6 +602,10 @@ StageScene::control+18:
     bl motionUpdate
 0044ae64:
     bl motionUpdate
+
+00862f2c:
+    mov w0, #2
+    ret
 
 0044e7b0:
     bl fgetPadAccelerationDeviceNum

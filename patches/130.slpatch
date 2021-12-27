@@ -44,3 +44,7 @@ StageScene::control+18:
     bl isEnableSaveVar
 004B4FA4:
     bl isEnableSaveVar
+
+// toggle bowser skip
+00473080:
+    bl isDefeatKoopaLv1Var

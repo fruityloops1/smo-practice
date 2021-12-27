@@ -48,6 +48,11 @@ bool isEnableSaveVar(StageScene* stageScene)
     return fl::PracticeUI::instance().disableAutoSave ? false : stageScene->isEnableSave();
 }
 
+bool isDefeatKoopaLv1Var(StageScene* stageScene)
+{
+    return fl::PracticeUI::instance().skipBowser ? true : stageScene->isDefeatKoopaLv1();
+}
+
 bool isTriggerSnapShotModeVar(const al::IUseSceneObjHolder* objHolder)
 {
     return showMenu || fl::TasHolder::instance().isRunning ? false : rs::isTriggerSnapShotMode(objHolder);

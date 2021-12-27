@@ -191,7 +191,7 @@ void fl::PracticeUI::menu()
             case Options:
             {
                 printf("Options\n");
-                MAX_LINE(5);
+                MAX_LINE(6);
                 CURSOR(0);
                 CHANGE_PAGE();
                 
@@ -200,6 +200,7 @@ void fl::PracticeUI::menu()
                 TOGGLE("Gray Moon Refresh: %s\n", gotShineRefresh, 3);
                 TOGGLE("Always Enable Warps: %s\n", alwaysWarp, 4);
                 TOGGLE("Disable Autosaving: %s\n", disableAutoSave, 5);
+                TOGGLE("Cloud Kingdom Bowser Skip: %s\n", skipBowser, 6);
                 break;
             }
             case Stage:
@@ -405,7 +406,7 @@ void fl::PracticeUI::menu()
 
                 #if SMOVER==100
                 TRIGGER("Connect to server\n", 1, {
-                    //smo::Server::instance().connect("someip", 7901);
+                    smo::Server::instance().connect("192.168.188.109", 7901);
                 });
                 TOGGLE("Old Motion Mod: %s\n", fl::TasHolder::instance().oldMotion, 2);
 

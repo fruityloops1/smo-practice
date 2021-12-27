@@ -48,6 +48,7 @@ public:
     bool gotShineRefresh = false;
     bool alwaysWarp = false;
     bool disableAutoSave = false;
+    bool skipBowser = false;
 
     bool isModeDiverOrJungleGymRom = false;
     bool isModeDiverRom = false;
