@@ -52,7 +52,7 @@ void smo::OutPacketPlayerTeleport::construct(u8* dst)
 
 u32 smo::OutPacketPlayerGo::calcLen()
 {
-    return stageName.size() + entrance.size() + 3;
+    return stageName.size() + entrance.size() + 4;
 }
 
 void smo::OutPacketPlayerGo::construct(u8* dst)
@@ -62,6 +62,7 @@ void smo::OutPacketPlayerGo::construct(u8* dst)
     dst[2] = entrance.size();
     memcpy(dst + 3, stageName.data(), stageName.size());
     memcpy(dst + stageName.size() + 3, entrance.data(), entrance.size());
+    dst[stageName.size() + entrance.size() + 3] = startScript;
 }
 
 u32 smo::OutPacketPlayerScriptData::calcLen()

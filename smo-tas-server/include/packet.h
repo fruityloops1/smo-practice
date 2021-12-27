@@ -69,6 +69,7 @@ namespace smo
     class OutPacketPlayerGo : public OutPacket
     {
     public:
+        bool startScript = false;
         s8 scenario;
         std::string stageName;
         std::string entrance;

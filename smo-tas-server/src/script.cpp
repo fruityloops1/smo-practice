@@ -3,12 +3,14 @@
 #include <common.h>
 #include <deque>
 #include <iostream>
+#include <iterator>
+#include <memory>
 #include <script.h>
 #include <sstream>
 #include <stdexcept>
 #include <string>
 
-fl::TasScript fl::script::fromText(std::ifstream& file)
+fl::TasScript fl::script::fromText(std::stringstream& file)
 {
     std::string line;
     TasScript script;
@@ -22,9 +24,12 @@ fl::TasScript fl::script::fromText(std::ifstream& file)
         std::deque<std::string> tokens = fl::split(line, ' ');
         if (tokens.size() != 4)
         {
-            std::stringstream err("Invalid Script: line ");
-            err << curLine << " has " << tokens.size() << " tokens.";
-            throw std::invalid_argument(err.str());
+            std::string err("Invalid Script: line ");
+            err.append(std::to_string(curLine));
+            err.append(" has ");
+            err.append(std::to_string(tokens.size()));
+            err.append(" tokens.");
+            throw std::invalid_argument(err);
         }
 
         size_t lineNum = std::stoi(tokens[0]);
@@ -33,9 +38,12 @@ fl::TasScript fl::script::fromText(std::ifstream& file)
             std::deque<std::string> lStickTokens = fl::split(tokens[2], ';');
             if (lStickTokens.size() != 2)
             {
-                std::stringstream err("Invalid Script: line ");
-                err << curLine << " has " << tokens.size() << " left stick ; tokens.";
-                throw std::invalid_argument(err.str());
+                std::string err("Invalid Script: line ");
+                err.append(std::to_string(curLine));
+                err.append(" has left stick ; ");
+                err.append(std::to_string(lStickTokens.size()));
+                err.append(" tokens.");
+                throw std::invalid_argument(err);
             }
             frame.leftStick.x = std::stoi(lStickTokens[0]) / 32767.0f;
             frame.leftStick.y = std::stoi(lStickTokens[1]) / 32767.0f;
@@ -43,9 +51,12 @@ fl::TasScript fl::script::fromText(std::ifstream& file)
             std::deque<std::string> rStickTokens = fl::split(tokens[3], ';');
             if (rStickTokens.size() != 2)
             {
-                std::stringstream err("Invalid Script: line ");
-                err << curLine << " has " << tokens.size() << " right stick ; tokens.";
-                throw std::invalid_argument(err.str());
+                std::string err("Invalid Script: line ");
+                err.append(std::to_string(curLine));
+                err.append(" has right stick ; ");
+                err.append(std::to_string(rStickTokens.size()));
+                err.append(" tokens.");
+                throw std::invalid_argument(err);
             }
             frame.rightStick.x = std::stoi(rStickTokens[0]) / 32767.0f;
             frame.rightStick.y = std::stoi(rStickTokens[1]) / 32767.0f;
@@ -88,6 +99,13 @@ fl::TasScript fl::script::fromText(std::ifstream& file)
     }
 
     return script;
+}
+
+fl::TasScript fl::script::fromText(std::ifstream& file)
+{
+    std::stringstream i;
+    i << file.rdbuf();
+    return fl::script::fromText(i);
 }
 
 fl::TasScript fl::script::fromText(const std::string &file)

@@ -21,6 +21,7 @@ namespace fl
         TasFrame* frames = nullptr;
 
         bool isRunning = false;
+        bool startPending = false;
         u64 curFrame = 0;
         u64 frameCount = 0;
 

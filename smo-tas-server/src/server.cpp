@@ -146,7 +146,7 @@ namespace smo
             {
                 if (args.size() == 0)
                 {
-                    std::cout << "go <stage name> <scenario> <entrance>" << std::endl;
+                    std::cout << "go <stage name> <scenario> <entrance> <start script (true:false)>" << std::endl;
                     return;
                 }
                 std::string entrance = "start";
@@ -167,14 +167,17 @@ namespace smo
                         return;
                     }
                 }
-                if (args.size() == 3) entrance = args[2];
+                
+                OutPacketPlayerGo p;
+
+                if (args.size() >= 3) entrance = args[2];
+                if (args.size() == 4) p.startScript = args[3] == "true";
                 const std::vector<std::string>& stages = getStages();
                 if (std::find(stages.begin(), stages.end(), args[0]) == stages.end())
                 {
                     std::cout << "Stage doesn't exist" << std::endl;
                     return;
                 }
-                OutPacketPlayerGo p;
                 p.scenario = scenario;
                 p.stageName = args[0];
                 p.entrance = entrance;

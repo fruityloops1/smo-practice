@@ -65,6 +65,7 @@ namespace smo
 
     class InPacketPlayerGo : public InPacket
     {
+        bool startScript = false;
         s8 scenario = -1;
         char* stageName = nullptr;
         char* entrance = nullptr;

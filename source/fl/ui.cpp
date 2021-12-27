@@ -4,6 +4,7 @@
 
 #include <fl/common.h>
 #include <fl/server.h>
+#include <fl/input.h>
 #include <fl/tas.h>
 #include <fl/ui.h>
 #include <fl/util.h>
@@ -422,17 +423,15 @@ void fl::PracticeUI::menu()
                     printf("Script: %s (%lu frames)\n", h.scriptName, h.frameCount);
 
                 if (h.isRunning)
-                {
                     printf("TAS Running %lu/%lu\n", h.curFrame, h.frameCount);
-                    sead::Vector2f& left = h.frames[h.curFrame].leftStick;
-                    sead::Vector2f& right = h.frames[h.curFrame].rightStick;
-                    printf("Left Stick: (X: %.5f Y: %.5f)\n", left.x, left.y);
-                    printf("Right Stick: (X: %.5f Y: %.5f)\n", right.x, right.y);
-                    printf("Buttons:\n");
-                    TasFrame& f = h.frames[h.curFrame];
-                    printf("%s %s %s %s %s %s %s %s\n", f.A ? "A" : " ", f.B ? "B" : " ", f.X ? "X" : " ", f.Y ? "Y" : " ", f.L ? "L" : " ", f.R ? "R" : " ", f.ZL ? "ZL" : "  ", f.ZR ? "ZR" : "  ");
-                    printf("%s %s %s %s %s %s %s %s\n", f.plus ? "+" : " ", f.minus ? "-" : " ", f.pressLeftStick ? "LS" : "  ", f.pressRightStick ? "RS" : "  ", f.dUp ? "DUP" : "   ", f.dRight ? "DRIGHT" : "      ", f.dDown ? "DDOWN" : "     ", f.dLeft ? "DLEFT" : "     ");
-                }
+                sead::Vector2f& left = *fgetLeftStick(CONTROLLER_AUTO);
+                sead::Vector2f& right = *fgetRightStick(CONTROLLER_AUTO);
+                printf("Left Stick: (X: %.5f Y: %.5f)\n", left.x, left.y);
+                printf("Right Stick: (X: %.5f Y: %.5f)\n", right.x, right.y);
+                printf("Buttons:\n");
+                // -1 = CONTROLLER_AUTO
+                printf("%s %s %s %s %s %s %s %s\n", fisPadHoldA(-1) ? "A" : " ", fisPadHoldB(-1) ? "B" : " ", fisPadHoldX(-1) ? "X" : " ", fisPadHoldY(-1) ? "Y" : " ", fisPadHoldL(-1) ? "L" : " ", fisPadHoldR(-1) ? "R" : " ", fisPadHoldZL(-1) ? "ZL" : "  ", fisPadHoldZR(-1) ? "ZR" : "  ");
+                printf("%s %s %s %s %s %s %s %s\n", fisPadHoldPlus(-1) ? "+" : " ", fisPadHoldMinus(-1) ? "-" : " ", fisPadHoldPressLeftStick(-1) ? "LS" : "  ", fisPadHoldPressRightStick(-1) ? "RS" : "  ", fisPadHoldUp(-1) ? "DUP" : "   ", fisPadHoldRight(-1) ? "DRIGHT" : "      ", fisPadHoldDown(-1) ? "DDOWN" : "     ", fisPadHoldLeft(-1) ? "DLEFT" : "     ");
                 #endif
                 break;
             }

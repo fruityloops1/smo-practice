@@ -79,6 +79,8 @@ namespace smo
         entrance = (char*) m->Allocate(entranceLength + 1);
         fl::memcpy(entrance, &data[3 + stageLength], entranceLength);
         entrance[entranceLength] = '\0';
+
+        startScript = data[len - 1];
     }
 
     void InPacketPlayerGo::on(Server& server)
@@ -96,6 +98,8 @@ namespace smo
 
         if (entrance) m->Free(entrance);
         if (stageName) m->Free(stageName);
+
+        if (startScript && fl::TasHolder::instance().frames) fl::TasHolder::instance().startPending = true;
     }
 
     void InPacketPlayerScriptData::parse(const u8* data, u32 len)
