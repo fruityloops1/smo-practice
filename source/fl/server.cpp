@@ -33,10 +33,10 @@ void threadFunc(void* args)
 namespace smo
 {
     void Server::sendInit() {
-            OutPacketType dummy = OutPacketType::DummyInit;
-            nn::socket::SendTo(socket, &dummy, 1, 0, (struct sockaddr*) &server, sizeof(server));
-            dummy = OutPacketType::Init;
-            nn::socket::SendTo(socket, &dummy, 1, 0, (struct sockaddr*) &server, sizeof(server));
+        OutPacketType dummy = OutPacketType::DummyInit;
+        nn::socket::SendTo(socket, &dummy, 1, 0, (struct sockaddr*) &server, sizeof(server));
+        dummy = OutPacketType::Init;
+        nn::socket::SendTo(socket, &dummy, 1, 0, (struct sockaddr*) &server, sizeof(server));
     }
 
     u8 Server::connect(const char* ipS, u16 port)
@@ -63,6 +63,11 @@ namespace smo
         server.port = nn::socket::InetHtons(port);
         server.family = 2;
         server.address = ip;
+
+        sockaddr client = {0};
+        client.port = nn::socket::InetHtons(port-1);
+        client.family = 2;
+        nn::socket::Bind(socket, &client, sizeof(client));
 
         sendInit();
 
