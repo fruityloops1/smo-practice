@@ -11,9 +11,10 @@ namespace smo
 {
     class Client;
     class Server;
+    // negative numbers for incoming, positive for outgoing
     enum class InPacketType : u8
     {
-        DummyInit = 0, Init = 1, Log = 2
+        DummyInit = (u8) -1, Init = (u8) -2, Log = (u8) -3
     };
     
     class InPacket
@@ -25,7 +26,7 @@ namespace smo
 
     enum class OutPacketType : u8
     {
-        PlayerScriptInfo = 0, PlayerTeleport = 1, PlayerGo = 2, PlayerScriptData = 3
+        PlayerScriptInfo = 1, PlayerScriptData = 2, PlayerTeleport = 3, PlayerGo = 4
     };
     
     class OutPacket
