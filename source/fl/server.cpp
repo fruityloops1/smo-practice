@@ -53,6 +53,9 @@ namespace smo
 
         nn::socket::InetAton(ipS, &ip);
 
+        int timeout = 100;
+        nn::socket::SetSockOpt(socket, 0xffff, 0x1006, (const char*)&timeout, sizeof(timeout));
+
         server.port = nn::socket::InetHtons(port);
         server.family = 2;
         server.address = ip;
@@ -117,6 +120,7 @@ namespace smo
         u32 len = nn::socket::RecvFrom(socket, buf, bufSize, 0, &server, &size);
         switch ((InPacketType) buf[0])
         {
+            case 0: break; //timeout
             IN_PACKET(PlayerScriptInfo);
             IN_PACKET(PlayerTeleport);
             IN_PACKET(PlayerGo);
