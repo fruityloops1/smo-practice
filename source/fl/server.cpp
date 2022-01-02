@@ -32,14 +32,18 @@ void threadFunc(void* args)
 
 namespace smo
 {
-    u8 Server::connect(const char* ipS, u16 port)
-    {
-        if (connected)
-        {
+    void Server::sendInit() {
             OutPacketType dummy = OutPacketType::DummyInit;
             nn::socket::SendTo(socket, &dummy, 1, 0, (struct sockaddr*) &server, sizeof(server));
             dummy = OutPacketType::Init;
             nn::socket::SendTo(socket, &dummy, 1, 0, (struct sockaddr*) &server, sizeof(server));
+    }
+
+    u8 Server::connect(const char* ipS, u16 port)
+    {
+        if (connected)
+        {
+            sendInit();
             return 4;
         }
         in_addr ip = {0};
@@ -60,11 +64,7 @@ namespace smo
         server.family = 2;
         server.address = ip;
 
-        OutPacketType dummy = OutPacketType::DummyInit;
-
-        nn::socket::SendTo(socket, &dummy, 1, 0, (struct sockaddr*) &server, sizeof(server));
-        dummy = OutPacketType::Init;
-        nn::socket::SendTo(socket, &dummy, 1, 0, (struct sockaddr*) &server, sizeof(server));
+        sendInit();
 
         connected = true;
 

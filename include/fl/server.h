@@ -17,6 +17,7 @@ namespace smo
         void* threadStack = nullptr;
         nn::os::ThreadType* thread = nullptr;
     public:
+        void sendInit();
         u8 connect(const char* ip, u16 port);
         void disconnect();
         void sendPacket(OutPacket& packet, OutPacketType type);
