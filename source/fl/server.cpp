@@ -32,14 +32,18 @@ void threadFunc(void* args)
 
 namespace smo
 {
+    void Server::sendInit() {
+        OutPacketType dummy = OutPacketType::DummyInit;
+        nn::socket::SendTo(socket, &dummy, 1, 0, (struct sockaddr*) &server, sizeof(server));
+        dummy = OutPacketType::Init;
+        nn::socket::SendTo(socket, &dummy, 1, 0, (struct sockaddr*) &server, sizeof(server));
+    }
+
     u8 Server::connect(const char* ipS, u16 port)
     {
         if (connected)
         {
-            OutPacketType dummy = OutPacketType::DummyInit;
-            nn::socket::SendTo(socket, &dummy, 1, 0, (struct sockaddr*) &server, sizeof(server));
-            dummy = OutPacketType::Init;
-            nn::socket::SendTo(socket, &dummy, 1, 0, (struct sockaddr*) &server, sizeof(server));
+            sendInit();
             return 4;
         }
         in_addr ip = {0};
@@ -53,15 +57,19 @@ namespace smo
 
         nn::socket::InetAton(ipS, &ip);
 
+        int timeout = 100;
+        nn::socket::SetSockOpt(socket, 0xffff, 0x1006, (const char*)&timeout, sizeof(timeout));
+
         server.port = nn::socket::InetHtons(port);
         server.family = 2;
         server.address = ip;
 
-        OutPacketType dummy = OutPacketType::DummyInit;
+        sockaddr client = {0};
+        client.port = nn::socket::InetHtons(port-1);
+        client.family = 2;
+        nn::socket::Bind(socket, &client, sizeof(client));
 
-        nn::socket::SendTo(socket, &dummy, 1, 0, (struct sockaddr*) &server, sizeof(server));
-        dummy = OutPacketType::Init;
-        nn::socket::SendTo(socket, &dummy, 1, 0, (struct sockaddr*) &server, sizeof(server));
+        sendInit();
 
         connected = true;
 
@@ -117,6 +125,7 @@ namespace smo
         u32 len = nn::socket::RecvFrom(socket, buf, bufSize, 0, &server, &size);
         switch ((InPacketType) buf[0])
         {
+            case 0: break; //timeout
             IN_PACKET(PlayerScriptInfo);
             IN_PACKET(PlayerTeleport);
             IN_PACKET(PlayerGo);
