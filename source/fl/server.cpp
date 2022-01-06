@@ -32,46 +32,37 @@ void threadFunc(void* args)
 
 namespace smo
 {
-    void Server::sendInit() {
+    void Server::sendInit(const char* ipS) {
+        in_addr ip = {0};
+        nn::socket::InetAton(ipS, &ip);
+
+        server.port = nn::socket::InetHtons(SERVER_PORT);
+        server.family = 2;
+        server.address = ip;
+
         OutPacketType dummy = OutPacketType::DummyInit;
         nn::socket::SendTo(socket, &dummy, 1, 0, (struct sockaddr*) &server, sizeof(server));
         dummy = OutPacketType::Init;
         nn::socket::SendTo(socket, &dummy, 1, 0, (struct sockaddr*) &server, sizeof(server));
+        
+        connected = true;
     }
 
-    u8 Server::connect(const char* ipS, u16 port)
-    {
-        if (connected)
-        {
-            sendInit();
-            return 4;
-        }
-        in_addr ip = {0};
-
+    void Server::start() {
         nn::nifm::Initialize();
         nn::nifm::SubmitNetworkRequest();
 
         while (nn::nifm::IsNetworkRequestOnHold()) {}
 
-        if ((socket = nn::socket::Socket(AF_INET, SOCK_DGRAM, 0)) < 0) return 2;
-
-        nn::socket::InetAton(ipS, &ip);
+        if ((socket = nn::socket::Socket(AF_INET, SOCK_DGRAM, 0)) < 0) return;
 
         int timeout = 100;
         nn::socket::SetSockOpt(socket, 0xffff, 0x1006, (const char*)&timeout, sizeof(timeout));
 
-        server.port = nn::socket::InetHtons(port);
-        server.family = 2;
-        server.address = ip;
-
         sockaddr client = {0};
-        client.port = nn::socket::InetHtons(port-1);
+        client.port = nn::socket::InetHtons(CLIENT_PORT);
         client.family = 2;
         nn::socket::Bind(socket, &client, sizeof(client));
-
-        sendInit();
-
-        connected = true;
 
         if (!thread)
         {
@@ -82,9 +73,15 @@ namespace smo
             nn::os::StartThread(thread);
         }
 
-        if (!nn::nifm::IsNetworkAvailable()) return 1;
+        started = true;
+    }
 
-        return 0;
+    void Server::connect(const char* ipS)
+    {
+        if (!started)
+            start();
+
+        sendInit(ipS);
     }
 
     void Server::disconnect()

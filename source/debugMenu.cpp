@@ -1,5 +1,6 @@
 #include "debugMenu.hpp"
 #include "fl/ui.h"
+#include "fl/server.h"
 #include <al/util.hpp>
 
 // These files must exist in your romfs! they are not there by default, and must be added in order for the debug font to work correctly.
@@ -55,6 +56,8 @@ void setupDebugMenu(GameSystem *gSys) {
     }else {
         //gLogger->LOG("Failed to get Heap!\n");
     }
+
+    smo::Server::instance().start();
 
     __asm("MOV W23, #0x3F800000");
     __asm("MOV W8, #0xFFFFFFFF");
