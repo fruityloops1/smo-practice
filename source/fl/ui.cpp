@@ -144,12 +144,6 @@ void fl::PracticeUI::menu()
     if (!stageScene) return;
     if (showMenu)
     {
-        enum Page : u8
-        {
-            About, Options, Stage, Misc, Info, Tas, MoonInfo, Modes, Debug
-        };
-        static Page curPage = About;
-        static s8 curLine = 0;
         const char* charCursor = " ";
 
         PlayerActorHakoniwa* player = rs::getPlayerActor(stageScene);
