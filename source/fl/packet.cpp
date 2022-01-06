@@ -121,4 +121,14 @@ namespace smo
     }
 
     void InPacketPlayerScriptData::on(Server& server) {}
+
+    void InPacketChangePage::parse(const u8* data, u32 len)
+    {
+        page = data[0];
+    }
+
+    void InPacketChangePage::on(Server &server)
+    {
+        fl::PracticeUI::instance().curPage = (fl::PracticeUI::Page) page;
+    }
 }

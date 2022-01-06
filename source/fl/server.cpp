@@ -127,6 +127,7 @@ namespace smo
             IN_PACKET(PlayerTeleport);
             IN_PACKET(PlayerGo);
             IN_PACKET(PlayerScriptData);
+            IN_PACKET(ChangePage);
             default: break;
         }
     }
