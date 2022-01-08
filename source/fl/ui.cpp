@@ -4,6 +4,7 @@
 #include "rs/util.hpp"
 
 #include <fl/common.h>
+#include <fl/game.h>
 #include <fl/server.h>
 #include <fl/input.h>
 #include <fl/tas.h>
@@ -76,6 +77,7 @@ void fl::PracticeUI::loadPosition(PlayerActorHakoniwa& player)
 
 void fl::PracticeUI::update(StageScene& stageScene)
 {
+    Game::instance().setStageScene(&stageScene);
     this->stageScene = &stageScene;
     isInGame = true;
 
@@ -279,28 +281,14 @@ void fl::PracticeUI::menu()
                 CHANGE_PAGE();
 
                 TRIGGER("Kill Mario\n", 1, {
-                    player->mDamageKeeper->dead();
+                    Game::instance().killMario();
                     curLine = 0;
                 });
-                TRIGGER("Damage Mario\n", 2, player->mDamageKeeper->damage(1));
-                TRIGGER("Life Up Heart\n", 3, {
-                    #if SMOVER==100
-                    stageScene->mHolder->mGameDataFile->getPlayerHitPointData()->getMaxUpItem();
-                    #endif
-                    #if SMOVER==130
-                    GameDataFunction::getLifeMaxUpItem(player);
-                    #endif
-                });
-                TRIGGER("Heal Mario\n", 4, {
-                    #if SMOVER==100
-                    stageScene->mHolder->mGameDataFile->getPlayerHitPointData()->recover();
-                    #endif
-                    #if SMOVER==130
-                    GameDataFunction::recoveryPlayer(player);
-                    #endif
-                });
-                TRIGGER("Remove Cappy\n", 5, GameDataFunction::disableCapByPlacement(cappy));
-                TRIGGER("Invincibility Star\n", 6, player->mDamageKeeper->activatePreventDamage());
+                TRIGGER("Damage Mario\n", 2, Game::instance().damageMario(1));
+                TRIGGER("Life Up Heart\n", 3, Game::instance().lifeUpHeart());
+                TRIGGER("Heal Mario\n", 4, Game::instance().healMario());
+                TRIGGER("Remove Cappy\n", 5, Game::instance().removeCappy());
+                TRIGGER("Invincibility Star\n", 6, Game::instance().invincibilityStar());
                 
                 static u8 gravity = 0;
 
