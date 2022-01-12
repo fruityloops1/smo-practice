@@ -26,23 +26,28 @@ const char* stageNames[] = {"CapWorldHomeStage", "WaterfallWorldHomeStage", "San
 #define NUM_STAGES 200
 
 #if(SMOVER==100)
-#define CURSOR(LINE) printf(curLine == LINE ? ">" : "")
+#define CURSOR(LINE) charCursor = curLine == LINE ? ">" : " "
+#define TITLE(NAME) printf(NAME "%s\n", inputEnabled ? "" : " [Menu disabled]")
 #endif
 #if(SMOVER==130)
-#define CURSOR(LINE) printf(curLine == LINE ? "·" : "")
+#define CURSOR(LINE) charCursor = curLine == LINE ? "·" : " "
+#define TITLE(NAME) printf(NAME "%s\n", inputEnabled ? "" : " (Menu disabled)")
 #endif
-#define CHANGE_PAGE() printf("Change Page (%d/%d)\n", +curPage + 1, NUM_PAGES)
+
+#define CHANGE_PAGE() CURSOR(0);\
+                      printf("%sChange Page (%d/%d)\n", charCursor, curPage + 1, NUM_PAGES)
 
 // Sets max amount of lines for a page
-#define MAX_LINE(LINE) if (curLine > LINE) curLine = 0;
+#define MAX_LINE(LINE) if (curLine > LINE) curLine = 0;\
+                       else if (curLine < 0) curLine = LINE;
 
 #define TOGGLE(FORMAT, BOOL, LINE) CURSOR(LINE);\
-                                   printf(FORMAT, BOOL ? "Enabled" : "Disabled");\
+                                   printf("%s" FORMAT, charCursor, BOOL ? "Enabled" : "Disabled");\
                                    if (inputEnabled && !nextFrameNoLeftInput && !nextFrameNoRightInput && curLine == LINE && (al::isPadTriggerLeft(CONTROLLER_AUTO) || al::isPadTriggerRight(CONTROLLER_AUTO))) BOOL = !BOOL;
 
 #define TRIGGER(NAME, LINE, ACTION) CURSOR(LINE);\
-                              printf(NAME);\
-                              if (inputEnabled && curLine == LINE && !nextFrameNoRightInput && al::isPadTriggerRight(CONTROLLER_AUTO)) {ACTION;}
+                                    printf("%s" NAME, charCursor);\
+                                    if (inputEnabled && curLine == LINE && !nextFrameNoRightInput && al::isPadTriggerRight(CONTROLLER_AUTO)) {ACTION;}
 
 void fl::PracticeUI::savePosition(PlayerActorHakoniwa& player)
 {
@@ -144,7 +149,8 @@ void fl::PracticeUI::menu()
             About, Options, Stage, Misc, Info, Tas, MoonInfo, Modes, Debug
         };
         static Page curPage = About;
-        static u8 curLine = 0;
+        static s8 curLine = 0;
+        const char* charCursor = " ";
 
         PlayerActorHakoniwa* player = rs::getPlayerActor(stageScene);
         HackCap *cappy = player->mHackCap;
@@ -188,18 +194,16 @@ void fl::PracticeUI::menu()
             case About:
             {
                 MAX_LINE(0);
-                CURSOR(0);
                 CHANGE_PAGE();
-                printf("Welcome to the Practice Mod!\n");
-                printf("Made by Fruityloops#8500 and contributors\n");
-                printf("Big thanks to CraftyBoss, bryce_____ and Mars2030!\n");
+                printf(" Welcome to the Practice Mod!\n");
+                printf(" Made by Fruityloops#8500 and contributors\n");
+                printf(" Big thanks to CraftyBoss, bryce_____ and Mars2030!\n");
                 break;
             }
             case Options:
             {
-                printf("Options\n");
+                TITLE("Options");
                 MAX_LINE(6);
-                CURSOR(0);
                 CHANGE_PAGE();
                 
                 TOGGLE("Teleport: %s\n", teleportEnabled, 1);
@@ -215,14 +219,13 @@ void fl::PracticeUI::menu()
                 static u32 currentStage = 0;
                 static s8 currentScenario = -1;
 
-                printf("Stages\n");
+                TITLE("Stages");
                 #if SMOVER==100
                 MAX_LINE(3);
                 #endif
                 #if SMOVER==130
                 MAX_LINE(0);
                 #endif
-                CURSOR(0);
                 CHANGE_PAGE();
 
                 #if SMOVER==100
@@ -253,10 +256,10 @@ void fl::PracticeUI::menu()
                 if (currentScenario < -1 || currentScenario == 0 || currentScenario > 15) currentScenario = -1;
 
                 if (currentStage + 1 > NUM_STAGES) currentStage = 0;
-                printf("Stage: %s\n", stageNames[currentStage]);
+                printf("%sStage: %s\n", charCursor, stageNames[currentStage]);
                 CURSOR(2);
-                if (currentScenario != -1)  {printf("Scenario: %d\n", +currentScenario);}
-                else printf("Scenario: Don't change\n");
+                if (currentScenario != -1) {printf("%sScenario: %d\n", charCursor, currentScenario);}
+                else printf("%sScenario: Don't change\n", charCursor);
 
                 TRIGGER("Go\n", 3, {
                     ChangeStageInfo info = ChangeStageInfo(stageScene->mHolder, "start", stageNames[currentStage], false, currentScenario, {0});
@@ -272,14 +275,13 @@ void fl::PracticeUI::menu()
             }
             case Misc:
             {
-                printf("Miscellaneous\n");
+                TITLE("Miscellaneous");
                 #if SMOVER==100
                 MAX_LINE(8);
                 #endif
                 #if SMOVER==130
                 MAX_LINE(7);
                 #endif
-                CURSOR(0);
                 CHANGE_PAGE();
 
                 TRIGGER("Kill Mario\n", 1, {
@@ -321,7 +323,7 @@ void fl::PracticeUI::menu()
                 
                 bool gravityChanged = false;
 
-                printf("Gravity: %s\n", gravityString);
+                printf("%sGravity: %s\n", charCursor, gravityString);
                 if (curLine == 7 && inputEnabled && !nextFrameNoLeftInput && al::isPadTriggerLeft(CONTROLLER_AUTO)) {gravity--; gravityChanged = true;}
                 else if (curLine == 7 && inputEnabled && !nextFrameNoRightInput && al::isPadTriggerRight(CONTROLLER_AUTO)) {gravity++; gravityChanged = true;}
                 if (gravity == 255) gravity = 5;
@@ -353,9 +355,8 @@ void fl::PracticeUI::menu()
             }
             case Info:
             {
-                printf("Info\n");
+                TITLE("Info");
                 MAX_LINE(1);
-                CURSOR(0);
                 CHANGE_PAGE();
 
                 static bool quatRot = false;
@@ -375,42 +376,41 @@ void fl::PracticeUI::menu()
                 const char* anim = player->mPlayerAnimator->mCurrentAnim;
                 float hSpeed = al::calcSpeedH(player), vSpeed = al::calcSpeedV(player), speed = al::calcSpeed(player);
 
-                printf("Player Pos: (X: %.3f Y: %.3f Z: %.3f)\n", playerTrans->x, playerTrans->y, playerTrans->z);
-                printf("Player Vel: (X: %.3f Y: %.3f Z: %.3f)\n", playerVel->x, playerVel->y, playerVel->z);
-                printf("Player Speed: (H: %.3f V: %.3f S: %.3f)\n", hSpeed, vSpeed, speed);
+                printf(" Player Pos: (X: %.3f Y: %.3f Z: %.3f)\n", playerTrans->x, playerTrans->y, playerTrans->z);
+                printf(" Player Vel: (X: %.3f Y: %.3f Z: %.3f)\n", playerVel->x, playerVel->y, playerVel->z);
+                printf(" Player Speed: (H: %.3f V: %.3f S: %.3f)\n", hSpeed, vSpeed, speed);
                 if (quatRot)
                 {
-                    printf("Player Rot: (W: %.3f X: %.3f Y: %.3f Z: %.3f)\n", playerQuat->w, playerQuat->x, playerQuat->y, playerQuat->z);
+                    printf(" Player Rot: (W: %.3f X: %.3f Y: %.3f Z: %.3f)\n", playerQuat->w, playerQuat->x, playerQuat->y, playerQuat->z);
                 }
                 else
                 {
-                    printf("Player Rot: (X: %.3f Y: %.3f Z: %.3f)\n", playerRot.x, playerRot.y, playerRot.z);
+                    printf(" Player Rot: (X: %.3f Y: %.3f Z: %.3f)\n", playerRot.x, playerRot.y, playerRot.z);
                 }
-                printf("Cappy Pos: (X: %.3f Y: %.3f Z: %.3f)\n", cappyPosition->x, cappyPosition->y, cappyPosition->z);
-                printf("Cappy Vel: (X: %.3f Y: %.3f Z: %.3f)\n", cappyVel->x, cappyVel->y, cappyVel->z);
+                printf(" Cappy Pos: (X: %.3f Y: %.3f Z: %.3f)\n", cappyPosition->x, cappyPosition->y, cappyPosition->z);
+                printf(" Cappy Vel: (X: %.3f Y: %.3f Z: %.3f)\n", cappyVel->x, cappyVel->y, cappyVel->z);
                 if (quatRot)
                 {
-                    printf("Cappy Rot: (W: %.3f X: %.3f Y: %.3f Z: %.3f)\n", cappyQuat->w, cappyQuat->x, cappyQuat->y, cappyQuat->z);
+                    printf(" Cappy Rot: (W: %.3f X: %.3f Y: %.3f Z: %.3f)\n", cappyQuat->w, cappyQuat->x, cappyQuat->y, cappyQuat->z);
                 }
                 else
                 {
-                    printf("Cappy Rot: (X: %.3f Y: %.3f Z: %.3f)\n", cappyRot.x, cappyRot.y, cappyRot.z);
+                    printf(" Cappy Rot: (X: %.3f Y: %.3f Z: %.3f)\n", cappyRot.x, cappyRot.y, cappyRot.z);
                 }
-                printf("Bubble Pos: (X: %.3f Y: %.3f Z: %.3f)\n", playerRecoveryPoint->x, playerRecoveryPoint->y, playerRecoveryPoint->z);
-                printf("Current Animation: %s (%.0f/%.0f)\n", anim, player->mPlayerAnimator->getAnimFrame() - 1.0f, player->mPlayerAnimator->getAnimFrameMax());
+                printf(" Bubble Pos: (X: %.3f Y: %.3f Z: %.3f)\n", playerRecoveryPoint->x, playerRecoveryPoint->y, playerRecoveryPoint->z);
+                printf(" Current Animation: %s (%.0f/%.0f)\n", anim, player->mPlayerAnimator->getAnimFrame() - 1.0f, player->mPlayerAnimator->getAnimFrameMax());
 
                 break;
             }
             case Tas:
             {
-                printf("TAS\n");
+                TITLE("TAS");
                 #if SMOVER==100
                 MAX_LINE(3);
                 #endif
                 #if SMOVER==130
                 MAX_LINE(0);
                 #endif
-                CURSOR(0);
                 CHANGE_PAGE();
 
                 #if SMOVER==130
@@ -434,26 +434,25 @@ void fl::PracticeUI::menu()
                 printf("\n");
 
                 if (h.scriptName)
-                    printf("Script: %s (%lu frames)\n", h.scriptName, h.frameCount);
+                    printf(" Script: %s (%lu frames)\n", h.scriptName, h.frameCount);
 
                 if (h.isRunning)
-                    printf("TAS Running %lu/%lu\n", h.curFrame, h.frameCount);
+                    printf(" TAS Running %lu/%lu\n", h.curFrame, h.frameCount);
                 sead::Vector2f& left = *fgetLeftStick(CONTROLLER_AUTO);
                 sead::Vector2f& right = *fgetRightStick(CONTROLLER_AUTO);
-                printf("Left Stick: (X: %.5f Y: %.5f)\n", left.x, left.y);
-                printf("Right Stick: (X: %.5f Y: %.5f)\n", right.x, right.y);
-                printf("Buttons:\n");
+                printf(" Left Stick: (X: %.5f Y: %.5f)\n", left.x, left.y);
+                printf(" Right Stick: (X: %.5f Y: %.5f)\n", right.x, right.y);
+                printf(" Buttons:\n");
                 // -1 = CONTROLLER_AUTO
-                printf("%s %s %s %s %s %s %s %s\n", fisPadHoldA(-1) ? "A" : " ", fisPadHoldB(-1) ? "B" : " ", fisPadHoldX(-1) ? "X" : " ", fisPadHoldY(-1) ? "Y" : " ", fisPadHoldL(-1) ? "L" : " ", fisPadHoldR(-1) ? "R" : " ", fisPadHoldZL(-1) ? "ZL" : "  ", fisPadHoldZR(-1) ? "ZR" : "  ");
-                printf("%s %s %s %s %s %s %s %s\n", fisPadHoldPlus(-1) ? "+" : " ", fisPadHoldMinus(-1) ? "-" : " ", fisPadHoldPressLeftStick(-1) ? "LS" : "  ", fisPadHoldPressRightStick(-1) ? "RS" : "  ", fisPadHoldUp(-1) ? "DUP" : "   ", fisPadHoldRight(-1) ? "DRIGHT" : "      ", fisPadHoldDown(-1) ? "DDOWN" : "     ", fisPadHoldLeft(-1) ? "DLEFT" : "     ");
+                printf(" %s %s %s %s %s %s %s %s\n", fisPadHoldA(-1) ? "A" : " ", fisPadHoldB(-1) ? "B" : " ", fisPadHoldX(-1) ? "X" : " ", fisPadHoldY(-1) ? "Y" : " ", fisPadHoldL(-1) ? "L" : " ", fisPadHoldR(-1) ? "R" : " ", fisPadHoldZL(-1) ? "ZL" : "  ", fisPadHoldZR(-1) ? "ZR" : "  ");
+                printf(" %s %s %s %s %s %s %s %s\n", fisPadHoldPlus(-1) ? "+" : " ", fisPadHoldMinus(-1) ? "-" : " ", fisPadHoldPressLeftStick(-1) ? "LS" : "  ", fisPadHoldPressRightStick(-1) ? "RS" : "  ", fisPadHoldUp(-1) ? "DUP" : "   ", fisPadHoldRight(-1) ? "DRIGHT" : "      ", fisPadHoldDown(-1) ? "DDOWN" : "     ", fisPadHoldLeft(-1) ? "DLEFT" : "     ");
                 #endif
                 break;
             }
             case MoonInfo:
             {
-                printf("Moon Info\n");
+                TITLE("Moon Info");
                 MAX_LINE(1);
-                CURSOR(0);
                 CHANGE_PAGE();
 
                 TOGGLE("Hide Original Moon Counter: %s\n", hideShineCounter, 1);
@@ -462,22 +461,21 @@ void fl::PracticeUI::menu()
                 s32 currShine = GameDataFunction::getCurrentShineNum(*stageScene->mHolder);
                 s32 totalShine = GameDataFunction::getTotalShineNum(*stageScene->mHolder, -1);
                 s32 unlockShine = GameDataFunction::findUnlockShineNumByWorldId(0, *stageScene->mHolder, GameDataFunction::getCurrentWorldId(*stageScene->mHolder));
-                printf("Current Moons: %d\n", currShine);
-                printf("Total Moons: %d\n", totalShine);
-                printf("Required Moons: %d", unlockShine);
+                printf(" Current Moons: %d\n", currShine);
+                printf(" Total Moons: %d\n", totalShine);
+                printf(" Required Moons: %d", unlockShine);
                 #endif
                 break;
             }
             case Modes:
             {
-                printf("Modes\n");
+                TITLE("Modes");
                 #if SMOVER==100
                 MAX_LINE(6);
                 #endif
                 #if SMOVER==130
                 MAX_LINE(0);
                 #endif
-                CURSOR(0);
                 CHANGE_PAGE();
 
                 #if SMOVER==130
@@ -493,22 +491,21 @@ void fl::PracticeUI::menu()
                 TOGGLE("isModeEpdMovieRom: %s\n", isModeEpdMovieRom, 6);
                 #endif
                 break;
-            };
+            }
             case Debug:
             {
-                printf("Debug\n");
+                TITLE("Debug");
                 MAX_LINE(0);
-                CURSOR(0);
                 CHANGE_PAGE();
 
                 #if(SMOVER==100)
-                printf("Current Scenario: %d\n", GameDataFunction::getWorldScenarioNo(*stageScene->mHolder, GameDataFunction::getCurrentWorldId(*stageScene->mHolder)));
-                printf("Current World ID: %d\n", GameDataFunction::getCurrentWorldId(*stageScene->mHolder));
-                printf("Current Stage Name: %s\n", GameDataFunction::getCurrentStageName(*stageScene->mHolder));
-                printf("Language: %s\n", stageScene->mHolder->getLanguage());
+                printf(" Current Scenario: %d\n", GameDataFunction::getWorldScenarioNo(*stageScene->mHolder, GameDataFunction::getCurrentWorldId(*stageScene->mHolder)));
+                printf(" Current World ID: %d\n", GameDataFunction::getCurrentWorldId(*stageScene->mHolder));
+                printf(" Current Stage Name: %s\n", GameDataFunction::getCurrentStageName(*stageScene->mHolder));
+                printf(" Language: %s\n", stageScene->mHolder->getLanguage());
                 #endif
                 printf("\n");
-                printf("Practice Mod Version: %s\n", PRACTICE_VERSTR);
+                printf(" Practice Mod Version: %s\n", PRACTICE_VERSTR);
                 break;
             }
             default:
