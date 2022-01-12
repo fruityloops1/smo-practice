@@ -1,4 +1,5 @@
 #include "al/LiveActor/LiveActor.h"
+#include "al/util.hpp"
 #include "game/GameData/GameDataFunction.h"
 #include "rs/util.hpp"
 
@@ -146,6 +147,7 @@ void fl::PracticeUI::menu()
         static u8 curLine = 0;
 
         PlayerActorHakoniwa* player = rs::getPlayerActor(stageScene);
+        HackCap *cappy = player->mHackCap;
 
         if (inputEnabled)
         {
@@ -301,7 +303,7 @@ void fl::PracticeUI::menu()
                     GameDataFunction::recoveryPlayer(player);
                     #endif
                 });
-                TRIGGER("Remove Cappy\n", 5, GameDataFunction::disableCapByPlacement(player->mHackCap));
+                TRIGGER("Remove Cappy\n", 5, GameDataFunction::disableCapByPlacement(cappy));
                 TRIGGER("Invincibility Star\n", 6, player->mDamageKeeper->activatePreventDamage());
                 
                 static u8 gravity = 0;
@@ -365,10 +367,11 @@ void fl::PracticeUI::menu()
                 sead::Vector3f playerEulerAngles = fl::QuatToEuler(playerQuat);
                 sead::Vector3f playerRot = sead::Vector3f(DEG(playerEulerAngles.x),DEG(playerEulerAngles.y),DEG(playerEulerAngles.z));
                 sead::Vector3f* playerRecoveryPoint = player->mPlayerRecoverPoint->getSafetyPoint();
-                sead::Vector3f* cappyPosition = al::getTrans(player->mHackCap);
-                sead::Quatf* cappyQuat = al::getQuat(player->mHackCap);
-                sead::Vector3f cappyEulerAngles = fl::QuatToEuler(playerQuat);
-                sead::Vector3f cappyRot = sead::Vector3f(DEG(playerEulerAngles.x),DEG(playerEulerAngles.y),DEG(playerEulerAngles.z));
+                sead::Vector3f* cappyPosition = al::getTrans(cappy);
+                sead::Vector3f* cappyVel = al::getVelocity(cappy);
+                sead::Quatf* cappyQuat = al::getQuat(cappy);
+                sead::Vector3f cappyEulerAngles = fl::QuatToEuler(cappyQuat);
+                sead::Vector3f cappyRot = sead::Vector3f(DEG(cappyEulerAngles.x),DEG(cappyEulerAngles.y),DEG(cappyEulerAngles.z));
                 const char* anim = player->mPlayerAnimator->mCurrentAnim;
                 float hSpeed = al::calcSpeedH(player), vSpeed = al::calcSpeedV(player), speed = al::calcSpeed(player);
 
@@ -380,14 +383,19 @@ void fl::PracticeUI::menu()
                     printf("Player Rot: (W: %.3f X: %.3f Y: %.3f Z: %.3f)\n", playerQuat->w, playerQuat->x, playerQuat->y, playerQuat->z);
                 }
                 else
+                {
                     printf("Player Rot: (X: %.3f Y: %.3f Z: %.3f)\n", playerRot.x, playerRot.y, playerRot.z);
+                }
                 printf("Cappy Pos: (X: %.3f Y: %.3f Z: %.3f)\n", cappyPosition->x, cappyPosition->y, cappyPosition->z);
+                printf("Cappy Vel: (X: %.3f Y: %.3f Z: %.3f)\n", cappyVel->x, cappyVel->y, cappyVel->z);
                 if (quatRot)
                 {
                     printf("Cappy Rot: (W: %.3f X: %.3f Y: %.3f Z: %.3f)\n", cappyQuat->w, cappyQuat->x, cappyQuat->y, cappyQuat->z);
                 }
                 else
+                {
                     printf("Cappy Rot: (X: %.3f Y: %.3f Z: %.3f)\n", cappyRot.x, cappyRot.y, cappyRot.z);
+                }
                 printf("Bubble Pos: (X: %.3f Y: %.3f Z: %.3f)\n", playerRecoveryPoint->x, playerRecoveryPoint->y, playerRecoveryPoint->z);
                 printf("Current Animation: %s (%.0f/%.0f)\n", anim, player->mPlayerAnimator->getAnimFrame() - 1.0f, player->mPlayerAnimator->getAnimFrameMax());
 
