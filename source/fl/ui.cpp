@@ -37,11 +37,11 @@ const char* stageNames[] = {"CapWorldHomeStage", "WaterfallWorldHomeStage", "San
 
 #define TOGGLE(FORMAT, BOOL, LINE) CURSOR(LINE);\
                                    printf(FORMAT, BOOL ? "Enabled" : "Disabled");\
-                                   if (inputEnabled && !nextFrameNoLeftInput && curLine == LINE && (al::isPadTriggerLeft(CONTROLLER_AUTO) || al::isPadTriggerRight(CONTROLLER_AUTO))) BOOL = !BOOL;
+                                   if (inputEnabled && !nextFrameNoLeftInput && !nextFrameNoRightInput && curLine == LINE && (al::isPadTriggerLeft(CONTROLLER_AUTO) || al::isPadTriggerRight(CONTROLLER_AUTO))) BOOL = !BOOL;
 
 #define TRIGGER(NAME, LINE, ACTION) CURSOR(LINE);\
                               printf(NAME);\
-                              if (inputEnabled && curLine == LINE && al::isPadTriggerRight(CONTROLLER_AUTO)) {ACTION;}
+                              if (inputEnabled && curLine == LINE && !nextFrameNoRightInput && al::isPadTriggerRight(CONTROLLER_AUTO)) {ACTION;}
 
 void fl::PracticeUI::savePosition(PlayerActorHakoniwa& player)
 {
@@ -81,7 +81,12 @@ void fl::PracticeUI::update(StageScene& stageScene)
     fl::TasHolder::instance().update();
     #endif
 
-    if (holdL && al::isPadTriggerRight(CONTROLLER_AUTO)) {inputEnabled = !inputEnabled; return;}
+    if (holdL && al::isPadTriggerRight(CONTROLLER_AUTO))
+    {
+        inputEnabled = !inputEnabled;
+        nextFrameNoRightInput = true;
+        return;
+    }
     else if
     #if SMOVER==130
     (holdL && al::isPadTriggerLeft(CONTROLLER_AUTO))
@@ -96,7 +101,7 @@ void fl::PracticeUI::update(StageScene& stageScene)
         #endif
     }
 
-    if (!showMenu)
+    if (!showMenu || (!inputEnabled && !holdL))
     {
         if (teleportEnabled)
         {
@@ -150,7 +155,7 @@ void fl::PracticeUI::menu()
 
         if (inputEnabled && curLine == 0)
         {
-            if (al::isPadTriggerRight(CONTROLLER_AUTO))
+            if (al::isPadTriggerRight(CONTROLLER_AUTO) && !nextFrameNoRightInput)
             {
                 if (curPage == About) curPage = Options;
                 else if (curPage == Options) curPage = Stage;
@@ -223,7 +228,7 @@ void fl::PracticeUI::menu()
 
                 if (inputEnabled && curLine == 1)
                 {
-                    if (al::isPadTriggerRight(CONTROLLER_AUTO)) currentStage++;
+                    if (al::isPadTriggerRight(CONTROLLER_AUTO) && !nextFrameNoRightInput) currentStage++;
                     if (al::isPadTriggerLeft(CONTROLLER_AUTO) && !nextFrameNoLeftInput)
                     {
                         if (currentStage == 0)
@@ -234,7 +239,7 @@ void fl::PracticeUI::menu()
                 }
                 else if (inputEnabled && curLine == 2)
                 {
-                    if (al::isPadTriggerRight(CONTROLLER_AUTO))
+                    if (al::isPadTriggerRight(CONTROLLER_AUTO) && !nextFrameNoRightInput)
                         currentScenario = currentScenario == -1 ? 1 : currentScenario + 1;
                     if (al::isPadTriggerLeft(CONTROLLER_AUTO) && !nextFrameNoLeftInput)
                     {
@@ -316,7 +321,7 @@ void fl::PracticeUI::menu()
 
                 printf("Gravity: %s\n", gravityString);
                 if (curLine == 7 && inputEnabled && !nextFrameNoLeftInput && al::isPadTriggerLeft(CONTROLLER_AUTO)) {gravity--; gravityChanged = true;}
-                else if (curLine == 7 && inputEnabled && al::isPadTriggerRight(CONTROLLER_AUTO)) {gravity++; gravityChanged = true;}
+                else if (curLine == 7 && inputEnabled && !nextFrameNoRightInput && al::isPadTriggerRight(CONTROLLER_AUTO)) {gravity++; gravityChanged = true;}
                 if (gravity == 255) gravity = 5;
                 else if (gravity > 5) gravity = 0;
 
@@ -510,4 +515,5 @@ void fl::PracticeUI::menu()
     al::setPaneStringFormat(stageScene->stageSceneLayout->coinCounter, "TxtDebug", textBuffer);
     nextFrameNoLeftInput = false;
     #endif
+    nextFrameNoRightInput = false;
 }
