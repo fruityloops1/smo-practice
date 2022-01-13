@@ -24,6 +24,7 @@ private:
     bool inputEnabled = true;
     bool hideShineCounter = false;
     bool nextFrameNoLeftInput = false;
+    bool nextFrameNoRightInput = false;
 
     #if(SMOVER==130)
     char textBuffer[4096];
