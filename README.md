@@ -1,6 +1,8 @@
 # Practice Mod
 
 This is a mod for Super Mario Odyssey that adds different features that intend to aid in speedrun practice (but can also be used for other reasons)
+
+The mod is compatible with versions 1.0.0 and 1.3.0 of Super Mario Odyssey, note that the 1.0.0 version is more feature-complete than the 1.3.0 version
 ### Features
 - Position saving and restoring
 - Moon refreshing
@@ -74,7 +76,7 @@ After the file transfer, the new folder should have the following structure,
 
 For SMO version `1.3.0`, transfer the `smo-practice130.nso` and `starlight_patch_130/B424BE150A8E7D78701CBE7A439D9EBF.ips` instead.
 
-For more information, check out the Yuzu's [official help page for game modding](https://yuzu-emu.org/help/feature/game-modding/).
+For more information, check out Yuzu's [official help page for game modding](https://yuzu-emu.org/help/feature/game-modding/).
 
 ## Building TAS Server
 
