@@ -4,6 +4,7 @@
 #include "rs/util.hpp"
 
 #include <fl/common.h>
+#include <fl/game.h>
 #include <fl/server.h>
 #include <fl/input.h>
 #include <fl/tas.h>
@@ -76,6 +77,7 @@ void fl::PracticeUI::loadPosition(PlayerActorHakoniwa& player)
 
 void fl::PracticeUI::update(StageScene& stageScene)
 {
+    Game::instance().setStageScene(&stageScene);
     this->stageScene = &stageScene;
     isInGame = true;
 
@@ -144,12 +146,6 @@ void fl::PracticeUI::menu()
     if (!stageScene) return;
     if (showMenu)
     {
-        enum Page : u8
-        {
-            About, Options, Stage, Misc, Info, Tas, MoonInfo, Modes, Debug
-        };
-        static Page curPage = About;
-        static s8 curLine = 0;
         const char* charCursor = " ";
 
         PlayerActorHakoniwa* player = rs::getPlayerActor(stageScene);
@@ -285,28 +281,14 @@ void fl::PracticeUI::menu()
                 CHANGE_PAGE();
 
                 TRIGGER("Kill Mario\n", 1, {
-                    player->mDamageKeeper->dead();
+                    Game::instance().killMario();
                     curLine = 0;
                 });
-                TRIGGER("Damage Mario\n", 2, player->mDamageKeeper->damage(1));
-                TRIGGER("Life Up Heart\n", 3, {
-                    #if SMOVER==100
-                    stageScene->mHolder->mGameDataFile->getPlayerHitPointData()->getMaxUpItem();
-                    #endif
-                    #if SMOVER==130
-                    GameDataFunction::getLifeMaxUpItem(player);
-                    #endif
-                });
-                TRIGGER("Heal Mario\n", 4, {
-                    #if SMOVER==100
-                    stageScene->mHolder->mGameDataFile->getPlayerHitPointData()->recover();
-                    #endif
-                    #if SMOVER==130
-                    GameDataFunction::recoveryPlayer(player);
-                    #endif
-                });
-                TRIGGER("Remove Cappy\n", 5, GameDataFunction::disableCapByPlacement(cappy));
-                TRIGGER("Invincibility Star\n", 6, player->mDamageKeeper->activatePreventDamage());
+                TRIGGER("Damage Mario\n", 2, Game::instance().damageMario(1));
+                TRIGGER("Life Up Heart\n", 3, Game::instance().lifeUpHeart());
+                TRIGGER("Heal Mario\n", 4, Game::instance().healMario());
+                TRIGGER("Remove Cappy\n", 5, Game::instance().removeCappy());
+                TRIGGER("Invincibility Star\n", 6, Game::instance().invincibilityStar());
                 
                 static u8 gravity = 0;
 
@@ -419,7 +401,7 @@ void fl::PracticeUI::menu()
 
                 #if SMOVER==100
                 TRIGGER("Connect to server\n", 1, {
-                    //smo::Server::instance().connect("someip", 7902);
+                    //smo::Server::instance().connect("someip");
                 });
                 TOGGLE("Old Motion Mod: %s\n", fl::TasHolder::instance().oldMotion, 2);
 

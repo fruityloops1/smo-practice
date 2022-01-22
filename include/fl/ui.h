@@ -57,6 +57,14 @@ public:
     bool isModeE3MovieRom = false;
     bool isModeEpdMovieRom = false;
     bool isModeJungleGymRom = false;
+    
+    enum Page : u8
+    {
+        About, Options, Stage, Misc, Info, Tas, MoonInfo, Modes, Debug
+    };
+
+    Page curPage = About;
+    u8 curLine = 0;
 };
 
 }
