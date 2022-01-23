@@ -32,6 +32,10 @@
 
 namespace smo
 {
+    std::deque<std::string> scriptArgs;
+    std::deque<std::string> goArgs;
+    std::deque<std::string> tpArgs;
+
     void smo::Client::connect()
     {
         struct in_addr ip;
@@ -51,6 +55,9 @@ namespace smo
             case smo::InPacketType::Init:
             {
                 connect();
+                //OutPacketPlayerTeleport p;
+                //p.pos = {0, 1000, 0};
+                //sendPacket(parent, p, smo::OutPacketType::PlayerTeleport);
                 break;
             }
             IN_PACKET(Log)
@@ -115,6 +122,54 @@ namespace smo
         return 0;
     }
 
+    void smo::Server::handleScript(std::deque<std::string> args) {
+        if (args.size() != 1)
+        {
+            if (scriptArgs.empty()) {
+                std::cout << "script <script file>" << std::endl;
+                return;
+            }
+            else
+                args = scriptArgs;
+        }
+        if (!std::filesystem::exists(args[0]))
+        {
+            std::cout << "Specified script file does not exist" << std::endl;
+            return;
+        }
+        scriptArgs = args;
+        std::ifstream scriptFile(args[0]);
+        fl::TasScript script = fl::script::fromText(scriptFile);
+        scriptFile.close();
+
+        OutPacketPlayerScriptInfo p;
+        p.scriptName = args[0];
+        c.sendPacket(this, p, smo::OutPacketType::PlayerScriptInfo);
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(32));
+
+        OutPacketPlayerScriptData pD;
+        {
+            u32 i = 0;
+            for (fl::TasFrame& f : script.frames)
+            {         
+                pD.script.frames.push_back(f);               
+                i++;
+                if (i >= 1500)
+                {
+                    c.sendPacket(this, pD, smo::OutPacketType::PlayerScriptData);
+                    pD.script.frames.clear();
+                    i = 0;
+                    std::this_thread::sleep_for(std::chrono::milliseconds(script.frames.size() / 10000));
+                }
+            }
+            if (i != 0)
+            {
+                c.sendPacket(this, pD, smo::OutPacketType::PlayerScriptData);
+            }
+        }
+    }
+
     void smo::Server::loopThread()
     {
         using namespace std::chrono_literals;
@@ -123,8 +178,12 @@ namespace smo
             {
                 if (args.size() != 3)
                 {
-                    std::cout << "tp <X> <Y> <Z>" << std::endl;
-                    return;
+                    if (tpArgs.empty()) {
+                        std::cout << "tp <X> <Y> <Z>" << std::endl;
+                        return;
+                    }
+                    else
+                        args = tpArgs;
                 }
                 Vector3f pos;
                 try
@@ -140,14 +199,19 @@ namespace smo
                 }
                 OutPacketPlayerTeleport p;
                 p.pos = pos;
+                tpArgs = args;
                 c.sendPacket(this, p, smo::OutPacketType::PlayerTeleport);
             }},
             {"go", [this](std::deque<std::string>& args)
             {
                 if (args.size() == 0)
                 {
-                    std::cout << "go <stage name> <scenario> <entrance> <start script (true:false)>" << std::endl;
-                    return;
+                    if (goArgs.empty()) {
+                        std::cout << "go <stage name> <scenario> <entrance> <start script (true:false)>" << std::endl;
+                        return;
+                    }
+                    else
+                        args = goArgs;
                 }
                 std::string entrance = "start";
                 s8 scenario = -1;
@@ -181,56 +245,24 @@ namespace smo
                 p.scenario = scenario;
                 p.stageName = args[0];
                 p.entrance = entrance;
+                goArgs = args;
                 c.sendPacket(this, p, smo::OutPacketType::PlayerGo);
             }},
             {"script", [this](std::deque<std::string>& args)
             {
-                if (args.size() != 1)
-                {
-                    std::cout << "script <script file>" << std::endl;
-                    return;
-                }
-                if (!std::filesystem::exists(args[0]))
-                {
-                    std::cout << "Specified script file does not exist" << std::endl;
-                    return;
-                }
-                std::ifstream scriptFile(args[0]);
-                fl::TasScript script = fl::script::fromText(scriptFile);
-                scriptFile.close();
-
-                OutPacketPlayerScriptInfo p;
-                p.scriptName = args[0];
-                c.sendPacket(this, p, smo::OutPacketType::PlayerScriptInfo);
-
-                std::this_thread::sleep_for(std::chrono::milliseconds(32));
-
-                OutPacketPlayerScriptData pD;
-                {
-                    u32 i = 0;
-                    for (fl::TasFrame& f : script.frames)
-                    {         
-                        pD.script.frames.push_back(f);               
-                        i++;
-                        if (i >= 1500)
-                        {
-                            c.sendPacket(this, pD, smo::OutPacketType::PlayerScriptData);
-                            pD.script.frames.clear();
-                            i = 0;
-                            std::this_thread::sleep_for(std::chrono::milliseconds(script.frames.size() / 10000));
-                        }
-                    }
-                    if (i != 0)
-                    {
-                        c.sendPacket(this, pD, smo::OutPacketType::PlayerScriptData);
-                    }
-                }
+                handleScript(args);
+            }},
+            {"s", [this](std::deque<std::string>& args)
+            {
+                handleScript(args);
             }},
             {"help", [this](std::deque<std::string>& args)
             {
                 std::cout << "tp <X> <Y> <Z>\n  Teleport Player to position" << std::endl;
                 std::cout << "go <stage name> <entrance> <scenario>\n  Teleport Player to stage" << std::endl;
                 std::cout << "script <script file>\n  Start script" << std::endl;
+                std::cout << "s <script file>\n  Start script" << std::endl;
+                std::cout << "run a command without arguments to run it with the last valid arguments you used" << std::endl;
             }}
         };
         std::deque<std::string> lastCommand;

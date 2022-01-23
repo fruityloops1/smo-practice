@@ -4,6 +4,7 @@
 #include <types.h>
 #include <unordered_map>
 #include <packet.h>
+#include <deque>
 
 namespace smo
 {
@@ -28,6 +29,7 @@ namespace smo
     {
     private:
         s32 socketfd;
+        void handleScript(std::deque<std::string> args);
         void loopThread();
     public:
         u8 start(u16 port);
