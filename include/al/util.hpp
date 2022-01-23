@@ -157,6 +157,10 @@ namespace al
     EFUN(0x006A4550, sead::Heap*, getCurrentHeap, EFUN_ARGS(void));
     #endif
 
+    int getRandom(int, int);
+    int getRandom(int);
+    bool isHalfProbability();
+
     al::Projection *getProjection(al::IUseCamera const *, int);
 
     int getSubActorNum(al::LiveActor const *);

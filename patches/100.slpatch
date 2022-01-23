@@ -619,3 +619,9 @@ StageScene::control+18:
     bl fgetPadAccelerationDeviceNum
 00865b1c:
     bl fgetPadAccelerationDeviceNum
+
+// WIGGLER
+000b07f8:
+    bl getMofumofuTarget
+000b07a8:
+    bl isPatternReverse
