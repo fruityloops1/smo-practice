@@ -89,5 +89,8 @@
         _Z20fisPadTriggerLMotioni;
         _Z28fgetPadAccelerationDeviceNumi;
         _Z12motionUpdatePN2al23JoyPadAccelPoseAnalyzerE;
+
+        _Z17getMofumofuTargeti;
+        _Z16isPatternReversev;
     local: *;
 };

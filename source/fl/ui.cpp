@@ -316,7 +316,7 @@ void fl::PracticeUI::menu()
             {
                 TITLE("Miscellaneous");
                 #if SMOVER==100
-                MAX_LINE(8);
+                MAX_LINE(9);
                 #endif
                 #if SMOVER==130
                 MAX_LINE(7);
@@ -356,16 +356,24 @@ void fl::PracticeUI::menu()
 
                 if (gravityChanged)
                 {
-                    if (gravity == 0) al::setGravity(player, {0, -1, 0});
-                    else if (gravity == 1) al::setGravity(player, {0, 1, 0});
-                    else if (gravity == 2) al::setGravity(player, {1, 0, 0});
-                    else if (gravity == 3) al::setGravity(player, {-1, 0, 0});
-                    else if (gravity == 4) al::setGravity(player, {0, 0, 1});
-                    else if (gravity == 5) al::setGravity(player, {0, 0, -1});
+                    al::LiveActor* o = player;
+                    if (player->mHackKeeper->currentHackActor) o = player->mHackKeeper->currentHackActor;
+
+                    if (gravity == 0) al::setGravity(o, {0, -1, 0});
+                    else if (gravity == 1) al::setGravity(o, {0, 1, 0});
+                    else if (gravity == 2) al::setGravity(o, {1, 0, 0});
+                    else if (gravity == 3) al::setGravity(o, {-1, 0, 0});
+                    else if (gravity == 4) al::setGravity(o, {0, 0, 1});
+                    else if (gravity == 5) al::setGravity(o, {0, 0, -1});
                 }
 
+                printf("%sWiggler Pattern: %s\n", curLine == 8 ? ">" : " ", curPattern == Random ? "Random" : mPatternEntries[curPattern].typeStr);
+                if (al::isPadTriggerRight(CONTROLLER_AUTO) && curLine == 8) (*(s8*) &curPattern)++;
+                if (al::isPadTriggerLeft(CONTROLLER_AUTO) && curLine == 8) (*(s8*) &curPattern)--;
+                if (*(s8*) &curPattern > 21 || *(s8*) &curPattern < -1) curPattern = Random;
+
                 #if SMOVER==100
-                TRIGGER("Reload Stage\n", 8, {
+                TRIGGER("Reload Stage\n", 9, {
                     #if(SMOVER==100)
                     reloadStageForPos = 0;
                     reloadStagePos = *al::getTrans(player);
