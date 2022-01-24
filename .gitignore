@@ -30,3 +30,4 @@ keys.dat
 .exefs100/
 .exefs130/
 build130.sh
+.DS_Store

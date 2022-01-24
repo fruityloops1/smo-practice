@@ -60,7 +60,7 @@ public:
     
     enum Page : u8
     {
-        About, Options, Stage, Misc, Info, Tas, MoonInfo, Modes, Debug
+        About, Options, Stage, Misc, Info, Info2, Tas, MoonInfo, Modes, Debug
     };
 
     Page curPage = About;
