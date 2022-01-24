@@ -252,3 +252,17 @@ void motionUpdate(al::JoyPadAccelPoseAnalyzer* dis)
         }
     }
 }
+
+bool isPatternReverse() {
+    fl::PracticeUI& ui =  fl::PracticeUI::instance();
+    bool b = al::isHalfProbability();
+    if (ui.curPattern != fl::PracticeUI::Random) b = ui.mPatternEntries[ui.curPattern].reverse;
+    return b;
+}
+
+int getMofumofuTarget(int a) {
+    fl::PracticeUI& ui =  fl::PracticeUI::instance();
+    bool r = al::getRandom(a);
+    if (ui.curPattern != fl::PracticeUI::Random) r = ui.mPatternEntries[ui.curPattern].target;
+    return r;
+}
