@@ -401,24 +401,24 @@ void fl::PracticeUI::menu()
                 static bool quatRot = false;
                 TOGGLE("Quaternion Rotation: %s\n\n", quatRot, 1);              
 
-                printf("Player Pos: (X: %.3f Y: %.3f Z: %.3f)\n", playerTrans->x, playerTrans->y, playerTrans->z);
-                printf("Player Vel: (X: %.3f Y: %.3f Z: %.3f)\n", playerVel->x, playerVel->y, playerVel->z);
-                printf("Player Speed: (H: %.3f V: %.3f S: %.3f)\n", hSpeed, vSpeed, speed);
+                printf(" Player Pos: (X: %.3f Y: %.3f Z: %.3f)\n", playerTrans->x, playerTrans->y, playerTrans->z);
+                printf(" Player Vel: (X: %.3f Y: %.3f Z: %.3f)\n", playerVel->x, playerVel->y, playerVel->z);
+                printf(" Player Speed: (H: %.3f V: %.3f S: %.3f)\n", hSpeed, vSpeed, speed);
                 if (quatRot)
                 {
-                    printf("Player Rot: (W: %.3f X: %.3f Y: %.3f Z: %.3f)\n", playerQuat->w, playerQuat->x, playerQuat->y, playerQuat->z);
+                    printf(" Player Rot: (W: %.3f X: %.3f Y: %.3f Z: %.3f)\n", playerQuat->w, playerQuat->x, playerQuat->y, playerQuat->z);
                 }
                 else
-                    printf("Player Rot: (X: %.3f Y: %.3f Z: %.3f)\n", playerRot.x, playerRot.y, playerRot.z);
-                printf("Cappy Pos: (X: %.3f Y: %.3f Z: %.3f)\n", cappyTrans->x, cappyTrans->y, cappyTrans->z);
+                    printf(" Player Rot: (X: %.3f Y: %.3f Z: %.3f)\n", playerRot.x, playerRot.y, playerRot.z);
+                printf(" Cappy Pos: (X: %.3f Y: %.3f Z: %.3f)\n", cappyTrans->x, cappyTrans->y, cappyTrans->z);
                 if (quatRot)
                 {
-                    printf("Cappy Rot: (W: %.3f X: %.3f Y: %.3f Z: %.3f)\n", cappyQuat->w, cappyQuat->x, cappyQuat->y, cappyQuat->z);
+                    printf(" Cappy Rot: (W: %.3f X: %.3f Y: %.3f Z: %.3f)\n", cappyQuat->w, cappyQuat->x, cappyQuat->y, cappyQuat->z);
                 }
                 else
-                    printf("Cappy Rot: (X: %.3f Y: %.3f Z: %.3f)\n", cappyRot.x, cappyRot.y, cappyRot.z);
-                printf("Bubble Pos: (X: %.3f Y: %.3f Z: %.3f)\n", playerRecoveryPoint->x, playerRecoveryPoint->y, playerRecoveryPoint->z);
-                printf("Current Animation: %s (%.0f/%.0f)\n", anim, player->mPlayerAnimator->getAnimFrame() - 1.0f, player->mPlayerAnimator->getAnimFrameMax());
+                    printf(" Cappy Rot: (X: %.3f Y: %.3f Z: %.3f)\n", cappyRot.x, cappyRot.y, cappyRot.z);
+                printf(" Bubble Pos: (X: %.3f Y: %.3f Z: %.3f)\n", playerRecoveryPoint->x, playerRecoveryPoint->y, playerRecoveryPoint->z);
+                printf(" Current Animation: %s (%.0f/%.0f)\n", anim, player->mPlayerAnimator->getAnimFrame() - 1.0f, player->mPlayerAnimator->getAnimFrameMax());
 
                 break;
             }
@@ -457,20 +457,20 @@ void fl::PracticeUI::menu()
                 const char* anim = player->mPlayerAnimator->mCurrentAnim;
                 float hSpeed = al::calcSpeedH(player), vSpeed = al::calcSpeedV(player), speed = al::calcSpeed(player);
 
-                printf("Origin: (X: %.3f Y: %.3f Z: %.3f)\n", relativeTrans.x, relativeTrans.y, relativeTrans.z);
-                printf("Rotation: %.3f\n\n", DEG(relativeAngle));
+                printf(" Origin: (X: %.3f Y: %.3f Z: %.3f)\n", relativeTrans.x, relativeTrans.y, relativeTrans.z);
+                printf(" Rotation: %.3f\n\n", DEG(relativeAngle));
                 if (fixedOrigin) {
-                    printf("Player Pos: (A: %.3f B: %.3f C: %.3f)\n", playerABCTrans.x, playerABCTrans.y, playerABCTrans.z);
-                    printf("Player Dist to Origin: (H: %.3f S: %.3f)\n", playerABCDistances.x, playerABCDistances.z);
+                    printf(" Player Pos: (A: %.3f B: %.3f C: %.3f)\n", playerABCTrans.x, playerABCTrans.y, playerABCTrans.z);
+                    printf(" Player Dist to Origin: (H: %.3f S: %.3f)\n", playerABCDistances.x, playerABCDistances.z);
                 }
-                printf("Player Vel: (A: %.3f B: %.3f C: %.3f)\n", playerABCVel.x, playerABCVel.y, playerABCVel.z);
-                printf("Player Speed: (H: %.3f V: %.3f S: %.3f)\n", hSpeed, vSpeed, speed);
-                printf("Player Rot: (A: %.3f B: %.3f C: %.3f)\n", playerABCRot.x, playerABCRot.y, playerABCRot.z);
-                printf("Cappy Pos: (A: %.3f B: %.3f C: %.3f)\n", cappyABCTrans.x, cappyABCTrans.y, cappyABCTrans.z);
-                printf("Cappy Dist to Origin: (H: %.3f S: %.3f)\n", cappyABCDistances.x, cappyABCDistances.z);
-                printf("Cappy Rot: (A: %.3f B: %.3f C: %.3f)\n", cappyABCRot.x, cappyABCRot.y, cappyABCRot.z);
+                printf(" Player Vel: (A: %.3f B: %.3f C: %.3f)\n", playerABCVel.x, playerABCVel.y, playerABCVel.z);
+                printf(" Player Speed: (H: %.3f V: %.3f S: %.3f)\n", hSpeed, vSpeed, speed);
+                printf(" Player Rot: (A: %.3f B: %.3f C: %.3f)\n", playerABCRot.x, playerABCRot.y, playerABCRot.z);
+                printf(" Cappy Pos: (A: %.3f B: %.3f C: %.3f)\n", cappyABCTrans.x, cappyABCTrans.y, cappyABCTrans.z);
+                printf(" Cappy Dist to Origin: (H: %.3f S: %.3f)\n", cappyABCDistances.x, cappyABCDistances.z);
+                printf(" Cappy Rot: (A: %.3f B: %.3f C: %.3f)\n", cappyABCRot.x, cappyABCRot.y, cappyABCRot.z);
                 //printf("Bubble Pos: (X: %.3f Y: %.3f Z: %.3f)\n", playerRecoveryPoint->x, playerRecoveryPoint->y, playerRecoveryPoint->z);
-                printf("Current Animation: %s (%.0f/%.0f)\n", anim, player->mPlayerAnimator->getAnimFrame() - 1.0f, player->mPlayerAnimator->getAnimFrameMax());
+                printf(" Current Animation: %s (%.0f/%.0f)\n", anim, player->mPlayerAnimator->getAnimFrame() - 1.0f, player->mPlayerAnimator->getAnimFrameMax());
 
                 break;
             }
