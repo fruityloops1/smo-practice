@@ -55,9 +55,6 @@ namespace smo
             case smo::InPacketType::Init:
             {
                 connect();
-                //OutPacketPlayerTeleport p;
-                //p.pos = {0, 1000, 0};
-                //sendPacket(parent, p, smo::OutPacketType::PlayerTeleport);
                 break;
             }
             IN_PACKET(Log)
