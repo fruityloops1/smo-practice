@@ -2,6 +2,7 @@
 #include "script.h"
 #include "tas.h"
 #include "types.h"
+#include "util.h"
 #include <chrono>
 #include <ratio>
 #include <server.h>
@@ -173,21 +174,50 @@ namespace smo
         const std::unordered_map<std::string, std::function<void(std::deque<std::string>&)>> cmd = {
             {"tp", [this](std::deque<std::string>& args)
             {
-                if (args.size() != 3)
+                if (args.size() < 3)
                 {
                     if (tpArgs.empty()) {
-                        std::cout << "tp <X> <Y> <Z>" << std::endl;
+                        std::cout << "tp <X> <Y> <Z> OR" << std::endl;
+                        std::cout << "tp <X> <Y> <Z> <Y-rot> OR" << std::endl;
+                        std::cout << "tp <X> <Y> <Z> <X-rot> <Y-rot> <Z-rot> OR" << std::endl;
+                        std::cout << "tp <X> <Y> <Z> <quat-W> <quat-X> <quat-Y> <quat-Z>" << std::endl;
                         return;
                     }
                     else
                         args = tpArgs;
                 }
                 Vector3f pos;
+                Vector3f eulerAngles;
+                Quatf rot;
                 try
                 {
                     pos.x = std::stof(args[0]);
                     pos.y = std::stof(args[1]);
                     pos.z = std::stof(args[2]);
+                    if (args.size() == 3) {
+                        rot.w = 1;
+                        rot.x = 0;
+                        rot.y = 0;
+                        rot.z = 0;
+                    }
+                    else if (args.size() == 4) {
+                        eulerAngles.x = 0;
+                        eulerAngles.y = RAD(std::stof(args[3]));
+                        eulerAngles.z = 0;
+                        rot = fl::eulerToQuat(eulerAngles);
+                    }
+                    else if (args.size() == 6) {
+                        eulerAngles.x = RAD(std::stof(args[3]));
+                        eulerAngles.y = RAD(std::stof(args[4]));
+                        eulerAngles.z = RAD(std::stof(args[5]));
+                        rot = fl::eulerToQuat(eulerAngles);
+                    }
+                    else if (args.size() == 7) {
+                        rot.w = std::stof(args[3]);
+                        rot.x = std::stof(args[4]);
+                        rot.y = std::stof(args[5]);
+                        rot.z = std::stof(args[6]);
+                    }
                 }
                 catch (std::invalid_argument e)
                 {
@@ -196,6 +226,7 @@ namespace smo
                 }
                 OutPacketPlayerTeleport p;
                 p.pos = pos;
+                p.rot = rot;
                 tpArgs = args;
                 c.sendPacket(this, p, smo::OutPacketType::PlayerTeleport);
             }},
@@ -255,7 +286,10 @@ namespace smo
             }},
             {"help", [this](std::deque<std::string>& args)
             {
-                std::cout << "tp <X> <Y> <Z>\n  Teleport Player to position" << std::endl;
+                std::cout << "tp <X> <Y> <Z>\n  Teleport Player to position, rotation 0 degrees" << std::endl;
+                std::cout << "tp <X> <Y> <Z> <Y-rot>" << std::endl;
+                std::cout << "tp <X> <Y> <Z> <X-rot> <Y-rot> <Z-rot>" << std::endl;
+                std::cout << "tp <X> <Y> <Z> <quat-W> <quat-X> <quat-Y> <quat-Z>\n Teleport Player to position with specified rotation" << std::endl;
                 std::cout << "go <stage name> <entrance> <scenario>\n  Teleport Player to stage" << std::endl;
                 std::cout << "script <script file>\n  Start script" << std::endl;
                 std::cout << "s <script file>\n  Start script" << std::endl;

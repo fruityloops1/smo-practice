@@ -65,20 +65,20 @@ sead::Vector3f transformToRelativeAxes(sead::Vector3f vec, bool isTransVector) {
         vec.y -= relativeTrans.y;
         vec.z -= relativeTrans.z;
     }
-    double zxAngle = atan2(vec.x, vec.z);
+    double zxAngle = atan2f(vec.x, vec.z);
     double caAngle = zxAngle - relativeAngle;
     double magnitude = sqrt(vec.z * vec.z + vec.x * vec.x);
-    vec.z = magnitude * cos(caAngle);
-    vec.x = magnitude * sin(caAngle);
+    vec.z = magnitude * cosf(caAngle);
+    vec.x = magnitude * sinf(caAngle);
     return vec;
 }
 
 sead::Vector3f transformEulerAnglesToRelativeAxes(sead::Vector3f vec) {
     sead::Vector3f newVec;
-    newVec.z = atan(sin(vec.z) * cos(relativeAngle + M_PI_2) + sin(vec.x) * sin(relativeAngle + M_PI_2));
-    newVec.x = atan(sin(vec.z) * cos(relativeAngle) + sin(vec.x) * sin(relativeAngle));
+    newVec.z = atanf(tanf(vec.z) * cosf(relativeAngle) + tanf(vec.x) * sinf(relativeAngle));
+    newVec.x = atanf(tanf(vec.z) * cosf(relativeAngle + M_PI_2) + tanf(vec.x) * sinf(relativeAngle + M_PI_2));
     newVec.y = vec.y - relativeAngle;
-    if (newVec.y < M_PI * 2)
+    if (newVec.y < 0)
         newVec.y += M_PI * 2;
     return newVec;
 }
@@ -405,12 +405,16 @@ void fl::PracticeUI::menu()
                 sead::Vector3f cappyRot = sead::Vector3f(DEG(cappyEulerAngles.x),DEG(cappyEulerAngles.y),DEG(cappyEulerAngles.z));
                 const char* anim = player->mPlayerAnimator->mCurrentAnim;
                 float hSpeed = al::calcSpeedH(player), vSpeed = al::calcSpeedV(player), speed = al::calcSpeed(player);
+                float hSpeedAngle = atan2f(playerVel->x, playerVel->z);
+                if (hSpeedAngle < 0)
+                    hSpeedAngle += M_PI * 2;
 
                 static bool quatRot = false;
                 TOGGLE("Quaternion Rotation: %s\n\n", quatRot, 1);              
 
                 printf(" Player Pos: (X: %.3f Y: %.3f Z: %.3f)\n", playerTrans->x, playerTrans->y, playerTrans->z);
                 printf(" Player Vel: (X: %.3f Y: %.3f Z: %.3f)\n", playerVel->x, playerVel->y, playerVel->z);
+                printf(" Player Vel Angle: %.3f\n", DEG(hSpeedAngle));
                 printf(" Player Speed: (H: %.3f V: %.3f S: %.3f)\n", hSpeed, vSpeed, speed);
                 if (quatRot)
                 {
