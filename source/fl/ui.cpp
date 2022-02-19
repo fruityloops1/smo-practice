@@ -23,7 +23,7 @@ const char* stageNames[] = {"CapWorldHomeStage", "WaterfallWorldHomeStage", "San
 #endif
 
 
-#define NUM_PAGES 9
+#define NUM_PAGES 10
 #define NUM_STAGES 200
 
 #if(SMOVER==100)
@@ -49,6 +49,47 @@ const char* stageNames[] = {"CapWorldHomeStage", "WaterfallWorldHomeStage", "San
 #define TRIGGER(NAME, LINE, ACTION) CURSOR(LINE);\
                                     printf("%s" NAME, charCursor);\
                                     if (inputEnabled && curLine == LINE && !nextFrameNoRightInput && al::isPadTriggerRight(CONTROLLER_AUTO)) {ACTION;}
+
+sead::Vector3f relativeTrans;
+double relativeAngle = 0;
+
+//angle in radians
+void setRelativeAxes(sead::Vector3f trans, double angle) {
+    relativeTrans = trans;
+    relativeAngle = angle;
+}
+
+sead::Vector3f transformToRelativeAxes(sead::Vector3f vec, bool isTransVector) {
+    if (isTransVector) {
+        vec.x -= relativeTrans.x;
+        vec.y -= relativeTrans.y;
+        vec.z -= relativeTrans.z;
+    }
+    double zxAngle = atan2f(vec.x, vec.z);
+    double caAngle = zxAngle - relativeAngle;
+    double magnitude = sqrt(vec.z * vec.z + vec.x * vec.x);
+    vec.z = magnitude * cosf(caAngle);
+    vec.x = magnitude * sinf(caAngle);
+    return vec;
+}
+
+sead::Vector3f transformEulerAnglesToRelativeAxes(sead::Vector3f vec) {
+    sead::Vector3f newVec;
+    newVec.z = atanf(tanf(vec.z) * cosf(relativeAngle) + tanf(vec.x) * sinf(relativeAngle));
+    newVec.x = atanf(tanf(vec.z) * cosf(relativeAngle + M_PI_2) + tanf(vec.x) * sinf(relativeAngle + M_PI_2));
+    newVec.y = vec.y - relativeAngle;
+    if (newVec.y < 0)
+        newVec.y += M_PI * 2;
+    return newVec;
+}
+
+sead::Vector3f calcMagnitudes(sead::Vector3f vec) {
+    sead::Vector3f newVec;
+    newVec.x = sqrt(vec.z * vec.z + vec.x * vec.x);
+    newVec.y = vec.y;
+    newVec.z = sqrt(newVec.x * newVec.x + newVec.y * newVec.y);
+    return newVec;
+}
 
 void fl::PracticeUI::savePosition(PlayerActorHakoniwa& player)
 {
@@ -165,7 +206,8 @@ void fl::PracticeUI::menu()
                 else if (curPage == Options) curPage = Stage;
                 else if (curPage == Stage) curPage = Misc;
                 else if (curPage == Misc) curPage = Info;
-                else if (curPage == Info) curPage = Tas;
+                else if (curPage == Info) curPage = Info2;
+                else if (curPage == Info2) curPage = Tas;
                 else if (curPage == Tas) curPage = MoonInfo;
                 else if (curPage == MoonInfo) curPage = Modes;
                 else if (curPage == Modes) curPage = Debug;
@@ -177,7 +219,8 @@ void fl::PracticeUI::menu()
                 else if (curPage == Stage) curPage = Options;
                 else if (curPage == Misc) curPage = Stage;
                 else if (curPage == Info) curPage = Misc;
-                else if (curPage == Tas) curPage = Info;
+                else if (curPage == Tas) curPage = Info2;
+                else if (curPage == Info2) curPage = Info;
                 else if (curPage == MoonInfo) curPage = Tas;
                 else if (curPage == Modes) curPage = MoonInfo;
                 else if (curPage == Debug) curPage = Modes;
@@ -345,12 +388,10 @@ void fl::PracticeUI::menu()
             }
             case Info:
             {
-                TITLE("Info");
+                printf("Info\n");
                 MAX_LINE(1);
+                CURSOR(0);
                 CHANGE_PAGE();
-
-                static bool quatRot = false;
-                TOGGLE("Quaternion Rotation: %s\n", quatRot, 1);
 
                 sead::Vector3f* playerTrans = al::getTrans(player);
                 sead::Vector3f* playerVel = al::getVelocity(player);
@@ -358,36 +399,89 @@ void fl::PracticeUI::menu()
                 sead::Vector3f playerEulerAngles = fl::QuatToEuler(playerQuat);
                 sead::Vector3f playerRot = sead::Vector3f(DEG(playerEulerAngles.x),DEG(playerEulerAngles.y),DEG(playerEulerAngles.z));
                 sead::Vector3f* playerRecoveryPoint = player->mPlayerRecoverPoint->getSafetyPoint();
-                sead::Vector3f* cappyPosition = al::getTrans(cappy);
-                sead::Vector3f* cappyVel = al::getVelocity(cappy);
-                sead::Quatf* cappyQuat = al::getQuat(cappy);
+                sead::Vector3f* cappyTrans = al::getTrans(player->mHackCap);
+                sead::Quatf* cappyQuat = al::getQuat(player->mHackCap);
                 sead::Vector3f cappyEulerAngles = fl::QuatToEuler(cappyQuat);
                 sead::Vector3f cappyRot = sead::Vector3f(DEG(cappyEulerAngles.x),DEG(cappyEulerAngles.y),DEG(cappyEulerAngles.z));
                 const char* anim = player->mPlayerAnimator->mCurrentAnim;
                 float hSpeed = al::calcSpeedH(player), vSpeed = al::calcSpeedV(player), speed = al::calcSpeed(player);
+                float hSpeedAngle = atan2f(playerVel->x, playerVel->z);
+                if (hSpeedAngle < 0)
+                    hSpeedAngle += M_PI * 2;
+
+                static bool quatRot = false;
+                TOGGLE("Quaternion Rotation: %s\n\n", quatRot, 1);              
 
                 printf(" Player Pos: (X: %.3f Y: %.3f Z: %.3f)\n", playerTrans->x, playerTrans->y, playerTrans->z);
                 printf(" Player Vel: (X: %.3f Y: %.3f Z: %.3f)\n", playerVel->x, playerVel->y, playerVel->z);
+                printf(" Player Vel Angle: %.3f\n", DEG(hSpeedAngle));
                 printf(" Player Speed: (H: %.3f V: %.3f S: %.3f)\n", hSpeed, vSpeed, speed);
                 if (quatRot)
                 {
                     printf(" Player Rot: (W: %.3f X: %.3f Y: %.3f Z: %.3f)\n", playerQuat->w, playerQuat->x, playerQuat->y, playerQuat->z);
                 }
                 else
-                {
                     printf(" Player Rot: (X: %.3f Y: %.3f Z: %.3f)\n", playerRot.x, playerRot.y, playerRot.z);
-                }
-                printf(" Cappy Pos: (X: %.3f Y: %.3f Z: %.3f)\n", cappyPosition->x, cappyPosition->y, cappyPosition->z);
-                printf(" Cappy Vel: (X: %.3f Y: %.3f Z: %.3f)\n", cappyVel->x, cappyVel->y, cappyVel->z);
+                printf(" Cappy Pos: (X: %.3f Y: %.3f Z: %.3f)\n", cappyTrans->x, cappyTrans->y, cappyTrans->z);
                 if (quatRot)
                 {
                     printf(" Cappy Rot: (W: %.3f X: %.3f Y: %.3f Z: %.3f)\n", cappyQuat->w, cappyQuat->x, cappyQuat->y, cappyQuat->z);
                 }
                 else
-                {
                     printf(" Cappy Rot: (X: %.3f Y: %.3f Z: %.3f)\n", cappyRot.x, cappyRot.y, cappyRot.z);
-                }
                 printf(" Bubble Pos: (X: %.3f Y: %.3f Z: %.3f)\n", playerRecoveryPoint->x, playerRecoveryPoint->y, playerRecoveryPoint->z);
+                printf(" Current Animation: %s (%.0f/%.0f)\n", anim, player->mPlayerAnimator->getAnimFrame() - 1.0f, player->mPlayerAnimator->getAnimFrameMax());
+
+                break;
+            }
+            case Info2:
+            {
+                printf("Relative Axes\n");
+                MAX_LINE(1);
+                CURSOR(0);
+                CHANGE_PAGE();
+
+                sead::Vector3f* playerTrans = al::getTrans(player);
+                sead::Vector3f* playerVel = al::getVelocity(player);
+                sead::Quatf* playerQuat = al::getQuat(player);
+                sead::Vector3f playerEulerAngles = fl::QuatToEuler(playerQuat);
+                //sead::Vector3f* playerRecoveryPoint = player->mPlayerRecoverPoint->getSafetyPoint();
+                sead::Vector3f* cappyTrans = al::getTrans(player->mHackCap);
+                sead::Quatf* cappyQuat = al::getQuat(player->mHackCap);
+                sead::Vector3f cappyEulerAngles = fl::QuatToEuler(cappyQuat);
+
+                static bool fixedOrigin = false;
+                TOGGLE("Fixed Origin/Rotation: %s\n\n", fixedOrigin, 1);
+                if (!fixedOrigin) {
+                    setRelativeAxes(*playerTrans, playerEulerAngles.y);
+                }
+
+                sead::Vector3f playerABCTrans = transformToRelativeAxes(*playerTrans, true);
+                sead::Vector3f playerABCDistances = calcMagnitudes(playerABCTrans);
+                sead::Vector3f playerABCVel = transformToRelativeAxes(*playerVel, false);
+                sead::Vector3f cappyABCTrans = transformToRelativeAxes(*cappyTrans, true);
+                sead::Vector3f cappyABCDistances = calcMagnitudes(cappyABCTrans);
+                sead::Vector3f playerABCEulerAngles = transformEulerAnglesToRelativeAxes(playerEulerAngles);
+                sead::Vector3f cappyABCEulerAngles = transformEulerAnglesToRelativeAxes(cappyEulerAngles);
+                sead::Vector3f playerABCRot = sead::Vector3f(DEG(playerABCEulerAngles.x),DEG(playerABCEulerAngles.y),DEG(playerABCEulerAngles.z));
+                sead::Vector3f cappyABCRot = sead::Vector3f(DEG(cappyABCEulerAngles.x),DEG(cappyABCEulerAngles.y),DEG(cappyABCEulerAngles.z));
+
+                const char* anim = player->mPlayerAnimator->mCurrentAnim;
+                float hSpeed = al::calcSpeedH(player), vSpeed = al::calcSpeedV(player), speed = al::calcSpeed(player);
+
+                printf(" Origin: (X: %.3f Y: %.3f Z: %.3f)\n", relativeTrans.x, relativeTrans.y, relativeTrans.z);
+                printf(" Rotation: %.3f\n\n", DEG(relativeAngle));
+                if (fixedOrigin) {
+                    printf(" Player Pos: (A: %.3f B: %.3f C: %.3f)\n", playerABCTrans.x, playerABCTrans.y, playerABCTrans.z);
+                    printf(" Player Dist to Origin: (H: %.3f S: %.3f)\n", playerABCDistances.x, playerABCDistances.z);
+                }
+                printf(" Player Vel: (A: %.3f B: %.3f C: %.3f)\n", playerABCVel.x, playerABCVel.y, playerABCVel.z);
+                printf(" Player Speed: (H: %.3f V: %.3f S: %.3f)\n", hSpeed, vSpeed, speed);
+                printf(" Player Rot: (A: %.3f B: %.3f C: %.3f)\n", playerABCRot.x, playerABCRot.y, playerABCRot.z);
+                printf(" Cappy Pos: (A: %.3f B: %.3f C: %.3f)\n", cappyABCTrans.x, cappyABCTrans.y, cappyABCTrans.z);
+                printf(" Cappy Dist to Origin: (H: %.3f S: %.3f)\n", cappyABCDistances.x, cappyABCDistances.z);
+                printf(" Cappy Rot: (A: %.3f B: %.3f C: %.3f)\n", cappyABCRot.x, cappyABCRot.y, cappyABCRot.z);
+                //printf("Bubble Pos: (X: %.3f Y: %.3f Z: %.3f)\n", playerRecoveryPoint->x, playerRecoveryPoint->y, playerRecoveryPoint->z);
                 printf(" Current Animation: %s (%.0f/%.0f)\n", anim, player->mPlayerAnimator->getAnimFrame() - 1.0f, player->mPlayerAnimator->getAnimFrameMax());
 
                 break;

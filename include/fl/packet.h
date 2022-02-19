@@ -59,6 +59,7 @@ namespace smo
     class InPacketPlayerTeleport : public InPacket
     {
         sead::Vector3f pos;
+        sead::Quatf rot;
     public:
         void parse(const u8* data, u32 len);
         void on(Server& server);

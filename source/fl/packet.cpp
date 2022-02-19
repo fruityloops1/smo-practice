@@ -52,6 +52,10 @@ namespace smo
         pos.x = *(float*) &data[0];
         pos.y = *(float*) &data[4];
         pos.z = *(float*) &data[8];
+        rot.w = *(float*) &data[12];
+        rot.x = *(float*) &data[16];
+        rot.y = *(float*) &data[20];
+        rot.z = *(float*) &data[24];
     }
 
     void InPacketPlayerTeleport::on(Server &server)
@@ -61,6 +65,7 @@ namespace smo
         PlayerActorHakoniwa* player = rs::getPlayerActor(stageScene);
         player->startDemoPuppetable();
         al::setTrans(player, pos);
+        al::updatePoseQuat(player, rot);
         player->endDemoPuppetable();
     }
 

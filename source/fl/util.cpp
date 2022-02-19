@@ -2,9 +2,9 @@
 
 sead::Vector3f fl::QuatToEuler(sead::Quatf *quat) {
 
-    f32 x = quat->z;
-    f32 y = quat->y;
-    f32 z = quat->x;
+    f32 x = quat->x;
+    f32 y = quat->z;
+    f32 z = quat->y;
     f32 w = quat->w;
 
     f32 t0 = 2.0 * (w * x + y * z);
@@ -19,8 +19,11 @@ sead::Vector3f fl::QuatToEuler(sead::Quatf *quat) {
     f32 t3 = 2.0 * (w * z + x * y);
     f32 t4 = 1.0 - 2.0 * (y * y + z * z);
     f32 yaw = atan2f(t3, t4);
+    f32 adjustedYaw = yaw;
+    if (adjustedYaw < 0)
+      adjustedYaw += M_PI * 2;
 
-    return sead::Vector3f(yaw, pitch, roll);
+    return sead::Vector3f(roll, adjustedYaw, pitch);
 }
 
 void* fl::memset (void *dest, int val, size_t len)
