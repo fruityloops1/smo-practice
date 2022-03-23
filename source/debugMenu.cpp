@@ -1,60 +1,60 @@
 #include "debugMenu.hpp"
-#include "fl/ui.h"
 #include "fl/server.h"
+#include "fl/ui/ui.h"
 #include <al/util.hpp>
 
 // These files must exist in your romfs! they are not there by default, and must be added in order for the debug font to work correctly.
-static const char *DBG_FONT_PATH = "DebugData/Font/nvn_font_jis1.ntx";
-static const char *DBG_SHADER_PATH = "DebugData/Font/nvn_font_shader_jis1.bin";
-static const char *DBG_TBL_PATH = "DebugData/Font/nvn_font_jis1_tbl.bin";
+static const char* DBG_FONT_PATH = "DebugData/Font/nvn_font_jis1.ntx";
+static const char* DBG_SHADER_PATH = "DebugData/Font/nvn_font_shader_jis1.bin";
+static const char* DBG_TBL_PATH = "DebugData/Font/nvn_font_jis1_tbl.bin";
 
-sead::TextWriter *gTextWriter;
+sead::TextWriter* gTextWriter;
 
 bool showMenu = true;
 bool isInGame = false;
 
-void setupDebugMenu(GameSystem *gSys) {
+void setupDebugMenu(GameSystem* gSys)
+{
 
-    //gLogger->LOG("Preparing Debug Menu.\n");
+    // gLogger->LOG("Preparing Debug Menu.\n");
 
-    sead::Heap *curHeap = al::getCurrentHeap();
+    sead::Heap* curHeap = al::getCurrentHeap();
 
-    agl::DrawContext *context = gSys->mSystemInfo->mDrawInfo->mDrawContext;
+    agl::DrawContext* context = gSys->mSystemInfo->mDrawInfo->mDrawContext;
 
-    if(curHeap) {
-        if(context) {
-            //gLogger->LOG("Creating Debug Font Instance.\n");
+    if (curHeap) {
+        if (context) {
+            // gLogger->LOG("Creating Debug Font Instance.\n");
 
             sead::DebugFontMgrJis1Nvn::sInstance = sead::DebugFontMgrJis1Nvn::createInstance(curHeap);
 
-            //gLogger->LOG("Checking if Paths Exist: {%s} {%s} {%s}\n", DBG_FONT_PATH, DBG_SHADER_PATH, DBG_TBL_PATH);
+            // gLogger->LOG("Checking if Paths Exist: {%s} {%s} {%s}\n", DBG_FONT_PATH, DBG_SHADER_PATH, DBG_TBL_PATH);
 
-            if(al::isExistFile(DBG_FONT_PATH) && al::isExistFile(DBG_SHADER_PATH) && al::isExistFile(DBG_TBL_PATH)) {
+            if (al::isExistFile(DBG_FONT_PATH) && al::isExistFile(DBG_SHADER_PATH) && al::isExistFile(DBG_TBL_PATH)) {
 
-                //gLogger->LOG("Found All Files in Debug Directory!\n");
+                // gLogger->LOG("Found All Files in Debug Directory!\n");
 
                 sead::DebugFontMgrJis1Nvn::sInstance->initialize(curHeap, DBG_SHADER_PATH, DBG_FONT_PATH, DBG_TBL_PATH, 0x100000);
 
-                //gLogger->LOG("Initialized Instance!\n");
+                // gLogger->LOG("Initialized Instance!\n");
 
                 sead::TextWriter::setDefaultFont(sead::DebugFontMgrJis1Nvn::sInstance);
 
-                //gLogger->LOG("Set Default Text Writer Font!\n");
+                // gLogger->LOG("Set Default Text Writer Font!\n");
 
                 gTextWriter = new sead::TextWriter(context);
 
-                //gLogger->LOG("Created Text Writer!\n");
+                // gLogger->LOG("Created Text Writer!\n");
 
                 gTextWriter->setupGraphics(context);
 
-                //gLogger->LOG("Setup Graphics!\n");
-                
+                // gLogger->LOG("Setup Graphics!\n");
             }
-        }else {
-            //gLogger->LOG("Failed to get Context!\n");
+        } else {
+            // gLogger->LOG("Failed to get Context!\n");
         }
-    }else {
-        //gLogger->LOG("Failed to get Heap!\n");
+    } else {
+        // gLogger->LOG("Failed to get Heap!\n");
     }
 
     smo::Server::instance().start();
@@ -63,7 +63,8 @@ void setupDebugMenu(GameSystem *gSys) {
     __asm("MOV W8, #0xFFFFFFFF");
 }
 
-void drawBackground(agl::DrawContext *context) {
+void drawBackground(agl::DrawContext* context)
+{
 
     sead::Vector3<float> p1; // top left
     p1.x = -1.0;
@@ -86,16 +87,17 @@ void drawBackground(agl::DrawContext *context) {
     c.r = 0.0;
     c.g = 0.0;
     c.b = 0.0;
-    c.a = 0.5; 
+    c.a = 0.5;
 
     agl::utl::DevTools::beginDrawImm(context, sead::Matrix34<float>::ident, sead::Matrix44<float>::ident);
     agl::utl::DevTools::drawTriangleImm(context, p1, p2, p3, c);
     agl::utl::DevTools::drawTriangleImm(context, p3, p4, p2, c);
 }
 
-void drawMainHook(HakoniwaSequence *curSequence, sead::Viewport *viewport, sead::DrawContext *drawContext) {
+void drawMainHook(HakoniwaSequence* curSequence, sead::Viewport* viewport, sead::DrawContext* drawContext)
+{
 
-    if(!showMenu) {
+    if (!showMenu) {
         al::executeDraw(curSequence->mLytKit, "２Ｄバック（メイン画面）");
         return;
     }
@@ -109,28 +111,27 @@ void drawMainHook(HakoniwaSequence *curSequence, sead::Viewport *viewport, sead:
         1.f,
         1.f,
         1.f,
-        0.8f
-    );
+        0.8f);
 
-    al::Scene *curScene = curSequence->curScene;
+    al::Scene* curScene = curSequence->curScene;
 
-    if(curScene && isInGame) {
+    if (curScene && isInGame) {
 
-        drawBackground((agl::DrawContext *)drawContext);
+        drawBackground((agl::DrawContext*)drawContext);
 
-        al::PlayerHolder *pHolder = al::getScenePlayerHolder(curScene);
-        PlayerActorHakoniwa *player = al::tryGetPlayerActor(pHolder, 0);
-        sead::Vector3f *playerTrans = al::getTrans(player);
-        sead::Vector3f *playerVel = al::getVelocity(player);
-        sead::Quatf *playerQuat = al::getQuat(player);
-        sead::Vector3f *playerRecoveryPoint = player->mPlayerRecoverPoint->getSafetyPoint();
+        al::PlayerHolder* pHolder = al::getScenePlayerHolder(curScene);
+        PlayerActorHakoniwa* player = al::tryGetPlayerActor(pHolder, 0);
+        sead::Vector3f* playerTrans = al::getTrans(player);
+        sead::Vector3f* playerVel = al::getVelocity(player);
+        sead::Quatf* playerQuat = al::getQuat(player);
+        sead::Vector3f* playerRecoveryPoint = player->mPlayerRecoverPoint->getSafetyPoint();
 
         gTextWriter->beginDraw();
         gTextWriter->setCursorFromTopLeft(sead::Vector2f(10.f, (dispHeight / 2) + 30.f));
         gTextWriter->setScaleFromFontHeight(20.f);
-        #if(SMOVER==100)
-        fl::PracticeUI::instance().menu(*gTextWriter);
-        #endif
+#if (SMOVER == 100)
+        fl::ui::PracticeUI::instance().menu(*gTextWriter);
+#endif
 
         isInGame = false;
     }
@@ -138,5 +139,4 @@ void drawMainHook(HakoniwaSequence *curSequence, sead::Viewport *viewport, sead:
     gTextWriter->endDraw();
 
     al::executeDraw(curSequence->mLytKit, "２Ｄバック（メイン画面）");
-
 }

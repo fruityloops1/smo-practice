@@ -1,8 +1,8 @@
 #pragma once
 
 #include "nn/mem.h"
-#include <stddef.h>
 #include <nn/init.h>
+#include <stddef.h>
 
 void* aligned_alloc(size_t alignment, size_t size);
 
