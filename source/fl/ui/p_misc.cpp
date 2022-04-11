@@ -25,6 +25,8 @@ void fl::ui::misc::update(PracticeUI& ui)
         Game::instance().invincibilityStar();
     });
 
+    ui.addLine();
+
     static u8 gravity = 0;
     ui.cursor(7);
     const char* gravityString = nullptr;
@@ -70,6 +72,7 @@ void fl::ui::misc::update(PracticeUI& ui)
         al::setGravity(o, { 0, 0, 1 });
     else if (gravity == 5)
         al::setGravity(o, { 0, 0, -1 });
+    ui.addLine();
     ui.printf("%sWiggler Pattern: %s\n", ui.curLine == 8 ? ">" : "", ui.curPattern == PracticeUI::MofumofuPattern::Random ? "Random" : ui.mPatternEntries[ui.curPattern].typeStr);
     if (al::isPadTriggerRight(CONTROLLER_AUTO) && ui.curLine == 8)
         (*(s8*)&ui.curPattern)++;
