@@ -1,3 +1,4 @@
+#include "fl/common.h"
 #include "fl/input.h"
 #include "fl/server.h"
 #include "fl/tas.h"

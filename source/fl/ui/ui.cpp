@@ -91,7 +91,7 @@ void fl::ui::PracticeUI::update(StageScene* stageScene)
     if (showMenu)
         menu();
     else
-        al::setPaneStringFormat(stageScene.stageSceneLayout->coinCounter, "TxtDebug", " ");
+        al::setPaneStringFormat(stageScene->stageSceneLayout->coinCounter, "TxtDebug", " ");
 #endif
 }
 
@@ -132,8 +132,8 @@ void fl::ui::PracticeUI::menu(sead::TextWriter& p)
         textBuffer[1] = '\0';
     }
 #if SMOVER == 130
-    al::showPane(stageScene->stageSceneLayout->coinCounter, "TxtDebug");
-    al::setPaneStringFormat(stageScene->stageSceneLayout->coinCounter, "TxtDebug", textBuffer);
+    al::showPane(getStageScene()->stageSceneLayout->coinCounter, "TxtDebug");
+    al::setPaneStringFormat(getStageScene()->stageSceneLayout->coinCounter, "TxtDebug", textBuffer);
 #elif SMOVER == 100
     p.printf(textBuffer);
 #endif

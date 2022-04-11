@@ -1,10 +1,11 @@
+#include "fl/common.h"
 #include "fl/ui/pages.h"
 #include "game/GameData/GameDataFunction.h"
 
 void fl::ui::modes::update(PracticeUI& ui)
 {
 #if SMOVER == 130
-    printf(MSG_NO130);
+    ui.printf(MSG_NO130);
     return;
 #endif
     ui.toggle("isModeDiverOrJungleGymRom", ui.isModeDiverOrJungleGymRom);
