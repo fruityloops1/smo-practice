@@ -64,6 +64,7 @@ namespace ui {
         bool alwaysWarp = false;
         bool disableAutoSave = false;
         bool skipBowser = false;
+        bool disablePuppet = false;
 
         bool isModeDiverOrJungleGymRom = false;
         bool isModeDiverRom = false;

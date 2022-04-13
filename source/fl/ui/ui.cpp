@@ -24,7 +24,9 @@ void fl::ui::PracticeUI::loadPosition(PlayerActorHakoniwa& player)
     if (hack)
         move = hack;
 
-    if (!hack)
+    if (disablePuppet && !hack)
+        al::offCollide(&player);
+    else if (!hack)
         player.startDemoPuppetable();
     else
         al::offCollide(hack);
@@ -34,7 +36,9 @@ void fl::ui::PracticeUI::loadPosition(PlayerActorHakoniwa& player)
         al::updatePoseQuat(move, savedQuat);
     al::setVelocityZero(move);
 
-    if (!hack)
+    if (disablePuppet && !hack)
+        al::onCollide(&player);
+    else if (!hack)
         player.endDemoPuppetable();
     else
         al::onCollide(hack);
