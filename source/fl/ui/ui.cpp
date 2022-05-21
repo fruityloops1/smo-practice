@@ -138,6 +138,8 @@ void fl::ui::PracticeUI::menu(sead::TextWriter& p)
 #if SMOVER == 130
     al::showPane(getStageScene()->stageSceneLayout->coinCounter, "TxtDebug");
     al::setPaneStringFormat(getStageScene()->stageSceneLayout->coinCounter, "TxtDebug", textBuffer);
+
+    nextFrameNoLeftInput = false;
 #elif SMOVER == 100
     p.printf(textBuffer);
 #endif
