@@ -3,14 +3,16 @@ import os
 import sys
 
 titleIdLookup = {
-    "JP": '01003C700009C000',
-    "US": '01003BC0000A0000',
-    "EU": '0100F8F0000A2000',
-    'EveJP': '0100D070040F8000',
-    'EveUS': '01003870040FA000',
-    'EveEU': '010086F0040FC000',
-    'TrialUS': '01006BB00D45A000',
-    'ShowDL': '010000A00218E000'
+    "US": '0100000000010000'
+
+#    Splatoon 2 IDs used in the original Starlight.
+#    "JP": '01003C700009C000',
+#    "EU": '0100F8F0000A2000',
+#    'EveJP': '0100D070040F8000',
+#    'EveUS': '01003870040FA000',
+#    'EveEU': '010086F0040FC000',
+#    'TrialUS': '01006BB00D45A000',
+#    'ShowDL': '010000A00218E000'
 }
 
 
