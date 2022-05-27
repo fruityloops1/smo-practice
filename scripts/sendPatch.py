@@ -61,6 +61,7 @@ curDir = os.curdir
 ftp = FTP()
 print(f'Connecting to {consoleIP}... ', end='')
 ftp.connect(consoleIP, consolePort)
+#ftp.login(user="admin", passwd="admin")
 print('Connected!')
 
 patchDirectories = []
