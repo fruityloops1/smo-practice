@@ -45,7 +45,6 @@ public:
     void invalidateSaveForMoonGet();
     void validateSaveForMoonGet();
     void setLanguage(char const *);
-    char* getLanguage() const;
 
     void resetLocationName();
     void changeNextStageWithDemoWorldWarp(char const *);
@@ -64,9 +63,11 @@ public:
     
     #if(SMOVER==100)
     char* getCurrentStageName() const;
+    char* getLanguage() const;
     #endif
     #if(SMOVER==130)
     CVEFUN(GameDataHolder, 0x004DB1C0, char*, getCurrentStageName);
+    CVEFUN(GameDataHolder, 0x004DB030, char*, getLanguage);
     #endif
     char* tryGetCurrentStageName() const;
     char* getCurrentStageName(s32 idx) const;

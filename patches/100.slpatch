@@ -44,7 +44,7 @@ StageScene::control+18:
 002a1a98:
     bl isGotShineVar
 
-// toogle warps
+// toggle warps
 001f6b0c:
     b isEnableCheckpointWarpVar
 001f35c0:

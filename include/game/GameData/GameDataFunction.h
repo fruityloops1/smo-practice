@@ -20,13 +20,11 @@ public:
     // Gets the required number of moons required to leave a kingdom
     #if(SMOVER==100)
     static s32 findUnlockShineNumByWorldId(bool*, GameDataHolderAccessor, int); // 0x004d53c0
-    static s32 getCurrentWorldId(GameDataHolderAccessor); // 0x004d2de0
     static s32 getCurrentShineNum(GameDataHolderAccessor); // 0x004d3C60
     static s32 getTotalShineNum(GameDataHolderAccessor, int); // 0x004d4490
     #endif
     #if(SMOVER==130)
     static WEFUN(0x004D53C0, s32, findUnlockShineNumByWorldId, EFUN_ARGS(bool* something, GameDataHolderAccessor accessor, int something2), EFUN_ARGS(something, accessor, something2));
-    static WEFUN(0x004D2DE0, s32, getCurrentWorldId, EFUN_ARGS(GameDataHolderAccessor accessor), EFUN_ARGS(accessor));
     static WEFUN(0x004D3C60, s32, getCurrentShineNum, EFUN_ARGS(GameDataHolderAccessor accessor), EFUN_ARGS(accessor));
     static WEFUN(0x004D4490, s32, getTotalShineNum, EFUN_ARGS(GameDataHolderAccessor accessor, int something), EFUN_ARGS(accessor, something));
     #endif
@@ -40,11 +38,19 @@ public:
     static s32 calcNextScenarioNo(GameDataHolderAccessor);
     // gets total moons collected on a specified save file (-1 for current save)
     // gets the total amount of moons available in a kingdom
-    static s32 getWorldTotalShineNum(GameDataHolderAccessor, int); 
+    static s32 getWorldTotalShineNum(GameDataHolderAccessor, int);
+
+    #if(SMOVER==100)
     // gets the current scenario No of the specified kingdom
     static s32 getWorldScenarioNo(GameDataHolderAccessor, int);
-
+    static s32 getCurrentWorldId(GameDataHolderAccessor); // 0x004d2de0
     static char* getCurrentStageName(GameDataHolderAccessor);
+    #endif
+    #if(SMOVER==130)
+    static WEFUN(0x004D5890, s32, getWorldScenarioNo, EFUN_ARGS(GameDataHolderAccessor* accessor, int worldId), EFUN_ARGS(accessor, worldId));
+    static WEFUN(0x004D2DE0, s32, getCurrentWorldId, EFUN_ARGS(GameDataHolderAccessor *accessor), EFUN_ARGS(accessor));
+    static WEFUN(0x004DB1C0, char*, getCurrentStageName, EFUN_ARGS(GameDataHolderAccessor *accessor), EFUN_ARGS(accessor));
+    #endif
 
     static char* getMainStageName(GameDataHolderAccessor, int);
 

@@ -31,12 +31,12 @@ class StageScene : public al::Scene
         spad(gap1, 0x20);
         StageSceneLayout* stageSceneLayout; // 0x2F8
         spad(gap2, 0x1B8);
-        HelpAmiiboDirector* mHelpAmiiboDirector;
+        HelpAmiiboDirector* mHelpAmiiboDirector; // 0x4B8
         #endif
         #if(SMOVER==130)
-        spad(inherit, 0x2E8 - sizeof(al::Scene));
-        GameDataHolderAccessor* mHolder; // 0x2E8
-        spad(gap1, 0x18);
+        spad(inherit, 0x2E0 - sizeof(al::Scene));
+        GameDataHolderAccessor* mHolder; // 0x2E0
+        spad(gap1, 0x20);
         StageSceneLayout* stageSceneLayout; // 0x308
         #endif
 };
