@@ -7,6 +7,10 @@ S2VER ?= 100
 S2VERSTR ?= 1.0.0
 S2ROMTYPE ?= US
 
+# Edit this line to enable FTP connection with "make send".
+# If the FTP connection is password protected, the username and password need to be set in sendPatch.py.
+#IP ?= 192.168.0.0
+
 all: starlight
 
 starlight:

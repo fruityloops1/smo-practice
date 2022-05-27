@@ -3,14 +3,16 @@ import os
 import sys
 
 titleIdLookup = {
-    "JP": '01003C700009C000',
-    "US": '01003BC0000A0000',
-    "EU": '0100F8F0000A2000',
-    'EveJP': '0100D070040F8000',
-    'EveUS': '01003870040FA000',
-    'EveEU': '010086F0040FC000',
-    'TrialUS': '01006BB00D45A000',
-    'ShowDL': '010000A00218E000'
+    "US": '0100000000010000'
+
+#    Splatoon 2 IDs used in the original Starlight.
+#    "JP": '01003C700009C000',
+#    "EU": '0100F8F0000A2000',
+#    'EveJP': '0100D070040F8000',
+#    'EveUS': '01003870040FA000',
+#    'EveEU': '010086F0040FC000',
+#    'TrialUS': '01006BB00D45A000',
+#    'ShowDL': '010000A00218E000'
 }
 
 
@@ -59,6 +61,7 @@ curDir = os.curdir
 ftp = FTP()
 print(f'Connecting to {consoleIP}... ', end='')
 ftp.connect(consoleIP, consolePort)
+#ftp.login(user="admin", passwd="admin")
 print('Connected!')
 
 patchDirectories = []
@@ -83,12 +86,12 @@ for patchDir in patchDirectories:
             print(f'Sending {sdPath}')
             ftp.storbinary(f'STOR {sdPath}', open(fullPath, 'rb'))
 
-ensuredirectory(ftp, '/atmosphere', 'titles')
-ensuredirectory(ftp, '/atmosphere/titles', titleIdLookup[romType])
-ensuredirectory(ftp, f'/atmosphere/titles/{titleIdLookup[romType]}', 'exefs')
+ensuredirectory(ftp, '/atmosphere', 'contents')
+ensuredirectory(ftp, '/atmosphere/contents', titleIdLookup[romType])
+ensuredirectory(ftp, f'/atmosphere/contents/{titleIdLookup[romType]}', 'exefs')
 
 binaryPath = f'{os.path.basename(os.getcwd())}{version}.nso'
 if os.path.isfile(binaryPath):
-    sdPath = f'/atmosphere/titles/{titleIdLookup[romType]}/exefs/subsdk0'
+    sdPath = f'/atmosphere/contents/{titleIdLookup[romType]}/exefs/subsdk1'
     print(f'Sending {sdPath}')
     ftp.storbinary(f'STOR {sdPath}', open(binaryPath, 'rb'))
