@@ -31,7 +31,7 @@ public:
     VCEFUN_CTOR(ChangeStageInfo, 0x0021BDD0, EFUN_ARGS(const GameDataHolder* holder, const al::PlacementInfo& placementInfo, const char* entranceName, const char* stageName, bool something, int scenario, ChangeStageInfo::SubScenarioType subScenarioType), EFUN_ARGS(holder, placementInfo, entranceName, stageName, something, scenario, subScenarioType));
     VCEFUN_CTOR(ChangeStageInfo, 0x0021C040, EFUN_ARGS(const GameDataHolder* holder, const char* entranceName, const char* stageName, bool something, int scenario, ChangeStageInfo::SubScenarioType subScenarioType), EFUN_ARGS(holder, entranceName, stageName, something, scenario, subScenarioType));
     VCEFUN(ChangeStageInfo, 0x0021C240, copy, EFUN_ARGS(const ChangeStageInfo &info), EFUN_ARGS(info));
-    s32 findScenarioNoByList(const GameDataHolder*); // return type(?)
+    s32 findScenarioNoByList(const GameDataHolder*); // Haven't been able to find the address of the v1.3.0 equivalent.
     VVCEFUN(ChangeStageInfo, 0x0021C1D0, init);
     VCEFUN(ChangeStageInfo, 0x0021BB20, init, EFUN_ARGS(const al::PlacementInfo& placementInfo, const GameDataHolder* holder), EFUN_ARGS(placementInfo, holder));
     CVEFUN(ChangeStageInfo, 0x0021C580, bool, isSubScenarioTypeLifeRecover);
