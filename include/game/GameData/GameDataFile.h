@@ -24,6 +24,7 @@ class GameDataFile
         void setGotShine(const ShineInfo*);
         #endif
         #if(SMOVER==130)
+        CEFUN(GameDataFile, 0x004C65F0, s32, getScenarioNo, EFUN_ARGS(int worldId), EFUN_ARGS(worldId));
         CVEFUN(GameDataFile, 0x004C8530, PlayerHitPointData*, getPlayerHitPointData);
         CEFUN(GameDataFile, 0x004C9880, bool, isGotShine, EFUN_ARGS(const ShineInfo* shineInfo), EFUN_ARGS(shineInfo));
         VCEFUN(GameDataFile, 0x004C9880, setGotShine, EFUN_ARGS(const ShineInfo* info), EFUN_ARGS(info));
