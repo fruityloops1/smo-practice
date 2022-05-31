@@ -51,8 +51,9 @@ private:
     s32 mUnkInt;
     spad(unk, 0x4);
     #endif
+    #if(SMOVER==130)
+    spad(padding, 0x278);
+    #endif
 };
 
-#if(SMOVER==100)
 static_assert(sizeof(ChangeStageInfo) == 0x278);
-#endif
