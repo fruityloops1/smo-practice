@@ -18,11 +18,6 @@ public:
     ChangeStageInfo(const GameDataHolder*, const al::PlacementInfo&);
     ChangeStageInfo(const GameDataHolder*, const al::PlacementInfo&, const char* entranceName, const char* stageName, bool, int scenario, ChangeStageInfo::SubScenarioType);
     ChangeStageInfo(const GameDataHolder*, const char* entranceName, const char* stageName, bool, int scenario, ChangeStageInfo::SubScenarioType);
-    #endif
-    #if(SMOVER==130)
-    VCEFUN_CTOR(ChangeStageInfo, 0x0021C040, EFUN_ARGS(const GameDataHolder* holder, const char* entranceName, const char* stageName, bool something, int scenario, ChangeStageInfo::SubScenarioType subScenarioType), EFUN_ARGS(holder, entranceName, stageName, something, scenario, subScenarioType));
-    #endif
-
     void copy(const ChangeStageInfo&);
     s32 findScenarioNoByList(const GameDataHolder*); // return type(?)
     void init();
@@ -30,6 +25,19 @@ public:
     bool isSubScenarioTypeLifeRecover() const;
     bool isSubScenarioTypeResetMiniGame() const;
     void setWipeType(const char* type);
+    #endif
+    #if(SMOVER==130)
+    VCEFUN_CTOR(ChangeStageInfo, 0x0021BA10, EFUN_ARGS(const GameDataHolder* holder, const al::PlacementInfo& placementInfo), EFUN_ARGS(holder, placementInfo));
+    VCEFUN_CTOR(ChangeStageInfo, 0x0021BDD0, EFUN_ARGS(const GameDataHolder* holder, const al::PlacementInfo& placementInfo, const char* entranceName, const char* stageName, bool something, int scenario, ChangeStageInfo::SubScenarioType subScenarioType), EFUN_ARGS(holder, placementInfo, entranceName, stageName, something, scenario, subScenarioType));
+    VCEFUN_CTOR(ChangeStageInfo, 0x0021C040, EFUN_ARGS(const GameDataHolder* holder, const char* entranceName, const char* stageName, bool something, int scenario, ChangeStageInfo::SubScenarioType subScenarioType), EFUN_ARGS(holder, entranceName, stageName, something, scenario, subScenarioType));
+    VCEFUN(ChangeStageInfo, 0x0021C240, copy, EFUN_ARGS(const ChangeStageInfo &info), EFUN_ARGS(info));
+    s32 findScenarioNoByList(const GameDataHolder*); // Haven't been able to find the address of the v1.3.0 equivalent.
+    VVCEFUN(ChangeStageInfo, 0x0021C1D0, init);
+    VCEFUN(ChangeStageInfo, 0x0021BB20, init, EFUN_ARGS(const al::PlacementInfo& placementInfo, const GameDataHolder* holder), EFUN_ARGS(placementInfo, holder));
+    CVEFUN(ChangeStageInfo, 0x0021C580, bool, isSubScenarioTypeLifeRecover);
+    CVEFUN(ChangeStageInfo, 0x0021C5A0, bool, isSubScenarioTypeResetMiniGame);
+    VCEFUN(ChangeStageInfo, 0x0021C5C0, setWipeType, EFUN_ARGS(const char* type), EFUN_ARGS(type));
+    #endif
 private:
     #if(SMOVER==100)
     sead::FixedSafeString<128> mStageEntranceName;
@@ -43,8 +51,9 @@ private:
     s32 mUnkInt;
     spad(unk, 0x4);
     #endif
+    #if(SMOVER==130)
+    spad(padding, 0x278);
+    #endif
 };
 
-#if(SMOVER==100)
 static_assert(sizeof(ChangeStageInfo) == 0x278);
-#endif

@@ -11,10 +11,6 @@ void fl::ui::stages::update(PracticeUI& ui)
     static int currentStage = 0;
     static int currentScenario = 1;
 
-#if SMOVER == 130
-    ui.printf(MSG_NO130);
-    return;
-#endif
     ui.cursor(1);
     if (ui.inputEnabled && ui.curLine == 1) {
         if (al::isPadTriggerRight(CONTROLLER_AUTO) && !ui.nextFrameNoRightInput)
