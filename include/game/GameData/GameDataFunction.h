@@ -47,7 +47,6 @@ public:
     static char* getCurrentStageName(GameDataHolderAccessor);
     #endif
     #if(SMOVER==130)
-    static WEFUN(0x004D5890, s32, getWorldScenarioNo, EFUN_ARGS(GameDataHolderAccessor* accessor, int worldId), EFUN_ARGS(accessor, worldId));
     static WEFUN(0x004D2DE0, s32, getCurrentWorldId, EFUN_ARGS(GameDataHolderAccessor *accessor), EFUN_ARGS(accessor));
     static WEFUN(0x004DB1C0, char*, getCurrentStageName, EFUN_ARGS(GameDataHolderAccessor *accessor), EFUN_ARGS(accessor));
     #endif
