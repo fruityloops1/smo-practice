@@ -140,7 +140,7 @@ make
 ```
 
 ## Credits
-- [fruityloops1](https://github.com/fruityloops1), for the [earlier versions of this mod](https://github.com/fruityloops1/smo-practice).
+- [Fruityloops](https://github.com/fruityloops1), for the [earlier versions of this mod](https://github.com/fruityloops1/smo-practice).
 - [CraftyBoss](https://github.com/CraftyBoss), for his [work on TextWriter](https://github.com/CraftyBoss/Starlight-SMO-LayoutEditing).
 - [bryce_____](https://github.com/brycewithfiveunderscores), for his [Starlight SMO example](https://github.com/brycewithfiveunderscores/Starlight-SMO-Example).
 - devkitA64.
