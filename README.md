@@ -6,7 +6,7 @@ The mod is compatible with versions 1.0.0 and 1.3.0 of Super Mario Odyssey. Note
 
 This is a continuation of the [original version of this mod by fruityloops1](https://github.com/fruityloops1/smo-practice).
 
-### Features
+## Features
 
 - Teleporting (position saving and restoring).
 - Moon refreshing (collect the same moon multiple times without reloading).
