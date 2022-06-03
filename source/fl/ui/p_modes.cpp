@@ -4,10 +4,6 @@
 
 void fl::ui::modes::update(PracticeUI& ui)
 {
-#if SMOVER == 130
-    ui.printf(MSG_NO130);
-    return;
-#endif
     ui.toggle("isModeDiverOrJungleGymRom", ui.isModeDiverOrJungleGymRom);
     ui.toggle("isModeDiverRom", ui.isModeDiverRom);
     ui.toggle("isModeJungleGymRom", ui.isModeJungleGymRom);

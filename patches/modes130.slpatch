@@ -1,0 +1,146 @@
+[version=130, target=main]
+003c2068:
+    bl fisModeDiverOrJungleGymRom
+003e2a10:
+    bl fisModeDiverOrJungleGymRom
+0046feec:
+    bl fisModeDiverOrJungleGymRom
+00473898:
+    bl fisModeDiverOrJungleGymRom
+
+000e0254:
+    bl fisModeDiverRom
+002ca8d0:
+    bl fisModeDiverRom
+00355c2c:
+    bl fisModeDiverRom
+00355c3c:
+    bl fisModeDiverRom
+0046ec18:
+    bl fisModeDiverRom
+
+001e78f4:
+    bl fisModeE3LiveRom
+001e79e4:
+    bl fisModeE3LiveRom
+001e7e60:
+    bl fisModeE3LiveRom
+001e7f20:
+    bl fisModeE3LiveRom
+001e8080:
+    bl fisModeE3LiveRom
+0025c248:
+    bl fisModeE3LiveRom
+0028d0ac:
+    bl fisModeE3LiveRom
+002c8ae8:
+    bl fisModeE3LiveRom
+002c9208:
+    bl fisModeE3LiveRom
+002c95e8:
+    bl fisModeE3LiveRom
+002ca8e8:
+    bl fisModeE3LiveRom
+002cc4bc:
+    bl fisModeE3LiveRom
+002fcca0:
+    bl fisModeE3LiveRom
+00470758:
+    bl fisModeE3LiveRom
+00474414:
+    bl fisModeE3LiveRom
+00474634:
+    bl fisModeE3LiveRom
+00488de0:
+    bl fisModeE3LiveRom
+00495848:
+    bl fisModeE3LiveRom
+00496aa0:
+    bl fisModeE3LiveRom
+00496b88:
+    bl fisModeE3LiveRom
+0049e16c:
+    bl fisModeE3LiveRom
+004a6db4:
+    bl fisModeE3LiveRom
+004a6f2c:
+    bl fisModeE3LiveRom
+004a775c:
+    bl fisModeE3LiveRom
+004a7810:
+    bl fisModeE3LiveRom
+004a7aa0:
+    bl fisModeE3LiveRom
+004b4518:
+    bl fisModeE3LiveRom
+004d7ef8:
+    bl fisModeE3LiveRom
+004d7f48:
+    bl fisModeE3LiveRom
+004d915c:
+    bl fisModeE3LiveRom
+004dc088:
+    bl fisModeE3LiveRom
+004fcb50:
+    bl fisModeE3LiveRom
+
+000cd0e4:
+    bl fisModeE3MovieRom
+000d0b38:
+    bl fisModeE3MovieRom
+0012e36c:
+    bl fisModeE3MovieRom
+0012ed34:
+    bl fisModeE3MovieRom
+0013fd54:
+    bl fisModeE3MovieRom
+0013fef0:
+    bl fisModeE3MovieRom
+001701dc:
+    bl fisModeE3MovieRom
+002798c8:
+    bl fisModeE3MovieRom
+002798e4:
+    bl fisModeE3MovieRom
+00279de4:
+    bl fisModeE3MovieRom
+00279f4c:
+    bl fisModeE3MovieRom
+0028d0a4:
+    bl fisModeE3MovieRom
+002ca8e0:
+    bl fisModeE3MovieRom
+002ceccc:
+    bl fisModeE3MovieRom
+002cefbc:
+    bl fisModeE3MovieRom
+002cf1a4:
+    bl fisModeE3MovieRom
+00355c44:
+    bl fisModeE3MovieRom
+0041541c:
+    bl fisModeE3MovieRom
+0041bd40:
+    bl fisModeE3MovieRom
+00448474:
+    bl fisModeE3MovieRom
+0044a524:
+    bl fisModeE3MovieRom
+0046e898:
+    bl fisModeE3MovieRom
+0046ec20:
+    bl fisModeE3MovieRom
+0046ee74:
+    bl fisModeE3MovieRom
+0047387c:
+    bl fisModeE3MovieRom
+0049c97c:
+    bl fisModeE3MovieRom
+
+002c8208:
+    bl fisModeEpdMovieRom
+002ca8f0:
+    bl fisModeEpdMovieRom
+
+0046ec10:
+    bl fisModeJungleGymRom
