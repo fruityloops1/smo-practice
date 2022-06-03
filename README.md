@@ -20,7 +20,7 @@ This is a continuation of the [original version of this mod by fruityloops1](htt
 
 - [devkitPro](https://devkitpro.org/).
 - [Python 3](https://www.python.org/).
-- The [Keystone](https://www.keystone-engine.org/) Python Module.
+- The [Keystone](https://www.keystone-engine.org/) Python module.
 
 ## Building
 
@@ -61,9 +61,9 @@ To compile for 1.0.0, run:
 make S2VER=100 S2VERSTR=1.0.0
 ```
 
-## Building and Installing (Atmosphère) Through FTP
+## Building and Installing Through FTP
 
-If you want to apply the patch through FTP immediately upon building, make sure you add the Switch's local IP address in Makefile, e.g.:
+If you want to install the mod on your Switch through FTP immediately upon building, make sure you add the Switch's local IP address in Makefile, e.g.:
 
 ```
 IP ?= 192.168.0.2
@@ -81,7 +81,9 @@ Once this is set up, instead of `make`, run:
 make send
 ```
 
-## Installing (Atmosphère)
+## Installing
+
+### Atmosphère
 
 To install the prebuilt release version, copy the atmosphere folder to the root of your SD card.
 
@@ -101,7 +103,7 @@ For SMO version 1.3.0, transfer:
 - `starlight_patch_130/B424BE150A8E7D78701CBE7A439D9EBF.ips` to `/atmosphere/exefs_patches/starlight_patch_130/B424BE150A8E7D78701CBE7A439D9EBF.ips`.
 - `romfs` to `/atmosphere/contents/0100000000010000/romfs`.
 
-## Install (Yuzu)
+### Yuzu
 
 First open the Yuzu `Mod Data Location` for SMO. It can be opened by right-clicking on the game in Yuzu (alternatively `%YUZU_DIR%/load/0100000000010000`). Then make a new folder for the practice mod and transfer the following files into the newly created folder:
 - `smo-practice100.nso` to `<new-folder>/exefs/subsdk1` (note: no extension).
