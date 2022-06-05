@@ -48,3 +48,8 @@ StageScene::control+18:
 // toggle bowser skip
 004B581C:
     bl isDefeatKoopaLv1Var
+// Wiggler.
+000A46EC:
+    bl getMofumofuTarget
+000A4698:
+    bl isPatternReverse
