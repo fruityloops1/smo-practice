@@ -9,5 +9,5 @@ void fl::ui::options::update(PracticeUI& ui)
     ui.toggle("Always Enable Warps", ui.alwaysWarp);
     ui.toggle("Disable Autosaving", ui.disableAutoSave);
     ui.toggle("Cloud Kingdom Bowser Skip", ui.skipBowser);
-    ui.toggle("Disable teleport puppet", ui.disablePuppet);
+    ui.toggle("Disable Teleport Puppet", ui.disablePuppet);
 }
