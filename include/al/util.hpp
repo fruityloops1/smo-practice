@@ -169,9 +169,15 @@ sead::Heap* getCurrentHeap(void);
 EFUN(0x006A4550, sead::Heap*, getCurrentHeap, EFUN_ARGS(void));
 #endif
 
+#if (SMOVER == 100)
 int getRandom(int, int);
 int getRandom(int);
 bool isHalfProbability();
+#endif
+#if (SMOVER == 130)
+EFUN(0x00692F20, int, getRandom, EFUN_ARGS(int));
+EFUN(0x00693BB0, bool, isHalfProbability, EFUN_ARGS(void));
+#endif
 
 al::Projection* getProjection(al::IUseCamera const*, int);
 
