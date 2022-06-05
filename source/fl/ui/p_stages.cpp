@@ -59,7 +59,7 @@ void fl::ui::stages::update(PracticeUI& ui)
     ui.addLine();
     ui.cursor(2);
     if (currentScenario != -1) {
-        if (currentStage < 15) {
+        if (currentStage < 17) {
             const char* description = stageNameDescriptions[currentStage][currentScenario - 1];
             ui.printf("Scenario: %d (%s)\n", currentScenario, description);
         }
