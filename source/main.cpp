@@ -283,7 +283,7 @@ bool isPatternReverse()
 int getMofumofuTarget(int a)
 {
     fl::ui::PracticeUI& ui = fl::ui::PracticeUI::instance();
-    bool r = al::getRandom(a);
+    int r = al::getRandom(a);
     if (ui.curPattern != fl::ui::PracticeUI::Random)
         r = ui.mPatternEntries[ui.curPattern].target;
     return r;
