@@ -53,6 +53,10 @@ PADTRIGGER(Up, dUp);
 PADTRIGGER(Right, dRight);
 PADTRIGGER(Down, dDown);
 PADTRIGGER(Left, dLeft);
+PADTRIGGER(UiCursorUp, dUp);
+PADTRIGGER(UiCursorDown, dDown);
+PADTRIGGER(UiCursorLeft, dLeft);
+PADTRIGGER(UiCursorRight, dRight);
 
 PADHOLD(A, A);
 PADHOLD(B, B);
@@ -70,6 +74,10 @@ PADHOLD(Up, dUp);
 PADHOLD(Right, dRight);
 PADHOLD(Down, dDown);
 PADHOLD(Left, dLeft);
+PADHOLD(UiCursorUp, dUp);
+PADHOLD(UiCursorDown, dDown);
+PADHOLD(UiCursorLeft, dLeft);
+PADHOLD(UiCursorRight, dRight);
 
 PADRELEASE(A, A);
 PADRELEASE(B, B);
@@ -87,5 +95,9 @@ PADRELEASE(Up, dUp);
 PADRELEASE(Right, dRight);
 PADRELEASE(Down, dDown);
 PADRELEASE(Left, dLeft);
+PADRELEASE(UiCursorUp, dUp);
+PADRELEASE(UiCursorDown, dDown);
+PADRELEASE(UiCursorLeft, dLeft);
+PADRELEASE(UiCursorRight, dRight);
 
 #endif
