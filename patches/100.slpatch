@@ -589,6 +589,63 @@ StageScene::control+18:
 009a38dc:
     bl fisPadHoldLeft
 
+// UI-up
+// Trigger
+004fd878:
+    bl fisPadTriggerUiCursorUp
+00575f08:
+    bl fisPadTriggerUiCursorUp
+00575f58:
+    b fisPadTriggerUiCursorUp
+// Hold
+00576834:
+    bl fisPadHoldUiCursorUp
+00576884:
+    b fisPadHoldUiCursorUp
+// Release unused
+
+// UI-down
+// Trigger
+004fd8bc:
+    bl fisPadTriggerUiCursorDown
+00575f84:
+    bl fisPadTriggerUiCursorDown
+00575fd4:
+    b fisPadTriggerUiCursorDown
+// Hold
+005768b0:
+    bl fisPadHoldUiCursorDown
+00576900:
+    b fisPadHoldUiCursorDown
+
+// UI-left
+// Trigger
+004fd900:
+    bl fisPadTriggerUiCursorLeft
+00575e10:
+    bl fisPadTriggerUiCursorLeft
+00575e60:
+    b fisPadTriggerUiCursorLeft
+// Hold
+0057692c:
+    bl fisPadHoldUiCursorLeft
+0057697c:
+    b fisPadHoldUiCursorLeft
+
+// UI-right
+// Trigger
+004fd944:
+    bl fisPadTriggerUiCursorRight
+00575e8c:
+    bl fisPadTriggerUiCursorRight
+00575edc:
+    b fisPadTriggerUiCursorRight
+// Hold
+005769a8:
+    bl fisPadHoldUiCursorRight
+005769f8:
+    b fisPadHoldUiCursorRight
+
 // Motion
 
 // Camera Center off while TAS is running

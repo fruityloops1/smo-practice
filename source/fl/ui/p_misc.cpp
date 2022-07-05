@@ -1,4 +1,5 @@
 #include "fl/ui/pages.h"
+#include "game/GameData/GameDataFunction.h"
 #include "game/Player/PlayerActorHakoniwa.h"
 #include "rs/util.hpp"
 #include <fl/game.h>
@@ -24,11 +25,14 @@ void fl::ui::misc::update(PracticeUI& ui)
     ui.trigger("Invincibility Star", []() {
         Game::instance().invincibilityStar();
     });
+    ui.trigger("Add 1000 coins", [stageScene]() {
+        GameDataFunction::addCoin(*stageScene->mHolder, 1000);
+    });
 
     ui.addLine();
 
     static u8 gravity = 0;
-    ui.cursor(7);
+    ui.cursor(8);
     const char* gravityString = nullptr;
     if (gravity == 0)
         gravityString = "Down";
@@ -45,10 +49,10 @@ void fl::ui::misc::update(PracticeUI& ui)
 
     bool gravityChanged = false;
     ui.printf("Gravity: %s\n", gravityString);
-    if (ui.curLine == 7 && ui.inputEnabled && !ui.nextFrameNoLeftInput && al::isPadTriggerLeft(CONTROLLER_AUTO)) {
+    if (ui.curLine == 8 && ui.inputEnabled && !ui.nextFrameNoLeftInput && al::isPadTriggerLeft(CONTROLLER_AUTO)) {
         gravity--;
         gravityChanged = true;
-    } else if (ui.curLine == 7 && ui.inputEnabled && !ui.nextFrameNoRightInput && al::isPadTriggerRight(CONTROLLER_AUTO)) {
+    } else if (ui.curLine == 8 && ui.inputEnabled && !ui.nextFrameNoRightInput && al::isPadTriggerRight(CONTROLLER_AUTO)) {
         gravity++;
         gravityChanged = true;
     }
@@ -73,10 +77,10 @@ void fl::ui::misc::update(PracticeUI& ui)
     else if (gravity == 5)
         al::setGravity(o, { 0, 0, -1 });
     ui.addLine();
-    ui.printf("%sWiggler Pattern: %s\n", ui.curLine == 8 ? ">" : "", ui.curPattern == PracticeUI::MofumofuPattern::Random ? "Random" : ui.mPatternEntries[ui.curPattern].typeStr);
-    if (al::isPadTriggerRight(CONTROLLER_AUTO) && ui.curLine == 8)
+    ui.printf("%sWiggler Pattern: %s\n", ui.curLine == 9 ? ">" : "", ui.curPattern == PracticeUI::MofumofuPattern::Random ? "Random" : ui.mPatternEntries[ui.curPattern].typeStr);
+    if (al::isPadTriggerRight(CONTROLLER_AUTO) && ui.curLine == 9)
         (*(s8*)&ui.curPattern)++;
-    if (al::isPadTriggerLeft(CONTROLLER_AUTO) && ui.curLine == 8)
+    if (al::isPadTriggerLeft(CONTROLLER_AUTO) && ui.curLine == 9)
         (*(s8*)&ui.curPattern)--;
     if (*(s8*)&ui.curPattern > 21 || *(s8*)&ui.curPattern < -1)
         ui.curPattern = PracticeUI::MofumofuPattern::Random;

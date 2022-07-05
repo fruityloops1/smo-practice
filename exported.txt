@@ -29,6 +29,10 @@
         _Z18fisPadTriggerRighti;
         _Z17fisPadTriggerDowni;
         _Z17fisPadTriggerLefti;
+        _Z23fisPadTriggerUiCursorUpi;
+        _Z25fisPadTriggerUiCursorDowni;
+        _Z25fisPadTriggerUiCursorLefti;
+        _Z26fisPadTriggerUiCursorRighti;
 
         _Z11fisPadHoldAi;
         _Z11fisPadHoldBi;
@@ -45,6 +49,10 @@
         _Z15fisPadHoldRighti;
         _Z14fisPadHoldDowni;
         _Z14fisPadHoldLefti;
+        _Z20fisPadHoldUiCursorUpi;
+        _Z22fisPadHoldUiCursorDowni;
+        _Z22fisPadHoldUiCursorLefti;
+        _Z23fisPadHoldUiCursorRighti;
 
         _Z11fisPadHoldAi;
         _Z11fisPadHoldBi;
@@ -61,6 +69,10 @@
         _Z15fisPadHoldRighti;
         _Z14fisPadHoldDowni;
         _Z14fisPadHoldLefti;
+        _Z20fisPadHoldUiCursorUpi;
+        _Z22fisPadHoldUiCursorDowni;
+        _Z22fisPadHoldUiCursorLefti;
+        _Z23fisPadHoldUiCursorRighti;
 
         _Z14fisPadReleaseAi;
         _Z14fisPadReleaseBi;
@@ -77,6 +89,10 @@
         _Z18fisPadReleaseRighti;
         _Z17fisPadReleaseDowni;
         _Z17fisPadReleaseLefti;
+        _Z23fisPadReleaseUiCursorUpi;
+        _Z25fisPadReleaseUiCursorDowni;
+        _Z25fisPadReleaseUiCursorLefti;
+        _Z26fisPadReleaseUiCursorRighti;
 
     
         _Z26fisModeDiverOrJungleGymRomv;
