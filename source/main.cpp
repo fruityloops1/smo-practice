@@ -10,6 +10,12 @@
 #include <mem.h>
 #include <nn/init.h>
 
+void drawWarpHoleCutsceneHook(const al::Scene* scene, const char* kitName) {
+    fl::TasHolder::instance().update();
+
+    al::drawKit(scene, kitName);
+}
+
 void stageSceneControlHook()
 {
     __asm("MOV X19, X0");

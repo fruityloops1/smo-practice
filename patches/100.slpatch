@@ -1,4 +1,8 @@
 [version=100, target=main]
+
+00509c44:
+    bl drawWarpHoleCutsceneHook
+
 StageScene::control+18:
     bl stageSceneControlHook
 

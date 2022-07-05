@@ -45,6 +45,8 @@ al::LiveActor* createActorFunction(const char* name);
 
 namespace al {
 
+void drawKit(const Scene* scene, const char* kitName);
+
 // General Input functions
 
 #if (SMOVER == 100)
