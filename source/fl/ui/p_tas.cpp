@@ -40,6 +40,8 @@ void fl::ui::tas::update(PracticeUI& ui)
     sead::Vector2f& right = *al::getRightStick(CONTROLLER_AUTO);
     ui.printf("Left Stick: (X: %.5f Y: %.5f)\n", left.x, left.y);
     ui.printf("Right Stick: (X: %.5f Y: %.5f)\n", right.x, right.y);
+	ui.printf("Left Stick Cartesian: (X: %.0f Y: %.0f)\n", left.x * 32767, left.y * 32767);
+	ui.printf("Right Stick Cartesian: (X: %.0f Y: %.0f)\n", right.x * 32767, right.y * 32767);
     ui.printf("Buttons:\n");
     // -1 = CONTROLLER_AUTO
     ui.printf("%s %s %s %s %s %s %s %s\n", al::isPadHoldA(-1) ? "A" : " ", al::isPadHoldB(-1) ? "B" : " ", al::isPadHoldX(-1) ? "X" : " ", al::isPadHoldY(-1) ? "Y" : " ", al::isPadHoldL(-1) ? "L" : " ", al::isPadHoldR(-1) ? "R" : " ", al::isPadHoldZL(-1) ? "ZL" : "  ", al::isPadHoldZR(-1) ? "ZR" : "  ");
