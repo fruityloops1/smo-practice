@@ -28,5 +28,5 @@ void fl::ui::debug::update(PracticeUI& ui)
 	}
 	ui.printf("\n");
 	ui.printf(" Practice Mod Version: %s\n", PRACTICE_VERSTR);
-	ui.printf(" Your game version: %s\n", GAME_VERSION);
+	ui.printf(" Your Game Version: %s\n", GAME_VERSION);
 }
