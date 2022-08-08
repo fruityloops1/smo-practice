@@ -15,7 +15,7 @@ private:
     sead::Vector3f savedTrans;
     sead::Quatf savedQuat;
     bool saved = false;
-    bool teleportEnabled = false;
+    bool teleportEnabled = true;
     s8 reloadStageForPos = -1;
     sead::Vector3f reloadStagePos;
     sead::Quatf reloadStageQuat;
@@ -45,10 +45,10 @@ public:
 
     inline StageScene* getStageScene() {return stageScene;}
 
-    bool shineRefresh = false;
-    bool gotShineRefresh = false;
-    bool alwaysWarp = false;
-    bool disableAutoSave = false;
+    bool shineRefresh = true;
+    bool gotShineRefresh = true;
+    bool alwaysWarp = true;
+    bool disableAutoSave = true;
     bool skipBowser = false;
 
     bool isModeDiverOrJungleGymRom = false;
@@ -60,7 +60,7 @@ public:
     
     enum Page : u8
     {
-        About, Options, Stage, Misc, Info, Info2, Tas, MoonInfo, Modes, Debug
+        About, Options, Stage, Misc, Info, Info2, Info3, Tas, MoonInfo, Modes, Debug
     };
 
     enum MofumofuPattern : s8
