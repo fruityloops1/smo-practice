@@ -55,7 +55,12 @@ public:
     VCEFUN(GameDataHolder, 0x004DB060, changeNextStage, EFUN_ARGS(const ChangeStageInfo* info, int something), EFUN_ARGS(info, something));
     #endif
     bool tryChangeNextStageWithWorldWarpHole(char const *);
+    #if(SMOVER==100)
     void returnPrevStage();
+    #endif
+    #if(SMOVER==130)
+    VVCEFUN(GameDataHolder, 0x004DB150, returnPrevStage);
+    #endif
     char* getNextStageName() const;
     char* getNextStageName(s32 idx) const;
     GameDataFile* getGameDataFile(s32 idx) const;
