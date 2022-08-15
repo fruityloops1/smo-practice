@@ -33,14 +33,18 @@ class GameDataFile
         #endif
 
         #if SMOVER==100
-        unsigned char padding_6A8[0x6A8];
+        unsigned char padding_30[0x30];
+        sead::FixedSafeString<128> mStartId;
+        unsigned char padding_6A8[0x6A8-0xC8];
         GameProgressData *mGameProgressData; // 0x6A8
         spad(gap, 0x340);
         int curWorldId;
         #endif
 
         #if SMOVER==130
-        unsigned char padding_6A8[0x6A8];
+        unsigned char padding_30[0x30];
+        sead::FixedSafeString<128> mStartId;
+        unsigned char padding_6A8[0x6A8-0xC8];
         GameProgressData *mGameProgressData; // 0x6A8
         undefined padding_9F0[0x1F0];
         PlayerHitPointData* mPlayerHitPointData;

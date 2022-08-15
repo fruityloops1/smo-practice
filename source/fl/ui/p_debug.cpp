@@ -9,11 +9,13 @@ void fl::ui::debug::update(PracticeUI& ui)
 	ui.printf(" Current Scenario: %d\n", GameDataFunction::getWorldScenarioNo(*stageScene->mHolder, GameDataFunction::getCurrentWorldId(*stageScene->mHolder)));
 	ui.printf(" Current World ID: %d\n", GameDataFunction::getCurrentWorldId(*stageScene->mHolder));
 	ui.printf(" Current Stage Name: %s\n", GameDataFunction::getCurrentStageName(*stageScene->mHolder));
+	ui.printf(" Current Entry Name: %s\n", stageScene->mHolder->mGameDataFile->mStartId.cstr());
 #endif
 #if (SMOVER == 130)
 	ui.printf(" Current Scenario: %d\n", stageScene->mHolder->mGameDataFile->getScenarioNo(GameDataFunction::getCurrentWorldId(stageScene->mHolder)));
 	ui.printf(" Current World ID: %d\n", GameDataFunction::getCurrentWorldId(stageScene->mHolder));
 	ui.printf(" Current Stage Name: %s\n", GameDataFunction::getCurrentStageName(stageScene->mHolder));
+	ui.printf(" Current Entry Name: %s\n", stageScene->mHolder->mGameDataFile->mStartId.cstr());
 #endif
 	ui.printf(" Language: %s\n", stageScene->mHolder->getLanguage());
 	ui.printf("\n");
