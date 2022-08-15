@@ -126,5 +126,4 @@ public:
     static void tryChangeNextStageWithDemoWorldWarp(GameDataHolderWriter, char const*);
     static void changeNextStageWithCloset(GameDataHolderWriter);
 
-    static void addCoin(GameDataHolderWriter, int);
 };

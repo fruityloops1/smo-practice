@@ -26,7 +26,7 @@ void fl::ui::misc::update(PracticeUI& ui)
         Game::instance().invincibilityStar();
     });
     ui.trigger("Add 1000 coins", [stageScene]() {
-        GameDataFunction::addCoin(*stageScene->mHolder, 1000);
+        stageScene->mHolder->mGameDataFile->addCoin(1000);
     });
 
     ui.addLine();
