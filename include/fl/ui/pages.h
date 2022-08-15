@@ -19,6 +19,7 @@ namespace ui {
     _PAGE(options);
     _PAGE(stages);
     _PAGE(tas);
+    _PAGE(statistics);
 
 #undef _PAGE
 

@@ -126,4 +126,12 @@ public:
     static void tryChangeNextStageWithDemoWorldWarp(GameDataHolderWriter, char const*);
     static void changeNextStageWithCloset(GameDataHolderWriter);
 
+    #if(SMOVER==100)
+    static int getPlayTimeTotal(GameDataHolderAccessor);
+    static int getPlayTimeAcrossFile(GameDataHolderAccessor);
+    #endif
+    #if(SMOVER==130)
+    static WEFUN(0x004D2C10, int, getPlayTimeTotal, EFUN_ARGS(GameDataHolderAccessor accessor), EFUN_ARGS(accessor));
+    static WEFUN(0x004D2C20, int, getPlayTimeAcrossFile, EFUN_ARGS(GameDataHolderAccessor accessor), EFUN_ARGS(accessor));
+    #endif
 };
