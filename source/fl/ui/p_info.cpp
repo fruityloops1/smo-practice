@@ -1,8 +1,10 @@
 #include "al/LiveActor/LiveActor.h"
+#include "al/util.hpp"
 #include "fl/ui/pages.h"
 #include "fl/util.h"
 #include "game/Player/PlayerActorHakoniwa.h"
 #include "rs/util.hpp"
+#include "gfx/seadCamera.h"
 
 void fl::ui::info::update(PracticeUI& ui)
 {
@@ -44,4 +46,18 @@ void fl::ui::info::update(PracticeUI& ui)
     }
     ui.printf("Bubble Pos: (X: %.3f Y: %.3f Z: %.3f)\n", playerRecoveryPoint->x, playerRecoveryPoint->y, playerRecoveryPoint->z);
     ui.printf("Current Animation: %s (%.0f/%.0f)\n", anim, player->mPlayerAnimator->getAnimFrame() - 1.0f, player->mPlayerAnimator->getAnimFrameMax());
+}
+
+void fl::ui::info2::update(PracticeUI& ui)
+{
+    sead::LookAtCamera* camera = al::getLookAtCamera(ui.getStageScene(), 0);
+    
+    sead::Vector3f cameraPos = camera->mPos;
+    sead::Vector3f cameraAt = camera->mAt;
+    sead::Vector3f cameraUp = camera->mUp;
+
+    ui.printf("Camera Pos: (X: %.3f Y: %.3f Z: %.3f)\n", cameraPos.x, cameraPos.y, cameraPos.z);
+    ui.printf("Camera At: (X: %.3f Y: %.3f Z: %.3f)\n", cameraAt.x, cameraAt.y, cameraAt.z);
+    ui.printf("Camera Up: (X: %.3f Y: %.3f Z: %.3f)\n", cameraUp.x, cameraUp.y, cameraUp.z);
+
 }

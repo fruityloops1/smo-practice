@@ -10,6 +10,7 @@ class AreaObj {
 
 namespace sead {
 class LogicalFrameBuffer;
+class LookAtCamera;
 }
 
 #include "sead/basis/seadNew.hpp"
@@ -450,5 +451,7 @@ void setDitherAnimBoundingBox(al::LiveActor*, sead::Vector3f const&);
 void setDitherAnimMaxAlpha(al::LiveActor*, float);
 void setDitherAnimClippingJudgeLocalOffset(al::LiveActor*, sead::Vector3f const&);
 void setDitherAnimClippingJudgeParam(al::LiveActor*, const char*);
+
+sead::LookAtCamera* getLookAtCamera(const IUseCamera*, int);
 
 }

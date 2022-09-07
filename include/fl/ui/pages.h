@@ -13,6 +13,7 @@ namespace ui {
     _PAGE(about);
     _PAGE(debug);
     _PAGE(info);
+    _PAGE(info2);
     _PAGE(misc);
     _PAGE(modes);
     _PAGE(mooninfo);
