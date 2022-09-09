@@ -28,9 +28,13 @@ void fl::ui::info::update(PracticeUI& ui)
     sead::Vector3f cappyRot = sead::Vector3f(DEG(cappyEulerAngles.x), DEG(cappyEulerAngles.y), DEG(cappyEulerAngles.z));
     const char* anim = player->mPlayerAnimator->mCurrentAnim;
     float hSpeed = al::calcSpeedH(player), vSpeed = al::calcSpeedV(player), speed = al::calcSpeed(player);
+    float hSpeedAngle = atan2f(playerVel->z, playerVel->x);
+    if (hSpeedAngle < 0)
+        hSpeedAngle += M_PI * 2;
 
     ui.printf("Player Pos: (X: %.3f Y: %.3f Z: %.3f)\n", playerTrans->x, playerTrans->y, playerTrans->z);
     ui.printf("Player Vel: (X: %.3f Y: %.3f Z: %.3f)\n", playerVel->x, playerVel->y, playerVel->z);
+    ui.printf("Player Vel Angle: %.3f\n", DEG(hSpeedAngle));
     ui.printf("Player Speed: (H: %.3f V: %.3f S: %.3f)\n", hSpeed, vSpeed, speed);
     if (quatRot) {
         ui.printf("Player Rot: (W: %.3f X: %.3f Y: %.3f Z: %.3f)\n", playerQuat->w, playerQuat->x, playerQuat->y, playerQuat->z);
