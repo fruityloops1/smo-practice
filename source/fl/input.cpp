@@ -1,16 +1,48 @@
 #include "sead/math/seadVector.h"
+#include <fl/input.h>
 #include <al/util.hpp>
 #include <fl/tas.h>
 #include <nn/util.h>
 
 #if(SMOVER==100)
 
+long raw_input;
+long raw_input_prev;
+
+bool isPressed(int button) {
+    return (raw_input & (1 << button)) != 0;
+}
+bool isPressedPrev(int button) {
+    return (raw_input_prev & (1 << button)) != 0;
+}
+bool isTriggerLeft() {
+    return isPressed(12) && !isPressedPrev(12);
+}
+bool isTriggerUp() {
+    return isPressed(13) && !isPressedPrev(13);
+}
+bool isTriggerRight() {
+    return isPressed(14) && !isPressedPrev(14);
+}
+bool isTriggerDown() {
+    return isPressed(15) && !isPressedPrev(15);
+}
+bool isL() {
+    return isPressed(6);
+}
+bool isTriggerPressLeftStick() {
+    return isPressed(4) && !isPressedPrev(4);
+}
+
 void controllerHook(nn::hid::NpadBaseState* state) {
     fl::TasHolder& h = fl::TasHolder::instance();
+    raw_input_prev = raw_input;
+    raw_input = state->mButtons;
     if (!h.isRunning) {
         return;
     }
 
+    state->mButtons = 0;
     h.debugNum++;
     if(h.frames[h.curFrame].A) 
         state->mButtons |= (1 << 0);

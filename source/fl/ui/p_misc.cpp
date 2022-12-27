@@ -57,10 +57,10 @@ void fl::ui::misc::update(PracticeUI& ui)
 
     bool gravityChanged = false;
     ui.printf("Gravity: %s\n", gravityString);
-    if (ui.curLine == 10 && ui.inputEnabled && !ui.nextFrameNoLeftInput && al::isPadTriggerLeft(CONTROLLER_AUTO)) {
+    if (ui.curLine == 10 && ui.inputEnabled && !ui.nextFrameNoLeftInput && isTriggerLeft()) {
         gravity--;
         gravityChanged = true;
-    } else if (ui.curLine == 10 && ui.inputEnabled && !ui.nextFrameNoRightInput && al::isPadTriggerRight(CONTROLLER_AUTO)) {
+    } else if (ui.curLine == 10 && ui.inputEnabled && !ui.nextFrameNoRightInput && isTriggerRight()) {
         gravity++;
         gravityChanged = true;
     }
@@ -86,9 +86,9 @@ void fl::ui::misc::update(PracticeUI& ui)
         al::setGravity(o, { 0, 0, -1 });
     ui.addLine();
     ui.printf("%sWiggler Pattern: %s\n", ui.curLine == 11 ? ">" : "", ui.curPattern == PracticeUI::MofumofuPattern::Random ? "Random" : ui.mPatternEntries[ui.curPattern].typeStr);
-    if (al::isPadTriggerRight(CONTROLLER_AUTO) && ui.curLine == 11)
+    if (isTriggerRight() && ui.curLine == 11)
         (*(s8*)&ui.curPattern)++;
-    if (al::isPadTriggerLeft(CONTROLLER_AUTO) && ui.curLine == 11)
+    if (isTriggerLeft() && ui.curLine == 11)
         (*(s8*)&ui.curPattern)--;
     if (*(s8*)&ui.curPattern > 21 || *(s8*)&ui.curPattern < -1)
         ui.curPattern = PracticeUI::MofumofuPattern::Random;

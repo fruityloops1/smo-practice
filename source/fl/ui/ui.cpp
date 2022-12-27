@@ -52,22 +52,22 @@ void fl::ui::PracticeUI::update(StageScene* stageScene)
 
     PlayerActorHakoniwa* player = rs::getPlayerActor(stageScene);
 
-    bool holdL = al::isPadHoldL(CONTROLLER_AUTO);
+    bool holdL = isL();
 
 #if SMOVER == 100
     fl::TasHolder::instance().update();
 #endif
 
-    if (holdL && al::isPadTriggerRight(CONTROLLER_AUTO)) {
+    if (holdL && isTriggerRight()) {
         inputEnabled = !inputEnabled;
         nextFrameNoRightInput = true;
         return;
     } else if
 #if SMOVER == 130
-        (holdL && al::isPadTriggerLeft(CONTROLLER_AUTO))
+        (holdL && isTriggerLeft())
 #endif
 #if SMOVER == 100
-        (al::isPadTriggerPressLeftStick(CONTROLLER_AUTO))
+        (isTriggerPressLeftStick())
 #endif
         {
             showMenu = !showMenu;
@@ -78,10 +78,10 @@ void fl::ui::PracticeUI::update(StageScene* stageScene)
 
     if (!showMenu || (!inputEnabled && !holdL)) {
         if (teleportEnabled) {
-            if (al::isPadTriggerLeft(CONTROLLER_AUTO))
+            if (isTriggerLeft())
                 savePosition(*player);
 
-            if (al::isPadTriggerRight(CONTROLLER_AUTO) && saved)
+            if (isTriggerRight() && saved)
                 loadPosition(*player);
         }
     }
@@ -112,9 +112,9 @@ void fl::ui::PracticeUI::menu(sead::TextWriter& p)
         return;
     if (showMenu) {
         if (inputEnabled) {
-            if (al::isPadTriggerDown(CONTROLLER_AUTO))
+            if (isTriggerDown())
                 curLine++;
-            if (al::isPadTriggerUp(CONTROLLER_AUTO))
+            if (isTriggerUp())
                 curLine = (curLine == 0 ? curMaxLine-1 : curLine - 1);
             
             if (curLine < 0)
@@ -124,9 +124,9 @@ void fl::ui::PracticeUI::menu(sead::TextWriter& p)
         }
 
         if (inputEnabled && curLine == 0) {
-            if (al::isPadTriggerRight(CONTROLLER_AUTO) && !nextFrameNoRightInput)
+            if (isTriggerRight() && !nextFrameNoRightInput)
                 (*(u8*)&curPage)++;
-            if (al::isPadTriggerLeft(CONTROLLER_AUTO) && !nextFrameNoLeftInput)
+            if (isTriggerLeft() && !nextFrameNoLeftInput)
                 (*(u8*)&curPage) = (curPage == Page::About ? (u8)Page::Debug : (*(u8*)&curPage)-1);
             if ((*(u8*)&curPage) > (u8)Page::Debug)
                 (*(u8*)&curPage) = (u8)Page::About;
@@ -155,7 +155,7 @@ void fl::ui::PracticeUI::toggle(const char* name, bool& value)
 {
     cursor(curMaxLine);
     printf("%s: %s\n", name, value ? "Enabled" : "Disabled");
-    if (inputEnabled && !nextFrameNoLeftInput && !nextFrameNoRightInput && curLine == curMaxLine && (al::isPadTriggerLeft(CONTROLLER_AUTO) || al::isPadTriggerRight(CONTROLLER_AUTO)))
+    if (inputEnabled && !nextFrameNoLeftInput && !nextFrameNoRightInput && curLine == curMaxLine && (isTriggerLeft() || isTriggerRight()))
         value = !value;
     curMaxLine++;
 }

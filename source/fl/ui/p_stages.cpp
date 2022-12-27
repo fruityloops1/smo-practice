@@ -13,18 +13,18 @@ void fl::ui::stages::update(PracticeUI& ui)
 
     ui.cursor(1);
     if (ui.inputEnabled && ui.curLine == 1) {
-        if (al::isPadTriggerRight(CONTROLLER_AUTO) && !ui.nextFrameNoRightInput)
+        if (isTriggerRight() && !ui.nextFrameNoRightInput)
             currentStage++;
-        if (al::isPadTriggerLeft(CONTROLLER_AUTO) && !ui.nextFrameNoLeftInput) {
+        if (isTriggerLeft() && !ui.nextFrameNoLeftInput) {
             if (currentStage == 0)
                 currentStage = NUM_STAGES - 1;
             else
                 currentStage--;
         }
     } else if (ui.inputEnabled && ui.curLine == 2) {
-        if (al::isPadTriggerRight(CONTROLLER_AUTO) && !ui.nextFrameNoRightInput)
+        if (isTriggerRight() && !ui.nextFrameNoRightInput)
             currentScenario = currentScenario == -1 ? 1 : currentScenario + 1;
-        if (al::isPadTriggerLeft(CONTROLLER_AUTO) && !ui.nextFrameNoLeftInput) {
+        if (isTriggerLeft() && !ui.nextFrameNoLeftInput) {
             if (currentScenario == -1)
                 currentScenario = 15;
             else

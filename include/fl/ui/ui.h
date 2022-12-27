@@ -10,6 +10,7 @@
 #include <sead/math/seadQuat.h>
 #include <sead/math/seadVector.h>
 #include <str.h>
+#include <fl/input.h>
 
 namespace fl {
 namespace ui {
@@ -52,7 +53,7 @@ namespace ui {
         {
             cursor(curMaxLine);
             printf("%s\n", name);
-            if (inputEnabled && !nextFrameNoRightInput && curLine == curMaxLine && al::isPadTriggerRight(CONTROLLER_AUTO))
+            if (inputEnabled && !nextFrameNoRightInput && curLine == curMaxLine && isTriggerRight())
                 func();
             curMaxLine++;
         }
