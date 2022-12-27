@@ -122,7 +122,7 @@ void fl::ui::PracticeUI::menu(sead::TextWriter& p)
             if (al::isPadTriggerRight(CONTROLLER_AUTO) && !nextFrameNoRightInput)
                 (*(u8*)&curPage)++;
             if (al::isPadTriggerLeft(CONTROLLER_AUTO) && !nextFrameNoLeftInput)
-                (*(u8*)&curPage)--;
+                (*(u8*)&curPage) = (curPage == Page::About ? (u8)Page::Debug : (*(u8*)&curPage)-1);
             if ((*(u8*)&curPage) > (u8)Page::Debug)
                 (*(u8*)&curPage) = (u8)Page::About;
         }
