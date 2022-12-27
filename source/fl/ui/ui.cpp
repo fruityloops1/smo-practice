@@ -112,10 +112,15 @@ void fl::ui::PracticeUI::menu(sead::TextWriter& p)
         return;
     if (showMenu) {
         if (inputEnabled) {
-            if (al::isPadTriggerDown(CONTROLLER_AUTO) && curLine + 1 < curMaxLine)
+            if (al::isPadTriggerDown(CONTROLLER_AUTO))
                 curLine++;
-            if (al::isPadTriggerUp(CONTROLLER_AUTO) && curLine >= 1)
-                curLine--;
+            if (al::isPadTriggerUp(CONTROLLER_AUTO))
+                curLine = (curLine == 0 ? curMaxLine-1 : curLine - 1);
+            
+            if (curLine < 0)
+                curLine = curMaxLine;
+            if (curLine >= curMaxLine)
+                curLine = 0;
         }
 
         if (inputEnabled && curLine == 0) {
