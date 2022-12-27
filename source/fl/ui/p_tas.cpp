@@ -1,5 +1,4 @@
 #include "fl/common.h"
-#include "fl/input.h"
 #include "fl/server.h"
 #include "fl/tas.h"
 #include "fl/ui/pages.h"
@@ -37,13 +36,13 @@ void fl::ui::tas::update(PracticeUI& ui)
 
     if (h.isRunning)
         ui.printf(" TAS Running %lu/%lu\n", h.curFrame, h.frameCount);
-    sead::Vector2f& left = *fgetLeftStick(CONTROLLER_AUTO);
-    sead::Vector2f& right = *fgetRightStick(CONTROLLER_AUTO);
+    sead::Vector2f& left = *al::getLeftStick(CONTROLLER_AUTO);
+    sead::Vector2f& right = *al::getRightStick(CONTROLLER_AUTO);
     ui.printf("Left Stick: (X: %.5f Y: %.5f)\n", left.x, left.y);
     ui.printf("Right Stick: (X: %.5f Y: %.5f)\n", right.x, right.y);
     ui.printf("Buttons:\n");
     // -1 = CONTROLLER_AUTO
-    ui.printf("%s %s %s %s %s %s %s %s\n", fisPadHoldA(-1) ? "A" : " ", fisPadHoldB(-1) ? "B" : " ", fisPadHoldX(-1) ? "X" : " ", fisPadHoldY(-1) ? "Y" : " ", fisPadHoldL(-1) ? "L" : " ", fisPadHoldR(-1) ? "R" : " ", fisPadHoldZL(-1) ? "ZL" : "  ", fisPadHoldZR(-1) ? "ZR" : "  ");
-    ui.printf("%s %s %s %s %s %s %s %s\n", fisPadHoldPlus(-1) ? "+" : " ", fisPadHoldMinus(-1) ? "-" : " ", fisPadHoldPressLeftStick(-1) ? "LS" : "  ", fisPadHoldPressRightStick(-1) ? "RS" : "  ", fisPadHoldUp(-1) ? "DUP" : "   ", fisPadHoldRight(-1) ? "DRIGHT" : "      ", fisPadHoldDown(-1) ? "DDOWN" : "     ", fisPadHoldLeft(-1) ? "DLEFT" : "     ");
+    ui.printf("%s %s %s %s %s %s %s %s\n", al::isPadHoldA(-1) ? "A" : " ", al::isPadHoldB(-1) ? "B" : " ", al::isPadHoldX(-1) ? "X" : " ", al::isPadHoldY(-1) ? "Y" : " ", al::isPadHoldL(-1) ? "L" : " ", al::isPadHoldR(-1) ? "R" : " ", al::isPadHoldZL(-1) ? "ZL" : "  ", al::isPadHoldZR(-1) ? "ZR" : "  ");
+    ui.printf("%s %s %s %s %s %s %s %s\n", al::isPadHoldPlus(-1) ? "+" : " ", al::isPadHoldMinus(-1) ? "-" : " ", al::isPadHoldPressLeftStick(-1) ? "LS" : "  ", al::isPadHoldPressRightStick(-1) ? "RS" : "  ", al::isPadHoldUp(-1) ? "DUP" : "   ", al::isPadHoldRight(-1) ? "DRIGHT" : "      ", al::isPadHoldDown(-1) ? "DDOWN" : "     ", al::isPadHoldLeft(-1) ? "DLEFT" : "     ");
 #endif
 }

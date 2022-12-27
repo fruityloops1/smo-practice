@@ -1,6 +1,5 @@
 #include "al/input/JoyPadAccelPoseAnalyzer.h"
 #include "al/util.hpp"
-#include "fl/input.h"
 #include "fl/tas.h"
 #include "game/Layouts/MapLayout.h"
 #include "rs/util.hpp"
@@ -145,7 +144,7 @@ void motionUpdate(al::JoyPadAccelPoseAnalyzer* dis)
         controllerPort = al::getPlayerControllerPort(dis->mControllerPort);
     dis->mAccelDeviceNum = al::getPadAccelerationDeviceNum(controllerPort);
 
-    if (fisPadTriggerL(controllerPort)) {
+    if (al::isPadTriggerL(controllerPort)) {
         if (h.oldMotion) {
             dis->mSwingLeft = false;
             dis->mSwingRight = true;
@@ -154,7 +153,7 @@ void motionUpdate(al::JoyPadAccelPoseAnalyzer* dis)
             dis->mAccelRightVel = { 0.0f, 1.0f };
             dis->mHistoryRight.hist0 = 1.4f;
             dis->mHistoryRight.hist1 = -0.5f;
-        } else if (fisPadTriggerUp(controllerPort)) {
+        } else if (al::isPadTriggerUp(controllerPort)) {
             dis->mSwingLeft = false;
             dis->mSwingRight = true;
             dis->mSwingAny = true;
@@ -162,7 +161,7 @@ void motionUpdate(al::JoyPadAccelPoseAnalyzer* dis)
             dis->mAccelRightVel = { 0.0f, 1.0f };
             dis->mHistoryRight.hist0 = 1.4f;
             dis->mHistoryRight.hist1 = -0.5f;
-        } else if (fisPadTriggerDown(controllerPort)) {
+        } else if (al::isPadTriggerDown(controllerPort)) {
             dis->mSwingLeft = false;
             dis->mSwingRight = true;
             dis->mSwingAny = true;
@@ -170,7 +169,7 @@ void motionUpdate(al::JoyPadAccelPoseAnalyzer* dis)
             dis->mAccelRightVel = { 0.0f, -1.0f };
             dis->mHistoryRight.hist0 = 1.4f;
             dis->mHistoryRight.hist1 = -0.5f;
-        } else if (fisPadTriggerLeft(controllerPort)) {
+        } else if (al::isPadTriggerLeft(controllerPort)) {
             dis->mSwingRight = false;
             dis->mSwingLeft = true;
             dis->mSwingAny = true;
@@ -178,7 +177,7 @@ void motionUpdate(al::JoyPadAccelPoseAnalyzer* dis)
             dis->mAccelLeftVel = { -1.0f, 0.0f };
             dis->mHistoryLeft.hist0 = 1.4f;
             dis->mHistoryLeft.hist1 = -0.5f;
-        } else if (fisPadTriggerRight(controllerPort)) {
+        } else if (al::isPadTriggerRight(controllerPort)) {
             dis->mSwingRight = true;
             dis->mSwingLeft = false;
             dis->mSwingAny = true;
@@ -196,7 +195,7 @@ void motionUpdate(al::JoyPadAccelPoseAnalyzer* dis)
             dis->mHistoryRight.hist1 = -0.5f;
         }
     } else {
-        if (fisPadTriggerUp(controllerPort)) {
+        if (al::isPadTriggerUp(controllerPort)) {
             dis->mSwingLeft = true;
             dis->mSwingRight = true;
             dis->mSwingAny = true;
@@ -209,7 +208,7 @@ void motionUpdate(al::JoyPadAccelPoseAnalyzer* dis)
             dis->mHistoryRight.hist0 = 1.4f;
             dis->mHistoryLeft.hist1 = -0.5f;
             dis->mHistoryRight.hist1 = -0.5f;
-        } else if (fisPadTriggerLeft(controllerPort)) {
+        } else if (al::isPadTriggerLeft(controllerPort)) {
             dis->mSwingLeft = true;
             dis->mSwingRight = true;
             dis->mSwingAny = true;
@@ -222,7 +221,7 @@ void motionUpdate(al::JoyPadAccelPoseAnalyzer* dis)
             dis->mHistoryRight.hist0 = 1.4f;
             dis->mHistoryLeft.hist1 = -0.5f;
             dis->mHistoryRight.hist1 = -0.5f;
-        } else if (fisPadTriggerRight(controllerPort)) {
+        } else if (al::isPadTriggerRight(controllerPort)) {
             dis->mSwingLeft = true;
             dis->mSwingRight = true;
             dis->mSwingAny = true;
@@ -235,7 +234,7 @@ void motionUpdate(al::JoyPadAccelPoseAnalyzer* dis)
             dis->mHistoryRight.hist0 = 1.4f;
             dis->mHistoryLeft.hist1 = -0.5f;
             dis->mHistoryRight.hist1 = -0.5f;
-        } else if (fisPadTriggerDown(controllerPort)) {
+        } else if (al::isPadTriggerDown(controllerPort)) {
             dis->mSwingLeft = true;
             dis->mSwingRight = true;
             dis->mSwingAny = true;
