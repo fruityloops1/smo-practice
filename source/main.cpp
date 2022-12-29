@@ -9,7 +9,13 @@
 #include <mem.h>
 #include <nn/init.h>
 
-void drawWarpHoleCutsceneHook(const al::Scene* scene, const char* kitName) {
+void sequenceDrawHook(al::Sequence* sequence)
+{
+    bool shouldRender = fl::ui::PracticeUI::instance().shouldRender;
+    if(shouldRender)
+        sequence->drawMain();
+}
+
     fl::TasHolder::instance().update();
 
     al::drawKit(scene, kitName);

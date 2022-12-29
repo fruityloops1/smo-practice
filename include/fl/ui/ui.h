@@ -74,6 +74,8 @@ namespace ui {
         bool isModeEpdMovieRom = false;
         bool isModeJungleGymRom = false;
 
+        bool shouldRender = true;
+
         enum class Page : u8 {
             About = 0,
             Options = 1,

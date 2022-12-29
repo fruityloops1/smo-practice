@@ -10,6 +10,7 @@
         _Z22isTriggerAmiiboModeVarPKN2al18IUseSceneObjHolderE;
         _Z24isTriggerSnapShotModeVarPKN2al18IUseSceneObjHolderE;
         _Z12drawMainHookPN4sead8ViewportEPNS_11DrawContextEPNS_18LogicalFrameBufferEPN2al9LayoutKitE;
+        _Z16sequenceDrawHookPN2al8SequenceE;
 
         _Z22fgetNpadStatesHandheldPN2nn3hid17NpadHandheldStateEiRKj;
         _Z18fgetNpadStatesDualPN2nn3hid16NpadJoyDualStateEiRKj;

@@ -10,6 +10,11 @@ StageScene::control+18:
 005359dc: // GameSystem::init+18C
     mov x0, x19 // move GameSystem to arg register
     bl setupDebugMenu
+
+// override al::Sequence::drawMain to toggle rendering off if necessary
+0050F1F0:
+    bl sequenceDrawHook
+    
 // replaces all of the 2D-drawing methods with a hook to draw the menu on top
 0050F258:
     mov x0, sp // viewport
