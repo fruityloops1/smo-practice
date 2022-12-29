@@ -2,6 +2,7 @@
 #include "fl/server.h"
 #include "fl/ui/ui.h"
 #include <al/util.hpp>
+#include <sead/FrameBuffer.h>
 
 // These files must exist in your romfs! they are not there by default, and must be added in order for the debug font to work correctly.
 static const char* DBG_FONT_PATH = "DebugData/Font/nvn_font_jis1.ntx";
@@ -94,49 +95,37 @@ void drawBackground(agl::DrawContext* context)
     agl::utl::DevTools::drawTriangleImm(context, p3, p4, p2, c);
 }
 
-void drawMainHook(HakoniwaSequence* curSequence, sead::Viewport* viewport, sead::DrawContext* drawContext)
+void drawMainHook(sead::Viewport* viewport, sead::DrawContext* drawContext, sead::LogicalFrameBuffer* frameBuffer, al::LayoutKit* layoutKit)
 {
+    al::executeDraw(layoutKit, "２Ｄバック（メイン画面）");
+    al::executeDraw(layoutKit, "２Ｄベース（メイン画面）");
+    al::executeDraw(layoutKit, "２Ｄオーバー（メイン画面）");
 
-    if (!showMenu) {
-        al::executeDraw(curSequence->mLytKit, "２Ｄバック（メイン画面）");
-        return;
-    }
+    if (showMenu) {
+        int dispWidth = al::getLayoutDisplayWidth();
+        int dispHeight = al::getLayoutDisplayHeight();
 
-    int dispWidth = al::getLayoutDisplayWidth();
-    int dispHeight = al::getLayoutDisplayHeight();
+        gTextWriter->setDrawContext(drawContext);
+        gTextWriter->setupGraphics(drawContext);
+        gTextWriter->mViewport = viewport;
 
-    gTextWriter->mViewport = viewport;
-
-    gTextWriter->mColor = sead::Color4f(
-        1.f,
-        1.f,
-        1.f,
-        0.8f);
-
-    al::Scene* curScene = curSequence->curScene;
-
-    if (curScene && isInGame) {
+        gTextWriter->mColor = sead::Color4f(
+            1.f,
+            1.f,
+            1.f,
+            0.8f);
 
         drawBackground((agl::DrawContext*)drawContext);
-
-        al::PlayerHolder* pHolder = al::getScenePlayerHolder(curScene);
-        PlayerActorHakoniwa* player = al::tryGetPlayerActor(pHolder, 0);
-        sead::Vector3f* playerTrans = al::getTrans(player);
-        sead::Vector3f* playerVel = al::getVelocity(player);
-        sead::Quatf* playerQuat = al::getQuat(player);
-        sead::Vector3f* playerRecoveryPoint = player->mPlayerRecoverPoint->getSafetyPoint();
 
         gTextWriter->beginDraw();
         gTextWriter->setCursorFromTopLeft(sead::Vector2f(10.f, (dispHeight / 2) + 30.f));
         gTextWriter->setScaleFromFontHeight(20.f);
 #if (SMOVER == 100)
         fl::ui::PracticeUI::instance().menu(*gTextWriter);
-#endif
 
         isInGame = false;
+#endif
+
+        gTextWriter->endDraw();
     }
-
-    gTextWriter->endDraw();
-
-    al::executeDraw(curSequence->mLytKit, "２Ｄバック（メイン画面）");
 }

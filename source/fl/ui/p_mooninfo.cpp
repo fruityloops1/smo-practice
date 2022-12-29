@@ -4,6 +4,10 @@
 void fl::ui::mooninfo::update(PracticeUI& ui)
 {
     StageScene* stageScene = ui.getStageScene();
+    if (!isInGame) {
+        ui.printf("Not in game!\n");
+        return;
+    }
     ui.toggle("Hide Original Moon Counter", ui.hideShineCounter);
 
 #if (SMOVER == 100)

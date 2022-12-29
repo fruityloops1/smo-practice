@@ -8,11 +8,17 @@
 
 void fl::ui::statistics::update(PracticeUI& ui)
 {
-    int jumpCount = rs::getPlayerJumpCount(ui.getStageScene()->mHolder);
-    int throwCapCount = rs::getPlayerThrowCapCount(ui.getStageScene()->mHolder);
-    int playTimeTotal = GameDataFunction::getPlayTimeTotal(*ui.getStageScene()->mHolder);
-    int playTimeAcrossFile = GameDataFunction::getPlayTimeAcrossFile(*ui.getStageScene()->mHolder);
-    int totalCoinNum = rs::getTotalCoinNum(ui.getStageScene()->mHolder);
+    StageScene* stageScene = ui.getStageScene();
+    if (!isInGame) {
+        ui.printf("Not in game!\n");
+        return;
+    }
+
+    int jumpCount = rs::getPlayerJumpCount(stageScene->mHolder);
+    int throwCapCount = rs::getPlayerThrowCapCount(stageScene->mHolder);
+    int playTimeTotal = GameDataFunction::getPlayTimeTotal(*stageScene->mHolder);
+    int playTimeAcrossFile = GameDataFunction::getPlayTimeAcrossFile(*stageScene->mHolder);
+    int totalCoinNum = rs::getTotalCoinNum(stageScene->mHolder);
 
     ui.printf("Jump Count: %d\n", jumpCount);
     ui.printf("Throw Cap Count: %d\n", throwCapCount);

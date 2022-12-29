@@ -10,13 +10,20 @@ StageScene::control+18:
 005359dc: // GameSystem::init+18C
     mov x0, x19 // move GameSystem to arg register
     bl setupDebugMenu
-    
-// replaces an execute draw call with custom hook that handles execute draw itself after running draw code
-0050f258: // HakoniwaSequence::drawMain+84
-    mov x0, x19 // HakoniwaSequence
-    mov x1, sp // viewport
-    mov x2, x20 // drawContext
+// replaces all of the 2D-drawing methods with a hook to draw the menu on top
+0050F258:
+    mov x0, sp // viewport
+    mov x1, x20 // drawContext
+    mov x2, x21 // sead::LogicalFrameBuffer
+    ldr x3, [x19, #0xf8] // al::LayoutKit
     bl drawMainHook
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
 
 // disable snapshot mode if needed
 005539b0:

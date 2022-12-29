@@ -7,6 +7,10 @@
 void fl::ui::misc::update(PracticeUI& ui)
 {
     StageScene* stageScene = ui.getStageScene();
+    if (!isInGame) {
+        ui.printf("Not in game!\n");
+        return;
+    }
     ui.trigger("Kill Mario", []() {
         Game::instance().killMario();
     });

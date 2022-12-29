@@ -9,7 +9,7 @@
         _Z19isDefeatKoopaLv1VarP10StageScene;
         _Z22isTriggerAmiiboModeVarPKN2al18IUseSceneObjHolderE;
         _Z24isTriggerSnapShotModeVarPKN2al18IUseSceneObjHolderE;
-        _Z12drawMainHookP16HakoniwaSequencePN4sead8ViewportEPNS1_11DrawContextE;
+        _Z12drawMainHookPN4sead8ViewportEPNS_11DrawContextEPNS_18LogicalFrameBufferEPN2al9LayoutKitE;
 
         _Z22fgetNpadStatesHandheldPN2nn3hid17NpadHandheldStateEiRKj;
         _Z18fgetNpadStatesDualPN2nn3hid16NpadJoyDualStateEiRKj;
