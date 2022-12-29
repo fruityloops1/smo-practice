@@ -13,12 +13,12 @@
 #include <str.h>
 
 namespace smo {
-u32 OutPacketLog::calcLen()
+u32 OutPacketLog::calcLen() const
 {
     return strlen(message) + 1;
 }
 
-void OutPacketLog::construct(u8* dst)
+void OutPacketLog::construct(u8* dst) const
 {
     *dst = type;
     strcpy((char*)dst + 1, message);

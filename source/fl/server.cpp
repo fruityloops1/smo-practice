@@ -103,7 +103,7 @@ namespace smo
         connected = false;
     }
 
-    void Server::sendPacket(OutPacket& packet, OutPacketType type)
+    void Server::sendPacket(const OutPacket& packet, OutPacketType type)
     {
         u32 len = packet.calcLen();
         
@@ -111,6 +111,16 @@ namespace smo
         data[0] = type;
         packet.construct(data + 1);
         nn::socket::SendTo(socket, data, len + 1, 0, (struct sockaddr*) &server, sizeof(server));
+    }
+
+    void Server::log(const char* fmt, ...) {
+        char buf[0x100];
+        va_list args;
+        va_start(args, fmt);
+        vsnprintf(buf, sizeof(buf), fmt, args);
+        va_end(args);
+        const auto& packet = OutPacketLog(buf);
+        sendPacket(packet, OutPacketType::Log);
     }
 
     void Server::handlePacket(u8* buf, size_t bufSize)

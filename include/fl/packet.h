@@ -19,8 +19,8 @@ namespace smo
     class OutPacket
     {
     public:
-        virtual u32 calcLen() {return 0;}
-        virtual void construct(u8* dst) {}
+        virtual u32 calcLen() const {return 0;}
+        virtual void construct(u8* dst) const {}
     };
 
     enum InPacketType : u8
@@ -42,10 +42,11 @@ namespace smo
         {
             Log = 0, Warning = 1, Error = 2, Fatal = 3
         };
+        OutPacketLog(const char* msg) : message(msg), type(Log) {}
         LogType type;
-        char* message;
-        u32 calcLen();
-        void construct(u8* dst);
+        const char* message;
+        u32 calcLen() const;
+        void construct(u8* dst) const;
     };
 
     class InPacketPlayerScriptInfo : public InPacket
