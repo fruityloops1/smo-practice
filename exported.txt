@@ -29,7 +29,7 @@
         _Z28fgetPadAccelerationDeviceNumi;
         _Z12motionUpdatePN2al23JoyPadAccelPoseAnalyzerE;
 
-        _Z24drawWarpHoleCutsceneHookPKN2al5SceneEPKc;
+        _Z14tasDrawKitHookPKN2al5SceneEPKc;
 
         _Z17getMofumofuTargeti;
         _Z16isPatternReversev;

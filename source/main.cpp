@@ -16,6 +16,7 @@ void sequenceDrawHook(al::Sequence* sequence)
         sequence->drawMain();
 }
 
+void tasDrawKitHook(const al::Scene* scene, const char* kitName) {
     fl::TasHolder::instance().update();
 
     al::drawKit(scene, kitName);
