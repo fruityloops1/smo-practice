@@ -2,6 +2,8 @@
 
 00509c44:
     bl tasDrawKitHook
+004A6CC8:
+    bl tasDrawKitHook
 
 StageScene::control+18:
     bl stageSceneControlHook
