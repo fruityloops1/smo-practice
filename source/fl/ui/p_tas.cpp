@@ -34,8 +34,10 @@ void fl::ui::tas::update(PracticeUI& ui)
     if (h.scriptName)
         ui.printf(" Script: %s (%lu frames)\n", h.scriptName, h.frameCount);
 
-    if (h.isRunning)
+    if (h.isRunning) {
         ui.printf(" TAS Running %lu/%lu\n", h.curFrame, h.frameCount);
+        ui.printf(" %lu Frames Remaining\n", h.frameCount - h.curFrame);
+    }
     sead::Vector2f& left = *al::getLeftStick(CONTROLLER_AUTO);
     sead::Vector2f& right = *al::getRightStick(CONTROLLER_AUTO);
     ui.printf("Left Stick: (X: %.5f Y: %.5f)\n", left.x, left.y);
