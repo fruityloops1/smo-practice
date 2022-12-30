@@ -14,6 +14,8 @@ namespace ui {
     _PAGE(debug);
     _PAGE(info);
     _PAGE(info2);
+    _PAGE(infomighty);
+    _PAGE(infomighty2);
     _PAGE(misc);
     _PAGE(modes);
     _PAGE(mooninfo);

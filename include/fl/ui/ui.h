@@ -83,11 +83,13 @@ namespace ui {
             Misc = 3,
             Info = 4,
             Info2 = 5,
-            Tas = 6,
-            MoonInfo = 7,
-            Modes = 8,
-            Statistics = 9,
-            Debug = 10
+            InfoMighty = 6,
+            InfoMighty2 = 7,
+            Tas = 8,
+            MoonInfo = 9,
+            Modes = 10,
+            Statistics = 11,
+            Debug = 12
         };
 
         enum MofumofuPattern : s8 {
@@ -151,13 +153,15 @@ namespace ui {
         const struct {
             void (*const update)(PracticeUI&) { nullptr };
             const char* const name { nullptr };
-        } mPages[11] {
+        } mPages[13] {
             { fl::ui::about::update, "About" },
             { fl::ui::options::update, "Options" },
             { fl::ui::stages::update, "Stages" },
             { fl::ui::misc::update, "Miscellaneous" },
             { fl::ui::info::update, "Info" },
-            { fl::ui::info2::update, "Info2" },
+            { fl::ui::info2::update, "Info 2" },
+            { fl::ui::infomighty::update, "Mighty Info" },
+            { fl::ui::infomighty2::update, "Mighty Info 2" },
             { fl::ui::tas::update, "TAS" },
             { fl::ui::mooninfo::update, "Moon Info" },
             { fl::ui::modes::update, "Modes" },
