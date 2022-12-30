@@ -60,7 +60,7 @@ void fl::ui::misc::update(PracticeUI& ui)
         gravityString = "West";
 
     bool gravityChanged = false;
-    ui.printf("Gravity: %s\n", gravityString);
+    ui.printf("Gravity: %s", gravityString);
     if (ui.curLine == 10 && ui.inputEnabled && !ui.nextFrameNoLeftInput && isTriggerLeft()) {
         gravity--;
         gravityChanged = true;
@@ -76,18 +76,25 @@ void fl::ui::misc::update(PracticeUI& ui)
     al::LiveActor* o = player;
     if (player->mHackKeeper->currentHackActor)
         o = player->mHackKeeper->currentHackActor;
-    if (gravity == 0)
-        al::setGravity(o, { 0, -1, 0 });
-    else if (gravity == 1)
-        al::setGravity(o, { 0, 1, 0 });
-    else if (gravity == 2)
-        al::setGravity(o, { 1, 0, 0 });
-    else if (gravity == 3)
-        al::setGravity(o, { -1, 0, 0 });
-    else if (gravity == 4)
-        al::setGravity(o, { 0, 0, 1 });
-    else if (gravity == 5)
-        al::setGravity(o, { 0, 0, -1 });
+    
+    if(o->mPoseKeeper->getGravityPtr() != nullptr) {
+        if (gravity == 0)
+            al::setGravity(o, { 0, -1, 0 });
+        else if (gravity == 1)
+            al::setGravity(o, { 0, 1, 0 });
+        else if (gravity == 2)
+            al::setGravity(o, { 1, 0, 0 });
+        else if (gravity == 3)
+            al::setGravity(o, { -1, 0, 0 });
+        else if (gravity == 4)
+            al::setGravity(o, { 0, 0, 1 });
+        else if (gravity == 5)
+            al::setGravity(o, { 0, 0, -1 });
+    } else {
+        ui.printf(" (currently not applied)");
+    }
+
+    ui.printf("\n");
     ui.addLine();
     ui.printf("%sWiggler Pattern: %s\n", ui.curLine == 11 ? ">" : "", ui.curPattern == PracticeUI::MofumofuPattern::Random ? "Random" : ui.mPatternEntries[ui.curPattern].typeStr);
     if (isTriggerRight() && ui.curLine == 11)
