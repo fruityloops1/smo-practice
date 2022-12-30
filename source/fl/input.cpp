@@ -43,7 +43,6 @@ void controllerHook(nn::hid::NpadBaseState* state) {
     }
 
     state->mButtons = 0;
-    h.debugNum++;
     if(h.frames[h.curFrame].A) 
         state->mButtons |= (1 << 0);
     if(h.frames[h.curFrame].B) 

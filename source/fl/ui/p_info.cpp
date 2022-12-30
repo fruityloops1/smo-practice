@@ -118,9 +118,6 @@ void fl::ui::info2::update(PracticeUI& ui)
     }
     ui.printf("  mAttributes: %#06x\n", state->mAttributes);
     ui.printf("  RESERVED: %#06x\n", state->RESERVED);
-
-
-    ui.printf("debugNum: %i\n", TasHolder::instance().debugNum);
 }
 
 void fl::ui::infomighty::update(PracticeUI& ui) {
