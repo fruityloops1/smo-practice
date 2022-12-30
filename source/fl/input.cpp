@@ -4,8 +4,6 @@
 #include <fl/tas.h>
 #include <nn/util.h>
 
-#if(SMOVER==100)
-
 long raw_input;
 long raw_input_prev;
 
@@ -121,5 +119,3 @@ void fgetNpadStatesJoyRight(nn::hid::NpadJoyRightState* state, int unk1, const u
     nn::hid::GetNpadStates(state, unk1, unk2);
     controllerHook(state);
 }
-
-#endif

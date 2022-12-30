@@ -113,11 +113,20 @@ bool isPadReleaseUiCursorLeft(int port);
 bool isPadReleaseUiCursorRight(int port);
 #endif
 #if (SMOVER == 130)
+EFUN(0x005CFBD0, bool, isPadTriggerA, EFUN_ARGS(int port));
+EFUN(0x005CFC80, bool, isPadTriggerB, EFUN_ARGS(int port));
+EFUN(0x005CFD30, bool, isPadTriggerX, EFUN_ARGS(int port));
+EFUN(0x005CFDE0, bool, isPadTriggerY, EFUN_ARGS(int port));
+EFUN(0x005CFE90, bool, isPadTriggerZL, EFUN_ARGS(int port));
+EFUN(0x005CFF40, bool, isPadTriggerZR, EFUN_ARGS(int port));
+EFUN(0x005CFFF0, bool, isPadTriggerL, EFUN_ARGS(int port));
+EFUN(0x005D00A0, bool, isPadTriggerR, EFUN_ARGS(int port));
+
 EFUN(0x005D0200, bool, isPadTriggerDown, EFUN_ARGS(int port));
 EFUN(0x005D0150, bool, isPadTriggerUp, EFUN_ARGS(int port));
 EFUN(0x005D02B0, bool, isPadTriggerLeft, EFUN_ARGS(int port));
 EFUN(0x005D0360, bool, isPadTriggerRight, EFUN_ARGS(int port));
-EFUN(0x005CFBD0, bool, isPadTriggerA, EFUN_ARGS(int port));
+
 EFUN(0x005D0fD0, bool, isPadHoldL, EFUN_ARGS(int port));
 #endif
 

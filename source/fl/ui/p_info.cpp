@@ -11,6 +11,7 @@
 #include "sead/controller/seadControllerAddon.h"
 #include "sead/controller/seadControlDevice.h"
 #include "sead/controller/nin/seadNinJoyNpadDevice.h"
+#include "fl/common.h"
 
 void fl::ui::info::update(PracticeUI& ui)
 {
@@ -79,6 +80,10 @@ void fl::ui::info::update(PracticeUI& ui)
 
 void fl::ui::info2::update(PracticeUI& ui)
 {
+    #if SMOVER == 130
+    ui.printf(MSG_NO130);
+    return;
+    #endif
 	StageScene* stageScene = ui.getStageScene();
 
     if(isInGame) {
@@ -121,6 +126,10 @@ void fl::ui::info2::update(PracticeUI& ui)
 }
 
 void fl::ui::infomighty::update(PracticeUI& ui) {
+    #if SMOVER == 130
+    ui.printf(MSG_NO130);
+    return;
+    #endif
     StageScene* stageScene = ui.getStageScene();
 
     if (!isInGame) {
@@ -184,6 +193,10 @@ void fl::ui::infomighty::update(PracticeUI& ui) {
 }
 
 void fl::ui::infomighty2::update(PracticeUI& ui) {
+    #if SMOVER == 130
+    ui.printf(MSG_NO130);
+    return;
+    #endif
     StageScene* stageScene = ui.getStageScene();
 
     if (!isInGame) {
