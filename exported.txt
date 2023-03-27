@@ -31,6 +31,9 @@
 
         _Z14tasDrawKitHookPKN2al5SceneEPKc;
 
+        _Z22koopaHatRandomizerHookiiiPii;
+        _Z18koopaHatRandomHooki;
+
         _Z17getMofumofuTargeti;
         _Z16isPatternReversev;
     local: *;

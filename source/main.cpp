@@ -9,6 +9,8 @@
 #include <mem.h>
 #include <nn/init.h>
 
+#include <fl/nerve.h>
+
 void sequenceDrawHook(al::Sequence* sequence)
 {
     bool shouldRender = fl::ui::PracticeUI::instance().shouldRender;
@@ -20,6 +22,17 @@ void tasDrawKitHook(const al::Scene* scene, const char* kitName) {
     fl::TasHolder::instance().update();
 
     al::drawKit(scene, kitName);
+}
+
+int koopaHatRandomizerHook(int a1, int a2, int level, int* arr, int arrLength) {
+    int val = ((int(*)(int,int,int,int*,int)) uintptr_t(fl::__module_start__) + 0x000A34E4)(a1, a2, level, arr, arrLength);
+    smo::Server::instance().log("koopaHatRandomizerHook: %d = (%d, %d, %d, [%d,%d,%d,%d,%d,%d], %d)", val, a1, a2, level, arr[0], arr[1], arr[2], arr[3], arr[4], arr[5], arrLength);
+    smo::Server::instance().log("a few random numbers: %d, %d, %d, %d", al::getRandom(3), al::getRandom(3), al::getRandom(3), al::getRandom(3));
+    return fl::ui::PracticeUI::instance().overrideBowserHat0 ? 0 : val;
+}
+
+int koopaHatRandomHook(int param) {
+    return fl::ui::PracticeUI::instance().overrideBowserHat0 ? param-1 : al::getRandom(param);
 }
 
 void stageSceneControlHook()

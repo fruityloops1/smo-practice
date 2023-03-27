@@ -41,10 +41,10 @@ void fl::ui::misc::update(PracticeUI& ui)
         stageScene->mHolder->returnPrevStage();
     });
 
-    ui.addLine();
+    ui.toggle("Override Bowser Hat Randomizer", ui.overrideBowserHat0);
 
     static u8 gravity = 0;
-    ui.cursor(10);
+    ui.cursor(11);
     const char* gravityString = nullptr;
     if (gravity == 0)
         gravityString = "Down";
@@ -61,10 +61,10 @@ void fl::ui::misc::update(PracticeUI& ui)
 
     bool gravityChanged = false;
     ui.printf("Gravity: %s", gravityString);
-    if (ui.curLine == 10 && ui.inputEnabled && !ui.nextFrameNoLeftInput && isTriggerLeft()) {
+    if (ui.curLine == 11 && ui.inputEnabled && !ui.nextFrameNoLeftInput && isTriggerLeft()) {
         gravity--;
         gravityChanged = true;
-    } else if (ui.curLine == 10 && ui.inputEnabled && !ui.nextFrameNoRightInput && isTriggerRight()) {
+    } else if (ui.curLine == 11 && ui.inputEnabled && !ui.nextFrameNoRightInput && isTriggerRight()) {
         gravity++;
         gravityChanged = true;
     }
@@ -96,14 +96,14 @@ void fl::ui::misc::update(PracticeUI& ui)
 
     ui.printf("\n");
     ui.addLine();
-	ui.printf("%sWiggler Pattern: %s\n", ui.curLine == 8 ? ">" : "", ui.curPattern == PracticeUI::MofumofuPattern::Random ? "Random" : ui.mPatternEntries[ui.curPattern].typeStr);
-	if (isTriggerRight() && ui.curLine == 8) {
+	ui.printf("%sWiggler Pattern: %s\n", ui.curLine == 12 ? ">" : "", ui.curPattern == PracticeUI::MofumofuPattern::Random ? "Random" : ui.mPatternEntries[ui.curPattern].typeStr);
+	if (isTriggerRight() && ui.curLine == 12) {
 		if ((*(s8 *)&ui.curPattern) == (s8)PracticeUI::MofumofuPattern::Star)
 			(*(s8 *)&ui.curPattern) = (s8)PracticeUI::MofumofuPattern::Random;
 		else
 			(*(s8 *)&ui.curPattern)++;
 	}
-	if (isTriggerLeft() && ui.curLine == 8) {
+	if (isTriggerLeft() && ui.curLine == 12) {
 		if ((*(s8 *)&ui.curPattern) == (s8)PracticeUI::MofumofuPattern::Random)
 			(*(s8 *)&ui.curPattern) = (s8)PracticeUI::MofumofuPattern::Star;
 		else

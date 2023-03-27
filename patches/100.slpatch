@@ -1,9 +1,23 @@
 [version=100, target=main]
+00862f2c:
+    mov w0, #2
+    ret
 
 00509c44:
     bl tasDrawKitHook
 004A6CC8:
     bl tasDrawKitHook
+
+// override return value of sub_71000A34E4, which calculates the "real hat" index
+// currently disabled, as it should already be consistent with just overriding al::getRandom below
+//000A3F50:
+//    bl koopaHatRandomizerHook
+//000A3320:
+//    bl koopaHatRandomizerHook
+
+// replacing call to al::getRandom
+000A2DBC:
+    bl koopaHatRandomHook
 
 StageScene::control+18:
     bl stageSceneControlHook
