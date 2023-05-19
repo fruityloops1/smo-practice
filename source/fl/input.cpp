@@ -101,21 +101,21 @@ void controllerHook(nn::hid::NpadBaseState* state) {
 }
 void fgetNpadStatesHandheld(nn::hid::NpadHandheldState* state, int unk1, const unsigned int& unk2) {
     nn::hid::GetNpadStates(state, unk1, unk2);
-    controllerHook(state);
+    if(unk2 == 0) controllerHook(state);
 }
 void fgetNpadStatesDual(nn::hid::NpadJoyDualState* state, int unk1, const unsigned int& unk2) {
     nn::hid::GetNpadStates(state, unk1, unk2);
-    controllerHook(state);
+    if(unk2 == 0) controllerHook(state);
 }
 void fgetNpadStatesFullKey(nn::hid::NpadFullKeyState* state, int unk1, const unsigned int& unk2) {
     nn::hid::GetNpadStates(state, unk1, unk2);
-    controllerHook(state);
+    if(unk2 == 0) controllerHook(state);
 }
 void fgetNpadStatesJoyLeft(nn::hid::NpadJoyLeftState* state, int unk1, const unsigned int& unk2) {
     nn::hid::GetNpadStates(state, unk1, unk2);
-    controllerHook(state);
+    if(unk2 == 0) controllerHook(state);
 }
 void fgetNpadStatesJoyRight(nn::hid::NpadJoyRightState* state, int unk1, const unsigned int& unk2) {
     nn::hid::GetNpadStates(state, unk1, unk2);
-    controllerHook(state);
+    if(unk2 == 0) controllerHook(state);
 }
