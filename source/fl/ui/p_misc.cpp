@@ -45,6 +45,7 @@ void fl::ui::misc::update(PracticeUI& ui)
 
     static u8 gravity = 0;
     ui.cursor(11);
+    ui.addLine();
     const char* gravityString = nullptr;
     if (gravity == 0)
         gravityString = "Down";
