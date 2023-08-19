@@ -1,6 +1,6 @@
 #pragma once
 #include "al/scene/Scene.h"
-#include "al/scene/SceneObjHolder.h"
+#include "al/iuse/IUseSceneObjHolder.h"
 #include "game/Player/PlayerActorHakoniwa.h"
 #include "sead/math/seadVector.h"
 #include <fl/efun.h>

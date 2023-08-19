@@ -16,6 +16,7 @@ namespace al {
         public:
             PlayerHolder(int);
             al::LiveActor *getPlayer(int);
+            al::LiveActor* tryGetPlayer(int) const;
             int *getPlayerNum() const;
             int *getBufferSize() const;
             void registerPlayer(al::LiveActor *, al::PadRumbleKeeper *);

@@ -14,6 +14,10 @@
 
 #include <fl/efun.h>
 
+namespace al {
+    class LayoutActor;
+}
+
 class GameDataFunction
 {
 public:
@@ -134,4 +138,6 @@ public:
     static WEFUN(0x004D2C10, int, getPlayTimeTotal, EFUN_ARGS(GameDataHolderAccessor accessor), EFUN_ARGS(accessor));
     static WEFUN(0x004D2C20, int, getPlayTimeAcrossFile, EFUN_ARGS(GameDataHolderAccessor accessor), EFUN_ARGS(accessor));
     #endif
+
+    static const char16_t* tryFindShineMessage(al::LayoutActor const*, int, int);
 };

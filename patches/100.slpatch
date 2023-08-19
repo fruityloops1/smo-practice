@@ -1,4 +1,209 @@
 [version=100, target=main]
+004cc788: // StageScene::kill+19:
+    bl stageSceneKillHook
+
+00a4667c:
+    bl bgmStartSoundHook
+00a46694:
+    bl bgmStartSoundHook
+
+// resize StageScene
+//004c1c10:
+//    mov w0, #0x4c8
+
+//004c8dd8:
+//    bl storeActorInitInfo
+
+//004c8440:
+//    bl stageSceneCtorHook
+
+// set Shine->mIsNoRotate to true
+//001cd904:
+//    mov w0, #1
+//    str w0, [x19, #0x2fc]
+//    nop
+//    nop
+
+// disable GameDataFile::setGrowFlowerTime
+//005203f0:
+//    ret
+
+//00520d48:
+//    mov x0, #1
+//    ret
+
+// cancel al::addVelocity in PlayerActionAirMoveControl::update (doesn't disable gravity, just moving midair)
+//00414fc0:
+//    nop
+//00415020:
+//    nop
+
+// set GameDataFile::isGotCheckpointInWorld to true
+//00521300:
+//    mov w0, #1
+//    ret
+
+// change SkyWorldKoopaFrame::receiveMsg to only respond to TsukkunThrustCollide
+//0031cd74:
+//    mov x1, xzr
+//    bl #0x26fd68    // rs::isMsgTsukkunCollideThrust
+//    tbz w0, #0, #0x54
+//    nop
+//    nop
+//    nop
+//    nop
+//    nop
+
+// add bounds checking to NerveKeeper::update
+//009596a4:
+//    bl nerveKeeperUpdateVar
+//    nop
+//    nop
+
+// al::ExecuteTableHolderDraw::execute const
+//0089308c:
+//    ret
+
+// al::Effect::tryEmitEmitters
+//00a59574:
+//    ret
+
+// al::BloomDirector::draw
+//008bc960:
+//    ret
+
+// al::ResourceSystem::createResource
+//00a7d390:
+//    mov w0, #0
+
+// initActor
+//008dc12c:
+//    b initActor
+
+// al::createTextureInfo
+//008b48cc:
+//    ret
+
+// PlayerActionAirMoveControl::update
+//00415030:
+//    nop
+//00415040:
+//    nop
+
+//0043d58c:
+//    mov w0, #5
+
+// rs::registerFruit
+001d88bc:
+    mov w0, #0
+
+
+
+// al::ExecuteDirector::init+44
+// increase al::ExecuteTableHolderDraw size
+00891364:
+    mov w0, #0x90
+
+// al::ExecuteTableHolderDraw::ExecuteTableHolderDraw+7
+0089215c:
+    bl executeTableHolderDrawCtor
+
+// al::ExecuteDirector::draw+33
+00891aac:
+    b executeTableHolderDrawExecute
+
+
+// ShineTowerRocket::init
+//00309904:
+//    mov w0, #1
+
+// StageSceneStateTitleLogo::kill
+//004fed3c:
+//    svc #0x26
+
+// ControllerGuideSnapShotCtrl::exeShow (hide frame)
+//001e4bd8:
+//    nop
+
+// ShineListLayout::exeList
+//00205d4c:
+//    b shineListLayoutDecideHook
+
+// motion mod for tasing thing
+//00862f2c:
+//    mov w0, #2
+//    ret
+
+// crash on Senobi::init
+/0017e430:
+//    svc #0x26
+
+// crash on Senobi::initAfterPlacement
+//0017e918:
+//    svc #0x26
+
+// toggle updating joints if gravity changed
+0041e764:
+    bl setPlayerJointUpdate
+
+// toggle x/y motion rolls
+0045b75c:
+    b isTriggerRollingRestartSwingVar
+
+// toggle loading current file
+004e7f84:
+    bl setLoadDataSelectingCurrentVar
+    nop
+
+// toggle load file confirmation
+004e804c:
+    bl setLoadDataSelectingConfirmVar
+
+// toggle infinite cap bounces
+004083ac:
+    bl setRepeatCapBounceVar
+
+// toggle infinite rainbow spins
+00458cb8:
+    bl setRepeatRainbowSpinVar
+
+// toggle cap bounce after wall jump
+00407f2c:
+    bl setWallJumpCapBounceVar
+
+// toggle taking damage
+00528824:
+    b setDamageVar
+
+// toggle kingdom moon requirements
+0052639c:
+    b findUnlockShineNumVar
+0052a0c4:
+    b findUnlockShineNumVar
+005336e8:
+    bl findUnlockShineNumVar
+00533770:
+    bl findUnlockShineNumVar
+00533928:
+    bl findUnlockShineNumVar
+00533c0c:
+    bl findUnlockShineNumVar
+00533ca0:
+    bl findUnlockShineNumVar
+
+// toggle rs::isPlayerEnableToSeeOddSpace
+00570908:
+    b setPlayerEnableToSeeOddSpaceVar
+
+
+// musiclist.pchtxt
+//004d9e04:
+//    mov x0, #1
+
+// seed.pchtxt
+//005203f0:
+//    ret
+
 // some fix for motion stuff
 00862f2c:
     mov w0, #2

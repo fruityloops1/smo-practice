@@ -1,16 +1,35 @@
 {
     global:
         _Z21stageSceneControlHookv;
+        _Z18stageSceneKillHookv;
         _Z14setupDebugMenuP10GameSystem;
         _Z14setGotShineVar20GameDataHolderWriterPK9ShineInfo;
         _Z13isGotShineVar22GameDataHolderAccessorPK9ShineInfo;
         _Z25isEnableCheckpointWarpVarP9MapLayout;
         _Z15isEnableSaveVarP10StageScene;
         _Z19isDefeatKoopaLv1VarP10StageScene;
+        _Z20setPlayerJointUpdateP24PlayerJointControlKeeper;
+        _Z31isTriggerRollingRestartSwingVarP11PlayerInput;
+        _Z30setLoadDataSelectingCurrentVarv;
+        _Z30setLoadDataSelectingConfirmVarv;
+        _Z21setRepeatCapBounceVarv;
+        _Z23setRepeatRainbowSpinVarv;
+        _Z23setWallJumpCapBounceVarv;
+        _Z18storeActorInitInfov;
+        _Z18stageSceneCtorHookv;
+        _Z12setDamageVarP18PlayerHitPointData;
+        _Z21findUnlockShineNumVarP14GameDataHolderPbi;
         _Z22isTriggerAmiiboModeVarPKN2al18IUseSceneObjHolderE;
         _Z24isTriggerSnapShotModeVarPKN2al18IUseSceneObjHolderE;
         _Z12drawMainHookPN4sead8ViewportEPNS_11DrawContextEPNS_18LogicalFrameBufferEPN2al9LayoutKitE;
         _Z16sequenceDrawHookPN2al8SequenceE;
+        _Z20nerveKeeperUpdateVarv;
+        _Z31setPlayerEnableToSeeOddSpaceVarPKN2al9LiveActorE;
+        _Z22executeDirectorDrawVarPKcS0_;
+        _Z26executeTableHolderDrawCtorPN2al22ExecuteTableHolderDrawE;
+        _Z29executeTableHolderDrawExecutePN2al22ExecuteTableHolderDrawE;
+        _Z9initActorPN2al9LiveActorERKNS_13ActorInitInfoEPN4sead14SafeStringBaseIcEES8_PKc;
+        _Z25shineListLayoutDecideHookP15ShineListLayout;
 
         _Z22fgetNpadStatesHandheldPN2nn3hid17NpadHandheldStateEiRKj;
         _Z18fgetNpadStatesDualPN2nn3hid16NpadJoyDualStateEiRKj;
@@ -36,5 +55,6 @@
 
         _Z17getMofumofuTargeti;
         _Z16isPatternReversev;
+        _Z17bgmStartSoundHookPN2nn3atk14SoundStartableEPNS0_11SoundHandleEPKcPKNS1_9StartInfoE;
     local: *;
 };

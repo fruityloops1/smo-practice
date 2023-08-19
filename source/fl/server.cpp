@@ -20,14 +20,13 @@ void threadFunc(void* args)
 {
     smo::Server* server = (smo::Server*) args;
     nn::TimeSpan w = nn::TimeSpan::FromNanoSeconds(1000000);
-    u8* buf = (u8*) nn::init::GetAllocator()->Allocate(30720);
+    u8* buf = (u8*) aligned_alloc(0x10, 30720);
     while (true)
     {
         server->handlePacket(buf, 30720);
         nn::os::YieldThread();
         nn::os::SleepThread(w);
     }
-    nn::init::GetAllocator()->Free(buf);
 }
 
 namespace smo
@@ -66,7 +65,7 @@ namespace smo
 
         if (!thread)
         {
-            thread = (nn::os::ThreadType*) nn::init::GetAllocator()->Allocate(sizeof(nn::os::ThreadType));
+            thread = (nn::os::ThreadType*) aligned_alloc(0x10, sizeof(nn::os::ThreadType));
             threadStack = aligned_alloc(0x1000, 0x15000);
             nn::os::CreateThread(thread, threadFunc, this, threadStack, 0x15000, 16, 0);
             nn::os::SetThreadName(thread, "UDP Thread");
@@ -137,7 +136,9 @@ namespace smo
             IN_PACKET(PlayerTeleport);
             IN_PACKET(PlayerGo);
             IN_PACKET(PlayerScriptData);
-            IN_PACKET(ChangePage);
+            IN_PACKET(Select);
+            IN_PACKET(UINavigation);
+            IN_PACKET(PlayerScriptState);
             default: break;
         }
     }

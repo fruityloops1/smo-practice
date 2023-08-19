@@ -25,7 +25,7 @@ namespace smo
 
     enum InPacketType : u8
     {
-        PlayerScriptInfo = 1, PlayerScriptData = 2, PlayerTeleport = 3, PlayerGo = 4, ChangePage = 5
+        PlayerScriptInfo = 1, PlayerScriptData = 2, PlayerTeleport = 3, PlayerGo = 4, Select = 5, UINavigation = 6, PlayerScriptState = 7, 
     };
 
     class InPacket
@@ -83,9 +83,25 @@ namespace smo
         void on(Server& server);
     };
 
-    class InPacketChangePage : public InPacket
+    class InPacketSelect : public InPacket
     {
-        u8 page;
+        u8 option;
+    public:
+        void parse(const u8* data, u32 len);
+        void on(Server& server);
+    };
+
+    class InPacketUINavigation : public InPacket
+    {
+        long inputMask;
+    public:
+        void parse(const u8* data, u32 len);
+        void on(Server& server);
+    };
+
+    class InPacketPlayerScriptState : public InPacket
+    {
+        u8 state;
     public:
         void parse(const u8* data, u32 len);
         void on(Server& server);

@@ -1,7 +1,7 @@
 #pragma once
 
-#define PRACTICE_VERSTR "1.4.0"
-#define PRACTICE_VER 140
+#define PRACTICE_VERSTR "1.5.0"
+#define PRACTICE_VER 150
 #if SMOVER == 100
 #	define GAME_VERSION "1.0.0"
 #endif

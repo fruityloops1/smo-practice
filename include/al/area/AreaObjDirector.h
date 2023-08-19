@@ -1,12 +1,20 @@
 #pragma once
 
-namespace al
-{
-    class AreaObjDirector;
+#include "al/iuse/IUseAreaObj.h"
 
-    class IUseAreaObj
-    {
-    public:
-        virtual al::AreaObjDirector* getAreaObjDirector() const = 0;
-    };
+namespace al {
+class AreaObjFactory;
+class AreaObjGroup;
+class AreaObjMtxConnecterHolder;
+
+class AreaObjDirector {
+public:
+    AreaObjGroup* getAreaObjGroup(const char*) const;
+
+    AreaObjFactory* mFactory;
+    AreaObjMtxConnecterHolder* mMtxConnecterHolder;
+    AreaObjGroup** mAreaGroups;
+    int mAreaGroupCount;
 };
+
+}

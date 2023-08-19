@@ -6,9 +6,10 @@
 
 long raw_input;
 long raw_input_prev;
+long ext_input;
 
 bool isPressed(int button) {
-    return (raw_input & (1 << button)) != 0;
+    return ((raw_input|ext_input) & (1 << button)) != 0;
 }
 bool isPressedPrev(int button) {
     return (raw_input_prev & (1 << button)) != 0;
@@ -24,6 +25,24 @@ bool isTriggerRight() {
 }
 bool isTriggerDown() {
     return isPressed(15) && !isPressedPrev(15);
+}
+bool isHoldLeft() {
+    return isPressed(12) && isPressedPrev(12);
+}
+bool isHoldUp() {
+    return isPressed(13) && isPressedPrev(13);
+}
+bool isHoldRight() {
+    return isPressed(14) && isPressedPrev(14);
+}
+bool isHoldDown() {
+    return isPressed(15) && isPressedPrev(15);
+}
+bool isHoldA() {
+    return isPressed(0) && isPressedPrev(0);
+}
+bool isHoldB() {
+    return isPressed(1) && isPressedPrev(1);
 }
 bool isL() {
     return isPressed(6);

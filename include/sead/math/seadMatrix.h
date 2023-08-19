@@ -2,6 +2,7 @@
 #define SEAD_MATRIX34_H_
 
 #include <sead/basis/seadTypes.h>
+#include <sead/math/seadVector.h>
 #include <sead/math/seadMathPolicies.h>
 
 namespace sead
@@ -27,6 +28,12 @@ struct Matrix34 : public Policies<T>::Mtx34Base
         this->m[2][1] = _21;
         this->m[2][2] = _22;
         this->m[2][3] = _23;
+    }
+
+    void setBase(s32 axis, const Vector3f& v) {
+        this->m[0][axis] = v.x;
+        this->m[1][axis] = v.y;
+        this->m[2][axis] = v.z;
     }
 
     static const Matrix34 zero;

@@ -22,7 +22,7 @@ class LogicalFrameBuffer;
 class MethodTreeMgr;
 class TaskMgr;
 
-class Framework
+class Framework : public sead::hostio::Node
 {
     SEAD_RTTI_BASE(Framework)
 
@@ -70,6 +70,7 @@ public:
     virtual bool setProcessPriority(ProcessPriority);
     virtual void reserveReset(void*);
     virtual void initRun_(Heap*);
+    virtual void quitRun_(Heap*);
     virtual void runImpl_();
     virtual MethodTreeMgr* createMethodTreeMgr_(Heap*) = 0;
     virtual void procReset_();

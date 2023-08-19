@@ -9,6 +9,7 @@ public:
     void activatePreventDamage();
     void dead();
     void damage(int level);
+    void damageForce(int level);
     #endif
     #if(SMOVER==130)
     VVCEFUN(PlayerDamageKeeper, 0x003E2850, dead);

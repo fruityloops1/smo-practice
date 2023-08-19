@@ -22,7 +22,7 @@ namespace fl
 
         bool isRunning = false;
         bool startPending = false;
-        u64 curFrame = 0;
+        s64 curFrame = 0;
         u64 frameCount = 0;
 
         bool oldMotion = false;
@@ -33,5 +33,6 @@ namespace fl
         void start();
         void stop();
         void setScriptName(char* name);
+        void onStageKill();
     };
 }

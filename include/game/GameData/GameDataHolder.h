@@ -11,13 +11,29 @@
 #include "game/StageScene/ChangeStageInfo.h"
 #include "game/WorldList/WorldList.h"
 #include "sead/prim/seadSafeString.h"
+#include <sead/container/seadPtrArray.h>
 
 #include <fl/efun.h>
 
 class ChangeStageInfo;
 class GameDataFile;
 
-class GameDataHolder // : public GameDataHolderBase
+class TempSaveData;
+class CapMessageBossData;
+class TemporaryScenarioCameraHolder;
+class AchievementInfoReader;
+class AchievementHolder;
+class MapDataHolder;
+class QuestInfoHolder;
+class GameSequenceInfo;
+class GameConfigData;
+class UniqObjInfo;
+
+namespace al {
+class ActorInitInfo;
+}
+
+class GameDataHolder : public al::ISceneObj, public al::IUseMessageSystem // : public GameDataHolderBase
 {
 public:
     GameDataHolder(al::MessageSystem const *);
@@ -35,6 +51,11 @@ public:
     void initializeDataId(s32);
     void readByamlData(s32, char const *);
     s32 tryFindEmptyFileId() const;
+    al::MessageSystem* getMessageSystem() const override;
+
+    virtual const char* getSceneObjName() const override;
+    virtual void initAfterPlacementSceneObj(al::ActorInitInfo const&) override;
+    virtual void initSceneObj() override;
 
     bool isRequireSave() const;
     void setRequireSave();
@@ -105,11 +126,71 @@ public:
 
     void readFromSaveDataBufferCommonFileOnlyLanguage();
 
-    u64* _8;
-    undefined8 padding;
-    undefined8 _padding;
-    GameDataFile* mDataFileArr; // 0x18
-    GameDataFile* mGameDataFile; // 0x20
-    unsigned char padding_190[0x168];
-    WorldList *mWorldList; // 0x190
+
+    al::MessageSystem* mMessageSystem;
+    GameDataFile** mFiles;
+    GameDataFile* mPlayingFile;
+    GameDataFile* uVar1;
+    int mPlayingFileId;
+    unsigned char gap1[0x4];
+    void* gap2;
+    bool mIsRequireSave;
+    int mRequireSaveFrame;
+    bool mIsInvalidSaveForMoonGet;
+    bool bVar1;
+    bool bVar2;
+    sead::BufferedSafeString mLanguage;
+    unsigned char gap3[0x20];
+    ulong mPlayTimeAcrossFile;
+    sead::Heap* mHeap;
+    void* gap8;
+    GameConfigData* mGameConfigData;
+    TempSaveData* uVar2;
+    TempSaveData* uVar3;
+    CapMessageBossData* mCapMessageBossData;
+    unsigned char gap9[0x8];
+    unsigned char gap10[0x4];
+    unsigned char gap11[0x4];
+    TemporaryScenarioCameraHolder* mTemporaryScenarioCameraHolder;
+    bool* mIsPlayAlreadyScenarioStartCamera;
+    sead::PtrArrayImpl mStageLockList;
+    sead::PtrArrayImpl arr1;
+    sead::PtrArrayImpl mItemListE3;
+    sead::PtrArrayImpl mItemCloth;
+    sead::PtrArrayImpl mItemCap;
+    sead::PtrArrayImpl mItemGift;
+    sead::PtrArrayImpl mItemSticker;
+    sead::PtrArray<char> mHackObj;
+    sead::PtrArrayImpl arr2;
+    void* gap12;
+    int iVar1;
+    AchievementInfoReader* mAchievementInfoReader;
+    AchievementHolder* mAchievementHolder;
+    WorldList* mWorldList;
+    sead::PtrArrayImpl mChangeStageList;
+    sead::PtrArrayImpl mExStageList;
+    sead::PtrArrayImpl mInvalidOpenMapList;
+    sead::PtrArray<sead::BufferedSafeString> mShowHackTutorialList;
+    bool* mIsShowBindTutorial;
+    MapDataHolder* mMapDataHolder;
+    int iVar2;
+    void** gap13;
+    int* mCoinCollectNumMax;
+    int* piVar1;
+    void* gap14;
+    int iVar3;
+    UniqObjInfo* mLocationName;
+    bool bVar3;
+    unsigned char gap15[0x7];
+    bool mIsEnableCheckpointWarp;
+    sead::Vector3f mStageMapPlayerPos;
+    sead::Vector3f (*mCoinTransForDeadPlayer)[8];
+    unsigned char gap17[0x4];
+    bool bVar5;
+    bool mIsSeparatePlay;
+    bool bVar6;
+    QuestInfoHolder* mQuestInfoHolder;
+    bool bVar7;
+    GameSequenceInfo* mGameSequenceInfo;
+    void* gap18;
 };
