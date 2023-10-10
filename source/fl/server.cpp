@@ -129,6 +129,7 @@ namespace smo
         i++;
         u32 size = sizeof(server);
         u32 len = nn::socket::RecvFrom(socket, buf, bufSize, 0, &server, &size);
+        if(len == -1) return;
         switch ((InPacketType) buf[0])
         {
             case 0: break; //timeout
