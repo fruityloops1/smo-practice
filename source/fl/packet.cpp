@@ -28,7 +28,7 @@ void InPacketPlayerScriptInfo::parse(const u8* data, u32 len)
 {
     fl::TasHolder& h = fl::TasHolder::instance();
     if (h.isRunning)
-        return;
+        h.stop();
     scriptName = (char*)alloc(len + 1);
     fl::memcpy(scriptName, data, len);
     scriptName[len] = '\0';
@@ -38,7 +38,7 @@ void InPacketPlayerScriptInfo::on(Server& server)
 {
     fl::TasHolder& h = fl::TasHolder::instance();
     if (h.isRunning)
-        return;
+        h.stop();
     h.setScriptName(scriptName);
     if (h.frames) {
         dealloc(h.frames);
