@@ -640,19 +640,18 @@ void fl::ui::PracticeUI::menu(sead::TextWriter& p)
                 INDEXRL(currentStage, 0, NUM_STAGES - 1, 1);
                 printf("%sStage: %s\n", charCursor, stageNames[currentStage]);
 
-                INDEXRL(currentScenario, -1, 15, 2);
-                if (currentScenario != -1) {
-                    if (currentStage < 17) {
-                        const char* description = stageNameDescriptions[currentStage][currentScenario];
-                        printf("%sScenario: %d (%s)\n", charCursor, currentScenario, description);
-                    }
-                    else
-                        printf("%sScenario: %d\n", charCursor, currentScenario);
+                INDEXRL(currentScenario, 0, 15, 2);
+                if (currentScenario == 0)
+                    printf("%sScenario: Don't change\n", charCursor);
+                else if (currentStage < 17) {
+                    const char* description = stageNameDescriptions[currentStage][currentScenario-1];
+                    printf("%sScenario: %d (%s)\n", charCursor, currentScenario, description);
                 }
-                else printf("%sScenario: Don't change\n", charCursor);
+                else
+                    printf("%sScenario: %d\n", charCursor, currentScenario);
 
                 TRIGGER("Go", 3, {
-                    ChangeStageInfo info = ChangeStageInfo(stageScene->mDataHolder, "start", stageNames[currentStage], false, currentScenario, {0});
+                    ChangeStageInfo info = ChangeStageInfo(stageScene->mDataHolder, "start", stageNames[currentStage], false, currentScenario==0 ? -1 : currentScenario, {0});
                     stageScene->mDataHolder->changeNextStage(&info, 0);
                     curLine = 0;
                 });
