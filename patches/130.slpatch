@@ -1,4 +1,7 @@
 [version=130, target=main]
+00472F2C:
+    bl stageSceneKillHook
+
 StageScene::control+18:
     bl stageSceneControlHook
 
