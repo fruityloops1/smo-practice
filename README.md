@@ -2,7 +2,7 @@
 
 This is a mod for Super Mario Odyssey that adds different features that intend to aid in speedrun practice (but can also be used for other reasons).
 
-The mod is compatible with versions 1.0.0 and 1.3.0 of Super Mario Odyssey. Note that the 1.3.0 version does not yet support the TAS script player.
+The mod is compatible with versions 1.0.0 and 1.3.0 of Super Mario Odyssey.
 
 This is a continuation of the [original version of this mod by fruityloops1](https://github.com/fruityloops1/smo-practice).
 
@@ -24,10 +24,10 @@ This is a continuation of the [original version of this mod by fruityloops1](htt
 
 ## Building
 
-By default, the mod is compiled for the SMO version 1.3.0. To compile for 1.0.0, you can set
+By default, the mod is compiled for the SMO version 1.0.0. To compile for 1.3.0, you can set
 ```
-S2VER ?= 100
-S2VERSTR ?= 1.0.0
+S2VER ?= 130
+S2VERSTR ?= 1.3.0
 ```
 in Makefile. Alternatively, you can follow platform-specific instructions below.
 
@@ -41,10 +41,10 @@ Just run:
 DEVKITPRO={path_to_devkitpro} make
 ```
 
-devkitPro will be installed to `/opt/devkitpro` on most Unix-based systems. To compile for 1.0.0, run:
+devkitPro will be installed to `/opt/devkitpro` on most Unix-based systems. To compile for 1.3.0, run:
 
 ```
-DEVKITPRO={path_to_devkitpro} make S2VER=100 S2VERSTR=1.0.0
+DEVKITPRO={path_to_devkitpro} make S2VER=130 S2VERSTR=1.3.0
 ```
 
 ### Windows
@@ -55,10 +55,10 @@ After setting the environment variables for devkitPro, just run:
 make
 ```
 
-To compile for 1.0.0, run:
+To compile for 1.3.0, run:
 
 ```
-make S2VER=100 S2VERSTR=1.0.0
+make S2VER=130 S2VERSTR=1.3.0
 ```
 
 ## Building and Installing Through FTP
