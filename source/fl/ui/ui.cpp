@@ -1643,11 +1643,10 @@ void fl::ui::PracticeUI::menu(sead::TextWriter& p)
 #endif
 #if SMOVER == 100
                 GameDataFile* curFile = stageScene->mDataHolder->mPlayingFile;
-                GameDataFile::HintInfo (*shineList)[1024] = curFile->mShineList;
 
                 INDEXRL(dataShineIdx, 0, 1023, 1);
                 printf("%sShine Index: %d/1024\n", charCursor, dataShineIdx+1);
-                GameDataFile::HintInfo curShine = (*shineList)[dataShineIdx];
+                GameDataFile::HintInfo& curShine = curFile->mShineList[dataShineIdx];
 
                 TRIGGER("Go to position", 2, {
                     if (isExistPlayer) {

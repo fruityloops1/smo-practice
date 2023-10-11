@@ -196,7 +196,7 @@ class GameDataFile
         bool bVar5;
         int iVar10;
         sead::FixedSafeString<128> sVar9;
-        HintInfo (*mShineList)[1024];
+        HintInfo* mShineList; // contains 1024 entries
         sead::PtrArrayImpl arr2;
         int iVar5;
         int** ppiVar1;
