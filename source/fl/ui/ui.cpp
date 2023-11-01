@@ -630,12 +630,6 @@ void fl::ui::PracticeUI::menu(sead::TextWriter& p)
                 TITLE("Stages");
                 MAX_LINE(4);
                 BACK_PAGE(Menu, 0);
-                
-#if SMOVER == 130
-                MAX_LINE(1);
-                printf(MSG_NO130);
-                break;
-#endif
 
                 INDEXRL(currentStage, 0, NUM_STAGES - 1, 1);
                 printf("%sStage: %s\n", charCursor, stageNames[currentStage]);
