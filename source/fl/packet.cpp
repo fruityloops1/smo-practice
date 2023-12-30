@@ -13,12 +13,12 @@
 #include <str.h>
 
 namespace smo {
-u32 OutPacketLog::calcLen()
+u32 OutPacketLog::calcLen() const
 {
     return strlen(message) + 1;
 }
 
-void OutPacketLog::construct(u8* dst)
+void OutPacketLog::construct(u8* dst) const
 {
     *dst = type;
     strcpy((char*)dst + 1, message);
@@ -28,7 +28,7 @@ void InPacketPlayerScriptInfo::parse(const u8* data, u32 len)
 {
     fl::TasHolder& h = fl::TasHolder::instance();
     if (h.isRunning)
-        return;
+        h.stop();
     scriptName = (char*)alloc(len + 1);
     fl::memcpy(scriptName, data, len);
     scriptName[len] = '\0';
@@ -38,7 +38,7 @@ void InPacketPlayerScriptInfo::on(Server& server)
 {
     fl::TasHolder& h = fl::TasHolder::instance();
     if (h.isRunning)
-        return;
+        h.stop();
     h.setScriptName(scriptName);
     if (h.frames) {
         dealloc(h.frames);
@@ -67,17 +67,15 @@ void InPacketPlayerTeleport::on(Server& server)
 
 void InPacketPlayerGo::parse(const u8* data, u32 len)
 {
-    nn::mem::StandardAllocator* m = nn::init::GetAllocator();
-
     scenario = *(signed char*)&data[0];
     u8 stageLength = data[1];
     u8 entranceLength = data[2];
 
-    stageName = (char*)m->Allocate(stageLength + 1);
+    stageName = (char*)alloc(stageLength + 1);
     fl::memcpy(stageName, &data[3], stageLength);
     stageName[stageLength] = '\0';
 
-    entrance = (char*)m->Allocate(entranceLength + 1);
+    entrance = (char*)alloc(entranceLength + 1);
     fl::memcpy(entrance, &data[3 + stageLength], entranceLength);
     entrance[entranceLength] = '\0';
 
@@ -86,22 +84,22 @@ void InPacketPlayerGo::parse(const u8* data, u32 len)
 
 void InPacketPlayerGo::on(Server& server)
 {
-    nn::mem::StandardAllocator* m = nn::init::GetAllocator();
     StageScene* stageScene = fl::ui::PracticeUI::instance().getStageScene();
     if (!stageScene) {
         if (entrance)
-            m->Free(entrance);
+            free(entrance);
         if (stageName)
-            m->Free(stageName);
+            free(stageName);
+        return;
     }
 
-    ChangeStageInfo info = ChangeStageInfo(stageScene->mHolder, entrance, stageName, false, scenario, { 0 });
-    stageScene->mHolder->changeNextStage(&info, 0);
+    ChangeStageInfo info = ChangeStageInfo(stageScene->mDataHolder, entrance, stageName, false, scenario, { 0 });
+    stageScene->mDataHolder->changeNextStage(&info, 0);
 
     if (entrance)
-        m->Free(entrance);
+        free(entrance);
     if (stageName)
-        m->Free(stageName);
+        free(stageName);
 
     if (startScript && fl::TasHolder::instance().frames)
         fl::TasHolder::instance().startPending = true;
@@ -111,7 +109,7 @@ void InPacketPlayerScriptData::parse(const u8* data, u32 len)
 {
     fl::TasHolder& h = fl::TasHolder::instance();
     if (h.isRunning)
-        return;
+        h.stop();
     size_t cur = h.frameCount;
     if (h.frames) {
         h.frameCount += len / sizeof(fl::TasFrame);
@@ -125,13 +123,41 @@ void InPacketPlayerScriptData::parse(const u8* data, u32 len)
 
 void InPacketPlayerScriptData::on(Server& server) { }
 
-void InPacketChangePage::parse(const u8* data, u32 len)
+void InPacketSelect::parse(const u8* data, u32 len)
 {
-    page = data[0];
+    option = data[0];
 }
 
-void InPacketChangePage::on(Server& server)
+void InPacketSelect::on(Server& server)
 {
-    fl::ui::PracticeUI::instance().curPage = (fl::ui::PracticeUI::Page)page;
+    auto& ui = fl::ui::PracticeUI::instance();
+    ui.curLine = option;
+}
+
+void InPacketUINavigation::parse(const u8* data, u32 len)
+{
+    inputMask = *((long*)data);
+}
+
+void InPacketUINavigation::on(Server& server)
+{
+    auto& ui = fl::ui::PracticeUI::instance();
+    ext_input |= inputMask;
+}
+
+void InPacketPlayerScriptState::parse(const u8* data, u32 len)
+{
+    state = data[0];
+}
+
+void InPacketPlayerScriptState::on(Server& server)
+{
+    auto& tas = fl::TasHolder::instance();
+    if(state == 1) {
+        if (tas.frames)
+            tas.start();
+    } else if(state == 0) {
+        tas.stop();
+    }
 }
 }

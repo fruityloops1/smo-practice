@@ -1,103 +1,140 @@
 #include "sead/math/seadVector.h"
+#include <fl/input.h>
 #include <al/util.hpp>
 #include <fl/tas.h>
-#include <fl/input.h>
+#include <nn/util.h>
 
-#if(SMOVER==100)
+long raw_input;
+long raw_input_prev;
+long ext_input;
 
-#define PADTRIGGER(BUTTON, PNAME) bool fisPadTrigger##BUTTON(int port) {\
-                               fl::TasHolder& h = fl::TasHolder::instance();\
-                               if (h.isRunning) {\
-                                   if (h.curFrame == 0) return h.frames[0].PNAME;\
-                                   return !h.frames[h.curFrame - 1].PNAME && h.frames[h.curFrame].PNAME;\
-                               } else return al::isPadTrigger##BUTTON(port);}
-
-#define PADHOLD(BUTTON, PNAME) bool fisPadHold##BUTTON(int port) {\
-                            fl::TasHolder& h = fl::TasHolder::instance();\
-                            if (h.isRunning) {\
-                                if (h.curFrame == 0) return h.frames[0].PNAME;\
-                                return h.frames[h.curFrame].PNAME;\
-                            } else return al::isPadHold##BUTTON(port);}
-
-#define PADRELEASE(BUTTON, PNAME) bool fisPadRelease##BUTTON(int port) {\
-                               fl::TasHolder& h = fl::TasHolder::instance();\
-                               if (h.isRunning) {\
-                                   if (h.curFrame == 0) return false;\
-                                   return h.frames[h.curFrame - 1].PNAME && !h.frames[h.curFrame].PNAME;\
-                               } else return al::isPadRelease##BUTTON(port);}
-
-sead::Vector2f* fgetLeftStick(int port)
-{
-    fl::TasHolder& h = fl::TasHolder::instance();
-    return h.isRunning ? &h.frames[h.curFrame].leftStick : al::getLeftStick(port);
+bool isPressed(int button) {
+    return ((raw_input|ext_input) & (1 << button)) != 0;
 }
-sead::Vector2f* fgetRightStick(int port)
-{
-    fl::TasHolder& h = fl::TasHolder::instance();
-    return h.isRunning ? &h.frames[h.curFrame].rightStick : al::getRightStick(port);
+bool isPressedPrev(int button) {
+    return (raw_input_prev & (1 << button)) != 0;
+}
+bool isTriggerLeft() {
+    return isPressed(12) && !isPressedPrev(12);
+}
+bool isTriggerUp() {
+    return isPressed(13) && !isPressedPrev(13);
+}
+bool isTriggerRight() {
+    return isPressed(14) && !isPressedPrev(14);
+}
+bool isTriggerDown() {
+    return isPressed(15) && !isPressedPrev(15);
+}
+bool isHoldLeft() {
+    return isPressed(12) && isPressedPrev(12);
+}
+bool isHoldUp() {
+    return isPressed(13) && isPressedPrev(13);
+}
+bool isHoldRight() {
+    return isPressed(14) && isPressedPrev(14);
+}
+bool isHoldDown() {
+    return isPressed(15) && isPressedPrev(15);
+}
+bool isHoldA() {
+    return isPressed(0) && isPressedPrev(0);
+}
+bool isHoldB() {
+    return isPressed(1) && isPressedPrev(1);
+}
+bool isL() {
+    return isPressed(6);
+}
+bool isTriggerPressLeftStick() {
+    return isPressed(4) && !isPressedPrev(4);
 }
 
-PADTRIGGER(A, A);
-PADTRIGGER(B, B);
-PADTRIGGER(X, X);
-PADTRIGGER(Y, Y);
-PADTRIGGER(L, L);
-PADTRIGGER(R, R);
-PADTRIGGER(ZL, ZL);
-PADTRIGGER(ZR, ZR);
-PADTRIGGER(PressLeftStick, pressLeftStick);
-PADTRIGGER(PressRightStick, pressRightStick);
-PADTRIGGER(Plus, plus);
-PADTRIGGER(Minus, minus);
-PADTRIGGER(Up, dUp);
-PADTRIGGER(Right, dRight);
-PADTRIGGER(Down, dDown);
-PADTRIGGER(Left, dLeft);
-PADTRIGGER(UiCursorUp, dUp);
-PADTRIGGER(UiCursorDown, dDown);
-PADTRIGGER(UiCursorLeft, dLeft);
-PADTRIGGER(UiCursorRight, dRight);
+void controllerHook(nn::hid::NpadBaseState* state) {
+    fl::TasHolder& h = fl::TasHolder::instance();
+    raw_input_prev = raw_input;
+    raw_input = state->mButtons;
+    if (!h.isRunning) {
+        return;
+    }
 
-PADHOLD(A, A);
-PADHOLD(B, B);
-PADHOLD(X, X);
-PADHOLD(Y, Y);
-PADHOLD(L, L);
-PADHOLD(R, R);
-PADHOLD(ZL, ZL);
-PADHOLD(ZR, ZR);
-PADHOLD(PressLeftStick, pressLeftStick);
-PADHOLD(PressRightStick, pressRightStick);
-PADHOLD(Plus, plus);
-PADHOLD(Minus, minus);
-PADHOLD(Up, dUp);
-PADHOLD(Right, dRight);
-PADHOLD(Down, dDown);
-PADHOLD(Left, dLeft);
-PADHOLD(UiCursorUp, dUp);
-PADHOLD(UiCursorDown, dDown);
-PADHOLD(UiCursorLeft, dLeft);
-PADHOLD(UiCursorRight, dRight);
+    state->mButtons = 0;
+    if(h.frames[h.curFrame].A) 
+        state->mButtons |= (1 << 0);
+    if(h.frames[h.curFrame].B) 
+        state->mButtons |= (1 << 1);
+    if(h.frames[h.curFrame].X) 
+        state->mButtons |= (1 << 2);
+    if(h.frames[h.curFrame].Y) 
+        state->mButtons |= (1 << 3);
+    if(h.frames[h.curFrame].pressLeftStick) 
+        state->mButtons |= (1 << 4);
+    if(h.frames[h.curFrame].pressRightStick) 
+        state->mButtons |= (1 << 5);
+    if(h.frames[h.curFrame].L) 
+        state->mButtons |= (1 << 6);
+    if(h.frames[h.curFrame].R) 
+        state->mButtons |= (1 << 7);
+    if(h.frames[h.curFrame].ZL) 
+        state->mButtons |= (1 << 8);
+    if(h.frames[h.curFrame].ZR) 
+        state->mButtons |= (1 << 9);
+    if(h.frames[h.curFrame].plus) 
+        state->mButtons |= (1 << 10);
+    if(h.frames[h.curFrame].minus) 
+        state->mButtons |= (1 << 11);
+    if(h.frames[h.curFrame].dLeft) 
+        state->mButtons |= (1 << 12);
+    if(h.frames[h.curFrame].dUp) 
+        state->mButtons |= (1 << 13);
+    if(h.frames[h.curFrame].dRight) 
+        state->mButtons |= (1 << 14);
+    if(h.frames[h.curFrame].dDown) 
+        state->mButtons |= (1 << 15);
 
-PADRELEASE(A, A);
-PADRELEASE(B, B);
-PADRELEASE(X, X);
-PADRELEASE(Y, Y);
-PADRELEASE(L, L);
-PADRELEASE(R, R);
-PADRELEASE(ZL, ZL);
-PADRELEASE(ZR, ZR);
-PADRELEASE(PressLeftStick, pressLeftStick);
-PADRELEASE(PressRightStick, pressRightStick);
-PADRELEASE(Plus, plus);
-PADRELEASE(Minus, minus);
-PADRELEASE(Up, dUp);
-PADRELEASE(Right, dRight);
-PADRELEASE(Down, dDown);
-PADRELEASE(Left, dLeft);
-PADRELEASE(UiCursorUp, dUp);
-PADRELEASE(UiCursorDown, dDown);
-PADRELEASE(UiCursorLeft, dLeft);
-PADRELEASE(UiCursorRight, dRight);
+    if(h.frames[h.curFrame].leftStick.x < -0.5f)
+        state->mButtons |= (1 << 16);
+    if(h.frames[h.curFrame].leftStick.y > 0.5f)
+        state->mButtons |= (1 << 17);
+    if(h.frames[h.curFrame].leftStick.x > 0.5f)
+        state->mButtons |= (1 << 18);
+    if(h.frames[h.curFrame].leftStick.y < -0.5f)
+        state->mButtons |= (1 << 19);
+        
+    if(h.frames[h.curFrame].rightStick.x < -0.5f)
+        state->mButtons |= (1 << 20);
+    if(h.frames[h.curFrame].rightStick.y > 0.5f)
+        state->mButtons |= (1 << 21);
+    if(h.frames[h.curFrame].rightStick.x > 0.5f)
+        state->mButtons |= (1 << 22);
+    if(h.frames[h.curFrame].rightStick.y < -0.5f)
+        state->mButtons |= (1 << 23);
+    
+    // all others unused
 
-#endif
+    //state->mAnalogStickL = (((long) h.frames[h.curFrame].leftStick.x) & 0xffffffff) | (((long) h.frames[h.curFrame].leftStick.y) << 32);
+    //state->mAnalogStickR = (((long) h.frames[h.curFrame].rightStick.x) & 0xffffffff) | (((long) h.frames[h.curFrame].rightStick.y) << 32);
+    state->mAnalogStickL = (((long) (h.frames[h.curFrame].leftStick.x * 32767)) & 0xffffffff) | (((long) (h.frames[h.curFrame].leftStick.y * 32767)) << 32);
+    state->mAnalogStickR = (((long) (h.frames[h.curFrame].rightStick.x * 32767)) & 0xffffffff) | (((long) (h.frames[h.curFrame].rightStick.y * 32767)) << 32);
+}
+void fgetNpadStatesHandheld(nn::hid::NpadHandheldState* state, int unk1, const unsigned int& unk2) {
+    nn::hid::GetNpadStates(state, unk1, unk2);
+    if(unk2 == 0) controllerHook(state);
+}
+void fgetNpadStatesDual(nn::hid::NpadJoyDualState* state, int unk1, const unsigned int& unk2) {
+    nn::hid::GetNpadStates(state, unk1, unk2);
+    if(unk2 == 0) controllerHook(state);
+}
+void fgetNpadStatesFullKey(nn::hid::NpadFullKeyState* state, int unk1, const unsigned int& unk2) {
+    nn::hid::GetNpadStates(state, unk1, unk2);
+    if(unk2 == 0) controllerHook(state);
+}
+void fgetNpadStatesJoyLeft(nn::hid::NpadJoyLeftState* state, int unk1, const unsigned int& unk2) {
+    nn::hid::GetNpadStates(state, unk1, unk2);
+    if(unk2 == 0) controllerHook(state);
+}
+void fgetNpadStatesJoyRight(nn::hid::NpadJoyRightState* state, int unk1, const unsigned int& unk2) {
+    nn::hid::GetNpadStates(state, unk1, unk2);
+    if(unk2 == 0) controllerHook(state);
+}

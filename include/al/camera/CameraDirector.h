@@ -7,7 +7,7 @@ namespace al
     class CameraDirector {
         public:
             void startSnapShotMode(bool);
-            al::CameraPoseUpdater *getPoseUpdater(void);
+            al::CameraPoseUpdater* getPoseUpdater(int) const;
             float getSceneFovyDegree(void) const;
 
             unsigned char padding[0x30-0x02];

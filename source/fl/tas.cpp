@@ -3,27 +3,30 @@
 
 void fl::TasHolder::update()
 {
-    if (!isRunning)
-    {
-        if (startPending)
-        {
-            isRunning = true;
-            curFrame = 0;
-            startPending = false;
-        }
-        return;
-    }
-    if (curFrame + 1 >= frameCount) stop();
+    if(!isRunning) return;
+    
+    if (curFrame + 1 >= frameCount && curFrame >= 0) stop();
     curFrame++;
+}
+
+void fl::TasHolder::onStageKill()
+{
+    if(startPending) {
+        start();
+        curFrame = -1;
+    }
 }
 
 void fl::TasHolder::start()
 {
+    startPending = false;
+    curFrame = 0;
     isRunning = true;
 }
 
 void fl::TasHolder::stop()
 {
+    startPending = false;
     curFrame = 0;
     isRunning = false;
 }

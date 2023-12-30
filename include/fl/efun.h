@@ -15,6 +15,13 @@ inline RETURN_TYPE NAME(ARGS) {\
     return t_##NAME(ARG_NAMES);\
 }
 
+// void WEFUN
+#define VWEFUN(ADDR, NAME, ARGS, ARG_NAMES) \
+inline void NAME(ARGS) {\
+    EFUN(ADDR, void, t_##NAME, EFUN_ARGS(ARGS));\
+    t_##NAME(ARG_NAMES);\
+}
+
 // class member function with arguments and return type
 #define CEFUN(CLASS, ADDR, RETURN_TYPE, NAME, ARGS, ARG_NAMES) \
 inline RETURN_TYPE NAME(ARGS) {\

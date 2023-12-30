@@ -117,4 +117,46 @@ inline T clamp(T value, T low, T high)
         value = high;
     return value;
 }
+
+template <typename T>
+inline T MathCalcCommon<T>::maxNumber()
+{
+    return std::numeric_limits<T>::max();
+}
+
+template <>
+inline float MathCalcCommon<float>::minNumber()
+{
+    return -std::numeric_limits<float>::max();
+}
+
+template <>
+inline float MathCalcCommon<float>::maxNumber()
+{
+    return std::numeric_limits<float>::max();
+}
+
+template <>
+inline double MathCalcCommon<double>::minNumber()
+{
+    return -std::numeric_limits<double>::max();
+}
+
+template <>
+inline double MathCalcCommon<double>::maxNumber()
+{
+    return std::numeric_limits<double>::max();
+}
+
+template <>
+inline long double MathCalcCommon<long double>::minNumber()
+{
+    return -std::numeric_limits<long double>::max();
+}
+
+template <>
+inline long double MathCalcCommon<long double>::maxNumber()
+{
+    return std::numeric_limits<long double>::max();
+}
 }  // namespace sead

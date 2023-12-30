@@ -1,6 +1,7 @@
 #pragma once
 
 #include <sead/math/seadVector.h>
+#include "fl/efun.h"
 
 namespace al {
 
@@ -35,7 +36,11 @@ public:
     bool isSwingLeftHand() const;
     bool isSwingRightHand() const;
     void setSwingBorder(float, float);
+    #if SMOVER == 100
     void update();
+    #elif SMOVER == 130
+    VVCEFUN(JoyPadAccelPoseAnalyzer, 0x005D5590, update);
+    #endif
     sead::Vector2f getSwingDirDoubleHandSameDir() const;
 
     int mControllerPort; // 0x0 port of the controller

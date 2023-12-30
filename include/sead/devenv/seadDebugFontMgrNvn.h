@@ -12,6 +12,7 @@ namespace sead {
     class DebugFontMgrNvn : public FontBase {
         public:
             DebugFontMgrNvn(void);
+            virtual ~DebugFontMgrNvn();
 
             static DebugFontMgrNvn *sInstance;
 
@@ -19,24 +20,25 @@ namespace sead {
             void initializeFromBinary(sead::Heap *, void *, unsigned long, void *, unsigned long, unsigned int);
             static sead::DebugFontMgrNvn *createInstance(sead::Heap *);
             void swapUniformBlockBuffer(void);
-            void begin(sead::DrawContext *) const;
-            void end(sead::DrawContext *) const;
 
-            float getHeight(void) const {
+            virtual float getHeight(void) const {
                 return 16.f;
             };
-            float getWidth(void) const {
+            virtual float getWidth(void) const {
                 return 8.f;
             };
-            float getCharWidth(char16_t) const {
+            virtual float getCharWidth(char16_t) const {
                 return 8.f;
             };
-            int getMaxDrawNum(void) const {
-                return 0x80;
-            };
-            int getEncoding(void) const {
+            virtual int getEncoding(void) const {
                 return 2;
             };
+            virtual int getMaxDrawNum(void) const {
+                return 0x80;
+            };
+            virtual void begin(sead::DrawContext *) const;
+            virtual void end(sead::DrawContext *) const;
+            //print
             
     };
 
@@ -50,24 +52,25 @@ namespace sead {
             void initializeFromBinary(sead::Heap* heap, void* shader, ulong shaderLength, void* font, ulong fontLength, void const* table, unsigned int);
             static sead::DebugFontMgrJis1Nvn *createInstance(sead::Heap *);
             void swapUniformBlockBuffer(void);
-            void begin(sead::DrawContext *) const;
-            void end(sead::DrawContext *) const;
-
-            float getHeight(void) const {
+            
+            virtual float getHeight(void) const {
                 return 16.f;
             };
-            float getWidth(void) const {
+            virtual float getWidth(void) const {
                 return 8.f;
             };
-
-            float getCharWidth(char16_t) const;
-
-            int getMaxDrawNum(void) const {
-                return 0x80;
+            virtual float getCharWidth(char16_t) const {
+                return 8.f;
             };
-            int getEncoding(void) const {
+            virtual int getEncoding(void) const {
                 return 2;
             };
+            virtual int getMaxDrawNum(void) const {
+                return 0x80;
+            };
+            virtual void begin(sead::DrawContext *) const;
+            virtual void end(sead::DrawContext *) const;
+            //print
             
     };
 }

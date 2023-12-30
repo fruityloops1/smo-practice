@@ -1,99 +1,41 @@
 {
     global:
         _Z21stageSceneControlHookv;
+        _Z18stageSceneKillHookv;
         _Z14setupDebugMenuP10GameSystem;
         _Z14setGotShineVar20GameDataHolderWriterPK9ShineInfo;
         _Z13isGotShineVar22GameDataHolderAccessorPK9ShineInfo;
         _Z25isEnableCheckpointWarpVarP9MapLayout;
         _Z15isEnableSaveVarP10StageScene;
         _Z19isDefeatKoopaLv1VarP10StageScene;
+        _Z20setPlayerJointUpdateP24PlayerJointControlKeeper;
+        _Z31isTriggerRollingRestartSwingVarP11PlayerInput;
+        _Z30setLoadDataSelectingCurrentVarv;
+        _Z30setLoadDataSelectingConfirmVarv;
+        _Z21setRepeatCapBounceVarv;
+        _Z23setRepeatRainbowSpinVarv;
+        _Z23setWallJumpCapBounceVarv;
+        _Z18storeActorInitInfov;
+        _Z18stageSceneCtorHookv;
+        _Z12setDamageVarP18PlayerHitPointData;
+        _Z21findUnlockShineNumVarP14GameDataHolderPbi;
         _Z22isTriggerAmiiboModeVarPKN2al18IUseSceneObjHolderE;
         _Z24isTriggerSnapShotModeVarPKN2al18IUseSceneObjHolderE;
-        _Z12drawMainHookP16HakoniwaSequencePN4sead8ViewportEPNS1_11DrawContextE;
+        _Z12drawMainHookPN4sead8ViewportEPNS_11DrawContextEPNS_18LogicalFrameBufferEPN2al9LayoutKitE;
+        _Z16sequenceDrawHookPN2al8SequenceE;
+        _Z20nerveKeeperUpdateVarv;
+        _Z31setPlayerEnableToSeeOddSpaceVarPKN2al9LiveActorE;
+        _Z22executeDirectorDrawVarPKcS0_;
+        _Z26executeTableHolderDrawCtorPN2al22ExecuteTableHolderDrawE;
+        _Z29executeTableHolderDrawExecutePN2al22ExecuteTableHolderDrawE;
+        _Z9initActorPN2al9LiveActorERKNS_13ActorInitInfoEPN4sead14SafeStringBaseIcEES8_PKc;
+        _Z25shineListLayoutDecideHookP15ShineListLayout;
 
-        _Z14fgetRightSticki;
-        _Z13fgetLeftSticki;
-
-        _Z14fisPadTriggerAi;
-        _Z14fisPadTriggerBi;
-        _Z14fisPadTriggerXi;
-        _Z14fisPadTriggerYi;
-        _Z14fisPadTriggerLi;
-        _Z14fisPadTriggerRi;
-        _Z15fisPadTriggerZLi;
-        _Z15fisPadTriggerZRi;
-        _Z28fisPadTriggerPressRightSticki;
-        _Z17fisPadTriggerPlusi;
-        _Z18fisPadTriggerMinusi;
-        _Z15fisPadTriggerUpi;
-        _Z18fisPadTriggerRighti;
-        _Z17fisPadTriggerDowni;
-        _Z17fisPadTriggerLefti;
-        _Z23fisPadTriggerUiCursorUpi;
-        _Z25fisPadTriggerUiCursorDowni;
-        _Z25fisPadTriggerUiCursorLefti;
-        _Z26fisPadTriggerUiCursorRighti;
-
-        _Z11fisPadHoldAi;
-        _Z11fisPadHoldBi;
-        _Z11fisPadHoldXi;
-        _Z11fisPadHoldYi;
-        _Z11fisPadHoldLi;
-        _Z11fisPadHoldRi;
-        _Z12fisPadHoldZLi;
-        _Z12fisPadHoldZRi;
-        _Z25fisPadHoldPressRightSticki;
-        _Z14fisPadHoldPlusi;
-        _Z15fisPadHoldMinusi;
-        _Z12fisPadHoldUpi;
-        _Z15fisPadHoldRighti;
-        _Z14fisPadHoldDowni;
-        _Z14fisPadHoldLefti;
-        _Z20fisPadHoldUiCursorUpi;
-        _Z22fisPadHoldUiCursorDowni;
-        _Z22fisPadHoldUiCursorLefti;
-        _Z23fisPadHoldUiCursorRighti;
-
-        _Z11fisPadHoldAi;
-        _Z11fisPadHoldBi;
-        _Z11fisPadHoldXi;
-        _Z11fisPadHoldYi;
-        _Z11fisPadHoldLi;
-        _Z11fisPadHoldRi;
-        _Z12fisPadHoldZLi;
-        _Z12fisPadHoldZRi;
-        _Z25fisPadHoldPressRightSticki;
-        _Z14fisPadHoldPlusi;
-        _Z15fisPadHoldMinusi;
-        _Z12fisPadHoldUpi;
-        _Z15fisPadHoldRighti;
-        _Z14fisPadHoldDowni;
-        _Z14fisPadHoldLefti;
-        _Z20fisPadHoldUiCursorUpi;
-        _Z22fisPadHoldUiCursorDowni;
-        _Z22fisPadHoldUiCursorLefti;
-        _Z23fisPadHoldUiCursorRighti;
-
-        _Z14fisPadReleaseAi;
-        _Z14fisPadReleaseBi;
-        _Z14fisPadReleaseXi;
-        _Z14fisPadReleaseYi;
-        _Z14fisPadReleaseLi;
-        _Z14fisPadReleaseRi;
-        _Z15fisPadReleaseZLi;
-        _Z15fisPadReleaseZRi;
-        _Z28fisPadReleasePressRightSticki;
-        _Z17fisPadReleasePlusi;
-        _Z18fisPadReleaseMinusi;
-        _Z15fisPadReleaseUpi;
-        _Z18fisPadReleaseRighti;
-        _Z17fisPadReleaseDowni;
-        _Z17fisPadReleaseLefti;
-        _Z23fisPadReleaseUiCursorUpi;
-        _Z25fisPadReleaseUiCursorDowni;
-        _Z25fisPadReleaseUiCursorLefti;
-        _Z26fisPadReleaseUiCursorRighti;
-
+        _Z22fgetNpadStatesHandheldPN2nn3hid17NpadHandheldStateEiRKj;
+        _Z18fgetNpadStatesDualPN2nn3hid16NpadJoyDualStateEiRKj;
+        _Z21fgetNpadStatesFullKeyPN2nn3hid16NpadFullKeyStateEiRKj;
+        _Z21fgetNpadStatesJoyLeftPN2nn3hid16NpadJoyLeftStateEiRKj;
+        _Z22fgetNpadStatesJoyRightPN2nn3hid17NpadJoyRightStateEiRKj;
     
         _Z26fisModeDiverOrJungleGymRomv;
         _Z15fisModeDiverRomv;
@@ -106,7 +48,13 @@
         _Z28fgetPadAccelerationDeviceNumi;
         _Z12motionUpdatePN2al23JoyPadAccelPoseAnalyzerE;
 
+        _Z14tasDrawKitHookPKN2al5SceneEPKc;
+
+        _Z22koopaHatRandomizerHookiiiPii;
+        _Z18koopaHatRandomHooki;
+
         _Z17getMofumofuTargeti;
         _Z16isPatternReversev;
+        _Z17bgmStartSoundHookPN2nn3atk14SoundStartableEPNS0_11SoundHandleEPKcPKNS1_9StartInfoE;
     local: *;
 };

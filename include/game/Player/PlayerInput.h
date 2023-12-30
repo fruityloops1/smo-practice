@@ -4,5 +4,6 @@
 
 class PlayerInput {
     public:
+    bool isTriggerRollingRestartSwing() const;
 
 };

@@ -1,20 +1,10 @@
 #pragma once
 
+#include "al/iuse/IUseNerve.h"
+
 namespace al
 {
     class NerveKeeper;
-
-    class IUseNerve
-    {
-    public:
-
-        inline IUseNerve()
-        {
-            
-        }
-
-        virtual NerveKeeper* getNerveKeeper() const = 0;
-    };
 
     class Nerve
     {

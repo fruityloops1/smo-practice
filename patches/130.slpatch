@@ -1,4 +1,7 @@
 [version=130, target=main]
+00472F2C:
+    bl stageSceneKillHook
+
 StageScene::control+18:
     bl stageSceneControlHook
 
@@ -48,3 +51,57 @@ StageScene::control+18:
 // toggle bowser skip
 004B581C:
     bl isDefeatKoopaLv1Var
+
+// Wiggler.
+000A46EC:
+    bl getMofumofuTarget
+000A4698:
+    bl isPatternReverse
+
+// Motion
+
+// weird motion fix thingy
+005D25B0:
+    mov w0, #2
+    ret
+
+// Camera Center off while TAS is running
+003F3444:
+    bl fisPadTriggerLMotion
+003F34BC:
+    bl fisPadTriggerLMotion
+
+// update
+003EDA90:
+    bl motionUpdate
+003EDA98:
+    bl motionUpdate
+
+003F15C0:
+    bl fgetPadAccelerationDeviceNum
+005D55D8:
+    bl fgetPadAccelerationDeviceNum
+005D564C:
+    bl fgetPadAccelerationDeviceNum
+005D56F0:
+    bl fgetPadAccelerationDeviceNum
+005D5794:
+    bl fgetPadAccelerationDeviceNum
+005D58BC:
+    bl fgetPadAccelerationDeviceNum
+005D5940:
+    bl fgetPadAccelerationDeviceNum
+005D59C0:
+    bl fgetPadAccelerationDeviceNum
+
+// better input
+0093FBF0:
+    bl fgetNpadStatesHandheld
+0093FC08:
+    bl fgetNpadStatesDual
+0093FC20:
+    bl fgetNpadStatesFullKey
+0093FC38:
+    bl fgetNpadStatesJoyLeft
+0093FC50:
+    bl fgetNpadStatesJoyRight
