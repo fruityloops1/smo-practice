@@ -62,6 +62,7 @@ namespace smo
     {
     public:
         Vector3f pos;
+        Quatf rot;
 
         u32 calcLen();
         void construct(u8* dst);

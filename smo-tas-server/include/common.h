@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 
+#define RAD(deg) (deg * (M_PI / 180))
+
 namespace smo
 {
     static const std::vector<std::string>& getStages()
