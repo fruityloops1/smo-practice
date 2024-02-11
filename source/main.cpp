@@ -18,6 +18,20 @@
 
 #include <fl/nerve.h>
 
+int pipeRandomness(int param) {
+    // not overridden, as no randomness
+    if(param == 0 || param == 1) return al::getRandom(param);
+    if(fl::ui::PracticeUI::instance().options.pipeMazeOverride) {
+        if(param == 2) return fl::ui::PracticeUI::instance().options.pipeMazeConfig[0];
+        if(param == 3) return fl::ui::PracticeUI::instance().options.pipeMazeConfig[1];
+        if(param == 5) return fl::ui::PracticeUI::instance().options.pipeMazeConfig[2];
+
+        smo::Server::instance().log("Unhandled pipeRandomness with param %d! Defaulting to 0.\n", param);
+        return 0;
+    }
+    return al::getRandom(param);
+}
+
 void sequenceDrawHook(al::Sequence* sequence)
 {
     bool shouldRender = fl::ui::PracticeUI::instance().options.shouldRender;

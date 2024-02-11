@@ -53,6 +53,8 @@
         _Z22koopaHatRandomizerHookiiiPii;
         _Z18koopaHatRandomHooki;
 
+        _Z14pipeRandomnessi;
+
         _Z17getMofumofuTargeti;
         _Z16isPatternReversev;
         _Z17bgmStartSoundHookPN2nn3atk14SoundStartableEPNS0_11SoundHandleEPKcPKNS1_9StartInfoE;

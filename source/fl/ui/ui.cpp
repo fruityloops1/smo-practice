@@ -466,7 +466,7 @@ void fl::ui::PracticeUI::menu(sead::TextWriter& p)
                 TITLE("Options");
                 BACK_PAGE(Menu, 0);
 #if SMOVER == 100
-                MAX_LINE(13);
+                MAX_LINE(14);
 #elif SMOVER == 130
                 MAX_LINE(4);
 #endif
@@ -515,6 +515,10 @@ void fl::ui::PracticeUI::menu(sead::TextWriter& p)
                     if(numDigits > 9) numDigits = 9;
                 }
                 printf("%sDigits for Info: %d\n", charCursor, numDigits);
+
+                #if SMOVER == 100
+                CHANGE_PAGE("PipeMaze Randomness", OptionsPipeMaze, 13);
+                #endif
 
                 break;
             }
@@ -620,6 +624,24 @@ void fl::ui::PracticeUI::menu(sead::TextWriter& p)
                 TOGGLE("Show ceiling HitInfo", renderer.showHitInfoCeil, 9);
                 TOGGLE("Show HitInfo array", renderer.showHitInfoArray, 10);
                 TOGGLE("Show CRC position", renderer.showCRC, 11);
+
+                break;
+            }
+            case OptionsPipeMaze: {
+                TITLE("Options: PipeMaze Randomness");
+                MAX_LINE(5);
+                BACK_PAGE(Options, 0);
+
+                TOGGLE("Enable Override", options.pipeMazeOverride, 1);
+
+                INDEX(Right, Left, options.pipeMazeConfig[0], 0, 1, 2);
+                printf("%s2 Pipes: %d\n", charCursor, options.pipeMazeConfig[0]);
+
+                INDEX(Right, Left, options.pipeMazeConfig[1], 0, 2, 3);
+                printf("%s3 Pipes: %d\n", charCursor, options.pipeMazeConfig[1]);
+
+                INDEX(Right, Left, options.pipeMazeConfig[2], 0, 4, 4);
+                printf("%s5 Pipes: %d\n", charCursor, options.pipeMazeConfig[2]);
 
                 break;
             }

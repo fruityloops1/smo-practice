@@ -83,6 +83,9 @@ namespace ui {
             bool reloadDUP = false;
             bool shouldRender = true;
             bool muteBgm = false;
+
+            bool pipeMazeOverride = false;
+            int pipeMazeConfig[3] = { 0, 0, 0 }; // 2 pipes ; 3 pipes ; 5 pipes
         } options;
 
         struct {
@@ -117,7 +120,7 @@ namespace ui {
 
         enum Page : u8 {
             Menu, About,
-            Options, OptionsMvmt, OptionsMoon, OptionsSave, OptionsCamera, OptionsTeleport, OptionsRenderer,
+            Options, OptionsMvmt, OptionsMoon, OptionsSave, OptionsCamera, OptionsTeleport, OptionsRenderer, OptionsPipeMaze,
             Stage, Misc,
             Info, InfoPlayer, InfoMoon, InfoHack, InfoCappy, InfoStatistics, InfoCamera, InfoMighty1, InfoMighty2,
             Tas, Modes, Debug,

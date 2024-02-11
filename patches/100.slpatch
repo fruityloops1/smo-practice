@@ -2,6 +2,18 @@
 004cc788: // StageScene::kill+19:
     bl stageSceneKillHook
 
+// disable DokanMaze randomness
+0025AB5C:
+    bl pipeRandomness
+0025AE10:
+    bl pipeRandomness
+0025AF58:
+    bl pipeRandomness
+0025B0C4:
+    bl pipeRandomness
+0025B164: // exeInLevel => randomness value unused
+    mov w0, #0
+
 00a4667c:
     bl bgmStartSoundHook
 00a46694:
