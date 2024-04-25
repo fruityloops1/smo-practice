@@ -14,19 +14,23 @@
 
 #include <fl/efun.h>
 
+namespace al {
+    class LayoutActor;
+}
+
 class GameDataFunction
 {
 public:
     // Gets the required number of moons required to leave a kingdom
     #if(SMOVER==100)
-    static s32 findUnlockShineNumByWorldId(bool*, GameDataHolderAccessor, int); // 0x004d53c0
-    static s32 getCurrentShineNum(GameDataHolderAccessor); // 0x004d3C60
-    static s32 getTotalShineNum(GameDataHolderAccessor, int); // 0x004d4490
+    static s32 getCurrentShineNum(GameDataHolderAccessor);
+    static s32 getTotalShineNum(GameDataHolderAccessor, int);
+	static s32 findUnlockShineNumByWorldId(bool *, GameDataHolderAccessor, int);
     #endif
     #if(SMOVER==130)
-    static WEFUN(0x004D53C0, s32, findUnlockShineNumByWorldId, EFUN_ARGS(bool* something, GameDataHolderAccessor accessor, int something2), EFUN_ARGS(something, accessor, something2));
-    static WEFUN(0x004D3C60, s32, getCurrentShineNum, EFUN_ARGS(GameDataHolderAccessor accessor), EFUN_ARGS(accessor));
-    static WEFUN(0x004D4490, s32, getTotalShineNum, EFUN_ARGS(GameDataHolderAccessor accessor, int something), EFUN_ARGS(accessor, something));
+    static WEFUN(0x004D3C60, s32, getCurrentShineNum, EFUN_ARGS(GameDataHolderAccessor *accessor), EFUN_ARGS(accessor));
+	static WEFUN(0x004D4490, s32, getTotalShineNum, EFUN_ARGS(GameDataHolderAccessor *accessor, int something), EFUN_ARGS(accessor, something));
+	static WEFUN(0x004D53C0, s32, findUnlockShineNumByWorldId, EFUN_ARGS(bool *something, GameDataHolderAccessor *accessor, int something2), EFUN_ARGS(something, accessor, something2));
     #endif
     // gets prev save file's current world id
     static s32 getPrevWorldId(GameDataHolderAccessor);
@@ -126,5 +130,14 @@ public:
     static void tryChangeNextStageWithDemoWorldWarp(GameDataHolderWriter, char const*);
     static void changeNextStageWithCloset(GameDataHolderWriter);
 
-    static void addCoin(GameDataHolderWriter, int);
+    #if(SMOVER==100)
+    static int getPlayTimeTotal(GameDataHolderAccessor);
+    static int getPlayTimeAcrossFile(GameDataHolderAccessor);
+    #endif
+    #if(SMOVER==130)
+    static WEFUN(0x004D2C10, int, getPlayTimeTotal, EFUN_ARGS(GameDataHolderAccessor accessor), EFUN_ARGS(accessor));
+    static WEFUN(0x004D2C20, int, getPlayTimeAcrossFile, EFUN_ARGS(GameDataHolderAccessor accessor), EFUN_ARGS(accessor));
+    #endif
+
+    static const char16_t* tryFindShineMessage(al::LayoutActor const*, int, int);
 };

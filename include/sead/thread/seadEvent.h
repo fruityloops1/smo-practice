@@ -42,7 +42,7 @@ private:
 #ifdef NNSDK
     nn::os::LightEventType mEventInner;
 #else
-#error "Unknown platform"
+//#error "Unknown platform"
 #endif
 
 #ifdef SEAD_DEBUG

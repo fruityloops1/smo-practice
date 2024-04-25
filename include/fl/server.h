@@ -1,9 +1,12 @@
 #pragma once
 
 #include "nn/os.hpp"
+#include "packet.h"
 #include <fl/packet.h>
 #include <nn/socket.h>
 #include <types.h>
+#include <stdio.h>
+#include <stdarg.h>
 
 #define SERVER_PORT 7902
 #define CLIENT_PORT 7901
@@ -24,9 +27,10 @@ public:
     void start();
     void connect(const char* ip);
     void disconnect();
-    void sendPacket(OutPacket& packet, OutPacketType type);
+    void sendPacket(const OutPacket& packet, OutPacketType type);
     bool isConnected();
     void handlePacket(u8* buf, size_t bufSize);
+    void log(const char* fmt, ...);
     static Server& instance()
     {
         static Server s;

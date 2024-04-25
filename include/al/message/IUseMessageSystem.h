@@ -1,7 +1,10 @@
 #pragma once
 
 namespace al {
-    class IUseMessageSystem {
+class MessageSystem;
 
-    };
+class IUseMessageSystem {
+public:
+    virtual al::MessageSystem* getMessageSystem() const = 0;
+};
 }

@@ -5,11 +5,13 @@
 
 #pragma once
 
-#include "al/LiveActor/LiveActor.h"
+#include <al/LiveActor/LiveActor.h>
 
 class PlayerHackKeeper
 {
     public:
+        const char* getCurrentHackName() const;
+
         char padding[0x68];
-        al::LiveActor *currentHackActor;
+        al::LiveActor *mCurrentHackActor;
 };

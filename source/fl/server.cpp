@@ -20,14 +20,13 @@ void threadFunc(void* args)
 {
     smo::Server* server = (smo::Server*) args;
     nn::TimeSpan w = nn::TimeSpan::FromNanoSeconds(1000000);
-    u8* buf = (u8*) nn::init::GetAllocator()->Allocate(30720);
+    u8* buf = (u8*) aligned_alloc(0x10, 30720);
     while (true)
     {
         server->handlePacket(buf, 30720);
         nn::os::YieldThread();
         nn::os::SleepThread(w);
     }
-    nn::init::GetAllocator()->Free(buf);
 }
 
 namespace smo
@@ -66,7 +65,7 @@ namespace smo
 
         if (!thread)
         {
-            thread = (nn::os::ThreadType*) nn::init::GetAllocator()->Allocate(sizeof(nn::os::ThreadType));
+            thread = (nn::os::ThreadType*) aligned_alloc(0x10, sizeof(nn::os::ThreadType));
             threadStack = aligned_alloc(0x1000, 0x15000);
             nn::os::CreateThread(thread, threadFunc, this, threadStack, 0x15000, 16, 0);
             nn::os::SetThreadName(thread, "UDP Thread");
@@ -103,7 +102,7 @@ namespace smo
         connected = false;
     }
 
-    void Server::sendPacket(OutPacket& packet, OutPacketType type)
+    void Server::sendPacket(const OutPacket& packet, OutPacketType type)
     {
         u32 len = packet.calcLen();
         
@@ -113,6 +112,16 @@ namespace smo
         nn::socket::SendTo(socket, data, len + 1, 0, (struct sockaddr*) &server, sizeof(server));
     }
 
+    void Server::log(const char* fmt, ...) {
+        char buf[0x100];
+        va_list args;
+        va_start(args, fmt);
+        vsnprintf(buf, sizeof(buf), fmt, args);
+        va_end(args);
+        const auto& packet = OutPacketLog(buf);
+        sendPacket(packet, OutPacketType::Log);
+    }
+
     void Server::handlePacket(u8* buf, size_t bufSize)
     {
         if (!connected) return;
@@ -120,6 +129,7 @@ namespace smo
         i++;
         u32 size = sizeof(server);
         u32 len = nn::socket::RecvFrom(socket, buf, bufSize, 0, &server, &size);
+        if(len == -1) return;
         switch ((InPacketType) buf[0])
         {
             case 0: break; //timeout
@@ -127,7 +137,9 @@ namespace smo
             IN_PACKET(PlayerTeleport);
             IN_PACKET(PlayerGo);
             IN_PACKET(PlayerScriptData);
-            IN_PACKET(ChangePage);
+            IN_PACKET(Select);
+            IN_PACKET(UINavigation);
+            IN_PACKET(PlayerScriptState);
             default: break;
         }
     }

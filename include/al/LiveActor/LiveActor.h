@@ -11,7 +11,8 @@
 #include "al/pose/ActorPoseKeeper.h"
 #include "al/rail/RailKeeper.h"
 #include "al/rail/RailRider.h"
-#include "al/scene/SceneObjHolder.h"
+#include "al/iuse/IUseSceneObjHolder.h"
+#include "al/iuse/IUseStageSwitch.h"
 #include "al/screen/ScreenPointKeeper.h"
 #include "al/sensor/HitSensorKeeper.h"
 #include "al/sensor/HitSensor.h"
@@ -25,6 +26,8 @@ namespace al
     class SensorMsg;
     class ScreenPointer;
     class ScreenPointTarget;
+    class CollisionParts;
+    class ModelKeeper;
     class LiveActor : public al::IUseNerve, public al::IUseEffectKeeper, public al::IUseAudioKeeper, public al::IUseStageSwitch, public al::IUseSceneObjHolder, public al::IUseAreaObj, public al::IUseCamera, public al::IUseCollision, public al::IUseRail, public al::IUseHioNode
     {
     public:
@@ -62,7 +65,9 @@ namespace al
         
         const char* mActorName; // _48
         al::ActorPoseKeeperBase* mPoseKeeper; // _50
-        char _58[0x90-0x58];
+        char _58[0x80-0x58];
+        al::CollisionParts* mCollisionParts;
+        al::ModelKeeper* mModelKeeper;
         al::NerveKeeper* mNerveKeeper; // _90
         al::HitSensorKeeper* mHitSensorKeeper; // _98
         al::ScreenPointKeeper* mScreenPointKeeper; // _A0

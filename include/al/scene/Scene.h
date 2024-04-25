@@ -4,11 +4,21 @@
 #include <al/nerve/NerveExecutor.h>
 #include "al/audio/AudioKeeper.h"
 #include "al/camera/CameraDirector.h"
-#include "al/scene/SceneObjHolder.h"
+#include "al/iuse/IUseSceneObjHolder.h"
 #include "SceneInitInfo.h"
 
 namespace al
 {
+    class LiveActorKit;
+    class StageResourceKeeper;
+    class LayoutKit;
+    class SceneStopCtrl;
+    class SceneMsgCtrl;
+    class SceneCoverCtrl;
+    class SceneObjHolder;
+    class AudioDirector;
+    class AudioKeeper;
+    struct DrawSystemInfo;
 
     class Scene : public al::NerveExecutor, public al::IUseAudioKeeper, public al::IUseCamera, public al::IUseSceneObjHolder
     {
@@ -27,6 +37,17 @@ namespace al
         virtual al::SceneObjHolder* getSceneObjHolder();
         virtual al::CameraDirector* getCameraDirector(); 
         
-        unsigned char _28[0xD8-0x28];
+        bool mIsAlive;
+        sead::FixedSafeString<64> mName;
+        StageResourceKeeper* mStageResourceKeeper;
+        LiveActorKit* mLiveActorKit;
+        LayoutKit* mLayoutKit;
+        SceneObjHolder* mSceneObjHolder;
+        SceneStopCtrl* mSceneStopCtrl;
+        SceneMsgCtrl* mSceneMsgCtrl;
+        SceneCoverCtrl* mSceneCoverCtrl;
+        AudioDirector* mAudioDirector;
+        AudioKeeper* mAudioKeeper;
+        DrawSystemInfo* mDrawSystemInfo;
     };
 };

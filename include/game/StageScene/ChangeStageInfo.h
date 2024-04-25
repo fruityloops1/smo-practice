@@ -38,17 +38,16 @@ public:
     CVEFUN(ChangeStageInfo, 0x0021C5A0, bool, isSubScenarioTypeResetMiniGame);
     VCEFUN(ChangeStageInfo, 0x0021C5C0, setWipeType, EFUN_ARGS(const char* type), EFUN_ARGS(type));
     #endif
-private:
+
     #if(SMOVER==100)
-    sead::FixedSafeString<128> mStageEntranceName;
+    sead::FixedSafeString<128> mStageId;
     sead::FixedSafeString<128> mStageName;
-    sead::FixedSafeString<128> mUnkStr;
+    sead::FixedSafeString<128> mObjId;
     bool mUnkBool;
-    spad(pad, 0x3);
     s32 mScenario;
     SubScenarioType mSubScenarioType;
     sead::FixedSafeString<128> mWipeType;
-    s32 mUnkInt;
+    s32 mHintPriority;
     spad(unk, 0x4);
     #endif
     #if(SMOVER==130)

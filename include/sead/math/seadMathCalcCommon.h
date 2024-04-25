@@ -28,6 +28,8 @@ public:
 
     static T fitSign(T value, T sign_value) { return value * sign(sign_value); }
 
+    static T minNumber();
+    static T maxNumber();
     static T epsilon() { return std::numeric_limits<T>::epsilon(); }
 
     static bool equalsEpsilon(T lhs, T rhs, T eps = epsilon())

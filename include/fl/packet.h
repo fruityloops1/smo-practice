@@ -19,13 +19,13 @@ namespace smo
     class OutPacket
     {
     public:
-        virtual u32 calcLen() {return 0;}
-        virtual void construct(u8* dst) {}
+        virtual u32 calcLen() const {return 0;}
+        virtual void construct(u8* dst) const {}
     };
 
     enum InPacketType : u8
     {
-        PlayerScriptInfo = 1, PlayerScriptData = 2, PlayerTeleport = 3, PlayerGo = 4, ChangePage = 5
+        PlayerScriptInfo = 1, PlayerScriptData = 2, PlayerTeleport = 3, PlayerGo = 4, Select = 5, UINavigation = 6, PlayerScriptState = 7, 
     };
 
     class InPacket
@@ -42,10 +42,11 @@ namespace smo
         {
             Log = 0, Warning = 1, Error = 2, Fatal = 3
         };
+        OutPacketLog(const char* msg) : message(msg), type(Log) {}
         LogType type;
-        char* message;
-        u32 calcLen();
-        void construct(u8* dst);
+        const char* message;
+        u32 calcLen() const;
+        void construct(u8* dst) const;
     };
 
     class InPacketPlayerScriptInfo : public InPacket
@@ -82,9 +83,25 @@ namespace smo
         void on(Server& server);
     };
 
-    class InPacketChangePage : public InPacket
+    class InPacketSelect : public InPacket
     {
-        u8 page;
+        u8 option;
+    public:
+        void parse(const u8* data, u32 len);
+        void on(Server& server);
+    };
+
+    class InPacketUINavigation : public InPacket
+    {
+        long inputMask;
+    public:
+        void parse(const u8* data, u32 len);
+        void on(Server& server);
+    };
+
+    class InPacketPlayerScriptState : public InPacket
+    {
+        u8 state;
     public:
         void parse(const u8* data, u32 len);
         void on(Server& server);

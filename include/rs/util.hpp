@@ -1,6 +1,6 @@
 #pragma once
 #include "al/scene/Scene.h"
-#include "al/scene/SceneObjHolder.h"
+#include "al/iuse/IUseSceneObjHolder.h"
 #include "game/Player/PlayerActorHakoniwa.h"
 #include "sead/math/seadVector.h"
 #include <fl/efun.h>
@@ -36,5 +36,16 @@ int getActiveQuestNum(al::IUseSceneObjHolder const*);
 int getActiveQuestNo(al::IUseSceneObjHolder const*);
 const char* getActiveQuestLabel(al::IUseSceneObjHolder const*);
 void requestShowHtmlViewer(al::IUseSceneObjHolder const*);
+
+#if (SMOVER == 100)
+int getPlayerJumpCount(GameDataHolder const*);
+int getPlayerThrowCapCount(GameDataHolder const*);
+int getTotalCoinNum(GameDataHolder const*);
+#endif
+#if (SMOVER == 130)
+EFUN(0x004ED610, int, getPlayerJumpCount, EFUN_ARGS(const GameDataHolder*));
+EFUN(0x004ED640, int, getPlayerThrowCapCount, EFUN_ARGS(const GameDataHolder*));
+EFUN(0x004ED410, int, getTotalCoinNum, EFUN_ARGS(const GameDataHolder*));
+#endif
 
 }

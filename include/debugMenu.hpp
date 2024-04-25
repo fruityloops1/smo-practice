@@ -1,5 +1,6 @@
 #pragma once
 
+#include "sead/FrameBuffer.h"
 #include "sead/devenv/seadDebugFontMgrNvn.h"
 #include "sead/textwriter.h"
 #include "sead/basis/seadNew.hpp"
@@ -20,4 +21,4 @@ extern bool isInGame;
 
 bool setupDebugMenu(agl::DrawContext *context, sead::Viewport *viewport);
 void drawBackground(agl::DrawContext *context);
-void drawMainHook(HakoniwaSequence *curSequence, sead::Viewport *viewport, sead::DrawContext *drawContext);
+void drawMainHook(sead::Viewport* viewport, sead::DrawContext* drawContext, sead::LogicalFrameBuffer* frameBuffer, al::LayoutKit* layoutKit);

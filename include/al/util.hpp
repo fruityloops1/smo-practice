@@ -2,14 +2,20 @@
 
 namespace al {
 class LiveActor;
-
-class AreaObj {
-};
-
+class AreaObj;
+class HitInfo;
+class ICollisionPartsKeeper;
+class Triangle;
+class CollisionPartsFilterBase;
+class TriangleFilterBase;
+struct EffectUserInfo;
+struct EffectSystemInfo;
 }
 
 namespace sead {
 class LogicalFrameBuffer;
+class LookAtCamera;
+class Projection;
 }
 
 #include "sead/basis/seadNew.hpp"
@@ -45,6 +51,8 @@ al::LiveActor* createActorFunction(const char* name);
 
 namespace al {
 
+void drawKit(const Scene* scene, const char* kitName);
+
 // General Input functions
 
 #if (SMOVER == 100)
@@ -68,6 +76,7 @@ bool isPadTriggerUiCursorUp(int port);
 bool isPadTriggerUiCursorDown(int port);
 bool isPadTriggerUiCursorLeft(int port);
 bool isPadTriggerUiCursorRight(int port);
+bool isPadHold(int port, int mask);
 bool isPadHoldA(int port);
 bool isPadHoldB(int port);
 bool isPadHoldX(int port);
@@ -108,18 +117,31 @@ bool isPadReleaseUiCursorUp(int port);
 bool isPadReleaseUiCursorDown(int port);
 bool isPadReleaseUiCursorLeft(int port);
 bool isPadReleaseUiCursorRight(int port);
+
+sead::Vector2f* getLeftStick(int);
+sead::Vector2f* getRightStick(int);
 #endif
 #if (SMOVER == 130)
+EFUN(0x005CFBD0, bool, isPadTriggerA, EFUN_ARGS(int port));
+EFUN(0x005CFC80, bool, isPadTriggerB, EFUN_ARGS(int port));
+EFUN(0x005CFD30, bool, isPadTriggerX, EFUN_ARGS(int port));
+EFUN(0x005CFDE0, bool, isPadTriggerY, EFUN_ARGS(int port));
+EFUN(0x005CFE90, bool, isPadTriggerZL, EFUN_ARGS(int port));
+EFUN(0x005CFF40, bool, isPadTriggerZR, EFUN_ARGS(int port));
+EFUN(0x005CFFF0, bool, isPadTriggerL, EFUN_ARGS(int port));
+EFUN(0x005D00A0, bool, isPadTriggerR, EFUN_ARGS(int port));
+
 EFUN(0x005D0200, bool, isPadTriggerDown, EFUN_ARGS(int port));
 EFUN(0x005D0150, bool, isPadTriggerUp, EFUN_ARGS(int port));
 EFUN(0x005D02B0, bool, isPadTriggerLeft, EFUN_ARGS(int port));
 EFUN(0x005D0360, bool, isPadTriggerRight, EFUN_ARGS(int port));
-EFUN(0x005CFBD0, bool, isPadTriggerA, EFUN_ARGS(int port));
-EFUN(0x005D0fD0, bool, isPadHoldL, EFUN_ARGS(int port));
-#endif
 
-sead::Vector2f* getLeftStick(int);
-sead::Vector2f* getRightStick(int);
+EFUN(0x005D0fD0, bool, isPadHoldL, EFUN_ARGS(int port));
+EFUN(0x005D0B00, bool, isPadHold, EFUN_ARGS(int port, int mask));
+
+EFUN(0x005D1770, sead::Vector2f*, getLeftStick, EFUN_ARGS(int port));
+EFUN(0x005D1830, sead::Vector2f*, getRightStick, EFUN_ARGS(int port));
+#endif
 
 // getters
 
@@ -156,8 +178,21 @@ PlayerActorHakoniwa* getPlayerActor(al::LiveActor const*, int);
 
 PlayerActorHakoniwa* tryGetPlayerActor(al::PlayerHolder const*, int);
 
+#if (SMOVER == 100)
 int getMainControllerPort();
+int getPlayerControllerPort(int);
+#endif
+#if (SMOVER == 130)
+EFUN(0x005CF910, int, getMainControllerPort, EFUN_ARGS(void));
+EFUN(0x005CF950, int, getPlayerControllerPort, EFUN_ARGS(int));
+#endif
+
+#if (SMOVER == 100)
 int getPadAccelerationDeviceNum(int);
+#endif
+#if (SMOVER == 130)
+EFUN(0x005D25B0, int, getPadAccelerationDeviceNum, EFUN_ARGS(int));
+#endif
 
 #if (SMOVER == 100)
 sead::Heap* getCurrentHeap(void);
@@ -166,9 +201,15 @@ sead::Heap* getCurrentHeap(void);
 EFUN(0x006A4550, sead::Heap*, getCurrentHeap, EFUN_ARGS(void));
 #endif
 
+#if (SMOVER == 100)
 int getRandom(int, int);
 int getRandom(int);
 bool isHalfProbability();
+#endif
+#if (SMOVER == 130)
+EFUN(0x00692F20, int, getRandom, EFUN_ARGS(int));
+EFUN(0x00693BB0, bool, isHalfProbability, EFUN_ARGS(void));
+#endif
 
 al::Projection* getProjection(al::IUseCamera const*, int);
 
@@ -185,11 +226,11 @@ EFUN(0x006652C0, sead::Vector3f*, getVelocity, EFUN_ARGS(const al::LiveActor*));
 EFUN(0x0066DFC0, sead::Quatf*, getQuat, EFUN_ARGS(const al::LiveActor*));
 #endif
 
-int getPlayerControllerPort(int);
-
 char const* getActionName(al::LiveActor const*);
 
 char const* getActionFrame(al::LiveActor const*);
+
+ISceneObj* getSceneObj(al::IUseSceneObjHolder const *, int);
 
 // setters
 
@@ -280,11 +321,19 @@ f32 calcDistance(al::LiveActor const*, sead::Vector3f const&); // calculates dis
 
 void calcFrontDir(sead::Vector3f* result, al::LiveActor const* actor);
 
+void rotateVectorQuat(sead::Vector3f*, sead::Quatf const&);
+
 // velocity stuff
 
 void addVelocity(al::LiveActor*, sead::Vector3f const&);
 
+
+#if (SMOVER == 100)
 void setVelocity(al::LiveActor*, sead::Vector3f const&);
+#endif
+#if (SMOVER == 130)
+EFUN(0x006653F0, void, setVelocity, EFUN_ARGS(al::LiveActor*, const sead::Vector3f&));
+#endif
 
 void scaleVelocityExceptDirection(al::LiveActor*, sead::Vector3f const&, float);
 
@@ -340,6 +389,10 @@ bool isSensorPlayerAttack(al::HitSensor const* targetSensor);
 
 bool sendMsgPlayerHipDropKnockDown(al::HitSensor* target, al::HitSensor* source);
 
+sead::Vector3f& getSensorPos(al::HitSensor const*);
+float getSensorRadius(al::HitSensor const*);
+bool isSensorValid(al::HitSensor const*);
+
 // audio
 
 void tryPauseBgmIfLowPriority(al::IUseAudioKeeper const* keeper, const char* audioName, int unk);
@@ -385,6 +438,8 @@ void tryGetAreaObjArg(bool*, al::AreaObj const*, const char*);
 
 void tryGetAreaObjStringArg(const char**, al::AreaObj const*, const char*);
 
+bool calcNearestAreaObjEdgePos(sead::Vector3f*, al::AreaObj const*, sead::Vector3f const&);
+
 #if (SMOVER == 100)
 void offCollide(al::LiveActor*); // 0x0065d650
 void onCollide(al::LiveActor*); // 0x0065d630
@@ -395,6 +450,7 @@ EFUN(0x0065D630, void, onCollide, EFUN_ARGS(al::LiveActor*));
 #endif
 
 void startAction(al::LiveActor*, char const*);
+void startAction(al::IUseLayoutAction*, const char*, const char*);
 
 bool tryStartSe(al::IUseAudioKeeper const*, sead::SafeStringBase<char> const&);
 
@@ -449,4 +505,35 @@ void setDitherAnimMaxAlpha(al::LiveActor*, float);
 void setDitherAnimClippingJudgeLocalOffset(al::LiveActor*, sead::Vector3f const&);
 void setDitherAnimClippingJudgeParam(al::LiveActor*, const char*);
 
+#if (SMOVER == 100)
+sead::LookAtCamera* getLookAtCamera(const IUseCamera*, int);
+#endif
+#if (SMOVER == 130)
+EFUN(0x005B3D60, sead::LookAtCamera*, getLookAtCamera, EFUN_ARGS(const IUseCamera*, int));
+#endif
+sead::Projection* getProjectionSead(al::IUseCamera const*, int);
+
+void normalize(sead::Vector3f*);
+float normalize(float, float, float);
+
+}
+
+namespace alCollisionUtil {
+    al::LiveActor* getCollisionHitActor(al::HitInfo const*);
+    al::HitSensor* getCollisionHitSensor(al::HitInfo const*);
+    sead::Vector3f* getCollisionHitNormal(al::HitInfo const*);
+    sead::Vector3f* getCollisionHitPos(al::HitInfo const*);
+    al::CollisionParts* getCollisionHitParts(al::HitInfo const*);
+
+    al::ICollisionPartsKeeper* getCollisionPartsKeeper(al::IUseCollision const*);
+
+    bool getFirstPolyOnArrow(al::IUseCollision const*, sead::Vector3f*, al::Triangle*, sead::Vector3f const&, al::CollisionPartsFilterBase const*, al::TriangleFilterBase const*);
+}
+
+namespace alEffectFunction {
+    al::EffectUserInfo* tryFindEffectUser(al::EffectSystemInfo const*, const char*);
+}
+
+namespace alSensorFunction {
+    unsigned int findSensorTypeByName(const char*);
 }

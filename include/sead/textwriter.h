@@ -6,6 +6,7 @@
 #pragma once
 
 #include "../types.h"
+#include "FrameBuffer.h"
 #include <sead/gfx/seadContext.h>
 #include <sead/gfx/seadProjection.h>
 #include <sead/math/seadBoundBox.h>
@@ -32,6 +33,7 @@ namespace sead
             void setCursorFromTopLeft(sead::Vector2<f32> const &);
             void beginDraw();
             void endDraw();
+            void setDrawContext(sead::DrawContext*);
             sead::DebugFontMgrNvn *getDefaultFont();
             static void setDefaultFont(sead::FontBase *);
             static void setupGraphics(sead::DrawContext*);
@@ -40,8 +42,7 @@ namespace sead
             sead::Viewport *mViewport;
             sead::Projection *mProjection;
             sead::Camera *mCamera;
-            int TextWriter_x20;
-            int TextWriter_x24;
+            sead::FontBase* mFont;
             int TextWriter_x28;
             int TextWriter_x2C;
             sead::Vector2<float> mScale;
@@ -55,5 +56,7 @@ namespace sead
             int mFormatBufferSize;
             int TextWriter_x6C;
             sead::DrawContext *mDrawContext;
+            
+        static sead::FontBase* sDefaultFont;
     };
 };

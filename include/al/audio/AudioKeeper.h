@@ -1,15 +1,9 @@
 #pragma once
 
+#include "al/iuse/IUseAudioKeeper.h"
+
 namespace al
 {
-    class AudioKeeper;
-
-    class IUseAudioKeeper
-    {
-    public:
-        virtual al::AudioKeeper* getAudioKeeper() const = 0;
-    };
-
     class AudioKeeper
     {
     public:

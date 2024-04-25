@@ -25,7 +25,7 @@ void Game::damageMario(int amount) {
 
 void Game::lifeUpHeart() {
     #if SMOVER==100
-    mStageScene->mHolder->mGameDataFile->getPlayerHitPointData()->getMaxUpItem();
+    mStageScene->mDataHolder->mPlayingFile->getPlayerHitPointData()->getMaxUpItem();
     #endif
     #if SMOVER==130
     GameDataFunction::getLifeMaxUpItem(getPlayer());
@@ -34,7 +34,7 @@ void Game::lifeUpHeart() {
 
 void Game::healMario() {
     #if SMOVER==100
-    mStageScene->mHolder->mGameDataFile->getPlayerHitPointData()->recover();
+    mStageScene->mDataHolder->mPlayingFile->getPlayerHitPointData()->recover();
     #endif
     #if SMOVER==130
     GameDataFunction::recoveryPlayer(getPlayer());

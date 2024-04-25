@@ -8,5 +8,7 @@ namespace al {
     class Sequence : public al::NerveExecutor, public al::IUseAudioKeeper, public al::IUseSceneCreator {
         public:
             Sequence(const char *seqName);
+
+            void drawMain() const;
     };
 }
